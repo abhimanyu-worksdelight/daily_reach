@@ -32,7 +32,7 @@ class _HomePage extends State<HomePage> {
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
-        child: Image.asset('assets/images/Rectangle.png'),
+        child: Image.asset('assets/images/Rectangle.png',height: 50,width:50,),
       ),
     );
   }
