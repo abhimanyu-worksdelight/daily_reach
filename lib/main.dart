@@ -1,3 +1,4 @@
+import 'package:dailyreach/SplashScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,15 +10,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp(  debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      home: SplashScreen(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+/*class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
@@ -36,4 +37,4 @@ class _HomePage extends State<HomePage> {
       ),
     );
   }
-}
+}*/
