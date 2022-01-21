@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -10,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
       home: const HomePage(title: 'Flutter Demo Home Page'),
@@ -27,13 +30,130 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  TargetPlatform? _platform;
+  VideoPlayerController? _videoPlayerController1;
+  VideoPlayerController? _videoPlayerController2;
+  ChewieController? _chewieController;
+
+  @override
+  void initState() {
+    _videoPlayerController1 = VideoPlayerController.network(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
+    _videoPlayerController1!.setLooping(true);
+    _videoPlayerController2 = VideoPlayerController.network(
+        'https://www.sample-videos.com/video123/mp4/480/asdasdas.mp4');
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController1!,
+      autoPlay: true,
+      looping: true,
+    );
+
+    _videoPlayerController1?.addListener(() {
+      if (_videoPlayerController1?.value.position ==
+          _videoPlayerController1?.value.duration) {
+        print('video Ended');
+      }
+    });
+    setState(() {});
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController1?.dispose();
+    _videoPlayerController2?.dispose();
+    _chewieController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Image.asset('assets/images/Rectangle.png',height: 50,width:50,),
-      ),
-    );
+        backgroundColor: Colors.white,
+        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Stack(
+            children: [
+              Container(
+                height: 400,
+                child: Chewie(
+                  controller: _chewieController!,
+                ),
+              ),
+              // Image(
+              //   height: 600.0,
+              //   image:  AssetImage('assets/images/blur.png',
+              //       ),
+              // ),
+            ],
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top:20),
+            child: Text(
+              'Welcome to',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Image.asset('assets/images/daily_reach_logo.png',height: 40,width:180),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 10, ),
+            child: Text(
+              'Become a member to access exclusive content',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 15),
+            child: Text(
+              'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. ',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, right: 16, left: 16),
+            child: Container(
+              height: 50,
+              width: 350,
+              decoration:  BoxDecoration(
+                  color:const Color(0xffD6D4D4).withOpacity(0.4),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+              child: const Padding(
+                padding:
+                    EdgeInsets.only(left: 24, right: 24, top: 14, bottom: 0),
+                child: Text(
+                  'Become a Member',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RichText(
+                  text: const TextSpan(
+                    text: 'Already a member? ',
+                    style: TextStyle(
+                      color: Color.fromARGB(144, 140, 184, 201),
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Login',
+                  style: TextStyle(
+                      color: Color.fromARGB(228, 130, 7, 7),
+                      decoration: TextDecoration.underline),
+                )
+              ],
+            ),
+          ),
+        ]));
   }
 }
