@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
+
+import 'become_member.dart';
 
 void main() {
   runApp(MyApp());
@@ -74,31 +77,41 @@ class _HomePage extends State<HomePage> {
           Stack(
             children: [
               Container(
-                height: 400,
+                height: 414,
+                width: 436,
                 child: Chewie(
                   controller: _chewieController!,
                 ),
               ),
-              // Image(
-              //   height: 600.0,
-              //   image:  AssetImage('assets/images/blur.png',
-              //       ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(top: 260),
+                child: Image(
+                  height: 142.0,
+                  width: 375,
+                  image: AssetImage(
+                    'assets/images/blur.png',
+                  ),
+                ),
+              ),
             ],
           ),
           const Padding(
-            padding: EdgeInsets.only(top:20),
+            padding: EdgeInsets.only(top: 0),
             child: Text(
               'Welcome to',
-              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Image.asset('assets/images/daily_reach_logo.png',height: 40,width:180),
+            padding: const EdgeInsets.only(top: 0),
+            child: Image.asset('assets/images/daily_reach_logo.png',
+                height: 40, width: 180),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 10, ),
+            padding: EdgeInsets.only(
+              top: 0,
+            ),
             child: Text(
               'Become a member to access exclusive content',
               textAlign: TextAlign.center,
@@ -106,7 +119,7 @@ class _HomePage extends State<HomePage> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 15),
+            padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 10),
             child: Text(
               'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. ',
               textAlign: TextAlign.center,
@@ -114,12 +127,12 @@ class _HomePage extends State<HomePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20, right: 16, left: 16),
+            padding: const EdgeInsets.only(top: 7, right: 16, left: 16),
             child: Container(
               height: 50,
               width: 350,
-              decoration:  BoxDecoration(
-                  color:const Color(0xffD6D4D4).withOpacity(0.4),
+              decoration: BoxDecoration(
+                  color: const Color(0xffD6D4D4).withOpacity(0.4),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
               child: const Padding(
                 padding:
@@ -127,13 +140,13 @@ class _HomePage extends State<HomePage> {
                 child: Text(
                   'Become a Member',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 30),
+            padding: const EdgeInsets.only(top: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -141,16 +154,26 @@ class _HomePage extends State<HomePage> {
                   text: const TextSpan(
                     text: 'Already a member? ',
                     style: TextStyle(
+                      fontWeight: FontWeight.w600,
                       color: Color.fromARGB(144, 140, 184, 201),
                     ),
                   ),
                 ),
-                const Text(
-                  'Login',
-                  style: TextStyle(
-                      color: Color.fromARGB(228, 130, 7, 7),
-                      decoration: TextDecoration.underline),
-                )
+                TextButton(
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromARGB(228, 130, 7, 7),
+                        decoration: TextDecoration.underline),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Become_member()));
+                  },
+                ),
               ],
             ),
           ),
