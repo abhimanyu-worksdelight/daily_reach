@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
-
 import 'become_member.dart';
 
 void main() {
@@ -100,7 +98,7 @@ class _HomePage extends State<HomePage> {
             child: Text(
               'Welcome to',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 15,fontFamily: "segoe"),
             ),
           ),
           Padding(
@@ -115,7 +113,7 @@ class _HomePage extends State<HomePage> {
             child: Text(
               'Become a member to access exclusive content',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,fontFamily: "segoe"),
             ),
           ),
           const Padding(
@@ -123,7 +121,7 @@ class _HomePage extends State<HomePage> {
             child: Text(
               'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. ',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13),
+              style: TextStyle(fontSize: 13,fontFamily: "segoe"),
             ),
           ),
           Padding(
@@ -140,13 +138,13 @@ class _HomePage extends State<HomePage> {
                 child: Text(
                   'Become a Member',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16,fontFamily: "segoe"),
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15),
+            padding: const EdgeInsets.only(top: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -154,25 +152,25 @@ class _HomePage extends State<HomePage> {
                   text: const TextSpan(
                     text: 'Already a member? ',
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w600,fontFamily: "segoe",
                       color: Color.fromARGB(144, 140, 184, 201),
                     ),
                   ),
                 ),
-                TextButton(
-                  child: const Text(
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Become_member()));
+                  },
+                  child: Text(
                     'Login',
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Color.fromARGB(228, 130, 7, 7),
                         decoration: TextDecoration.underline),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Become_member()));
-                  },
                 ),
               ],
             ),

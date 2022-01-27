@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-
 import 'main.dart';
 
 class Become_member extends StatefulWidget {
@@ -12,6 +11,7 @@ class Become_member extends StatefulWidget {
 
 class _Become_member extends State<Become_member> {
   bool _ischecked = false;
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +84,13 @@ class _Become_member extends State<Become_member> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Become a Member',
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "segoe",
+                      fontSize: 22,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 7),
@@ -94,6 +98,7 @@ class _Become_member extends State<Become_member> {
                       'We need some personal information to register with us.',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
+                        fontFamily: "segoe",
                         fontSize: 14,
                         color: Color(0xff4C4949).withOpacity(0.8),
                       ),
@@ -103,38 +108,209 @@ class _Become_member extends State<Become_member> {
                       child: Column(
                     children: [
                       TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Full Name',
                           labelStyle: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "segoe",
+                          ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter name';
+                          }
+                          return null;
+                        },
                       ),
                       TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Email-Address',
+                        decoration: const InputDecoration(
+                          labelText: 'Email Address',
                           labelStyle: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "segoe",
+                          ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                            return 'Enter a valid email!';
+                          }
+                          return null;
+                        },
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap:(){
+                              //
+                              // showCountryPicker(
+                              //     context: context,
+                              //     //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+                              //     exclude: <String>['KN', 'MF'],
+                              //     //Optional. Shows phone code before the country name.
+                              //     showPhoneCode: true,
+                              //     onSelect: (Country country) {
+                              //       print(
+                              //           'Select country: ${country.displayName}');
+                              //     },
+                              //     countryListTheme: CountryListThemeData(
+                              //       // Optional. Sets the border radius for the bottomsheet.
+                              //       borderRadius: BorderRadius.only(
+                              //         topLeft: Radius.circular(40.0),
+                              //         topRight: Radius.circular(40.0),
+                              //       ),
+                              //       // Optional. Styles the search field.
+                              //       inputDecoration: InputDecoration(
+                              //         labelText: 'Search',
+                              //         hintText: 'Start typing to search',
+                              //         prefixIcon: const Icon(Icons.search),
+                              //         border: OutlineInputBorder(
+                              //           borderSide: BorderSide(
+                              //             color: const Color(0xFF8C98A8)
+                              //                 .withOpacity(3),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ));
+
+              },
+
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height:60,
+                                  width:50,
+                                  decoration: const BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(width: 1.0, color: Colors.grey),
+                                    ),
+                                    color: Colors.white,
+                                  ),child:
+                                  InkWell(
+                                    onTap: (){
+
+                                      showCountryPicker(
+                                          context: context,
+                                          //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+                                          exclude: <String>['KN', 'MF'],
+                                          //Optional. Shows phone code before the country name.
+                                          showPhoneCode: true,
+                                          onSelect: (Country country) {
+                                            print(
+                                                'Select country: ${country.displayName}');
+                                          },
+                                          countryListTheme: CountryListThemeData(
+                                            // Optional. Sets the border radius for the bottomsheet.
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(40.0),
+                                              topRight: Radius.circular(40.0),
+                                            ),
+                                            // Optional. Styles the search field.
+                                            inputDecoration: InputDecoration(
+                                              labelText: 'Search',
+                                              hintText: 'Start typing to search',
+                                              prefixIcon: const Icon(Icons.search),
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: const Color(0xFF8C98A8)
+                                                      .withOpacity(3),
+                                                ),
+                                              ),
+                                            ),
+                                          ));
+
+
+                                    },
+                                  )
+
+
+
+                                  ,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 6),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Phone Number',
+                                  labelStyle: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "segoe",
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Enter a valid Phone Number!';
+                                  } else if (value.length < 12) {
+                                    return 'Enter valid Phone Number!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Phone-Number',
-                          labelStyle: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                      TextFormField(
+                        obscureText: _isObscure,
                         decoration: InputDecoration(
                           labelText: 'Create Password',
-                          labelStyle: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400),
+                          labelStyle: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "segoe",
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(_isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: () {
+                              setState(
+                                () {
+                                  _isObscure = !_isObscure;
+                                },
+                              );
+                            },
+                          ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid password!';
+                          } else if (value.length < 6) {
+                            return 'Enter at least 6 digit';
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
                       TextFormField(
+                        obscureText: _isObscure,
                         decoration: InputDecoration(
                           labelText: 'Confirm Password',
-                          labelStyle: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400),
+                          labelStyle: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "segoe",
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(_isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: () {
+                              setState(
+                                () {
+                                  _isObscure = !_isObscure;
+                                },
+                              );
+                            },
+                          ),
                         ),
                       ),
                       Row(
@@ -149,17 +325,20 @@ class _Become_member extends State<Become_member> {
                             },
                           ),
                           RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                                 text: 'I agree with',
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w300,
+                                  fontFamily: "segoe",
                                   color: Color.fromARGB(153, 57, 55, 55),
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
                                       text: ' Terms of use ',
                                       style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontFamily: "segoe",
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black)),
                                   TextSpan(
@@ -167,12 +346,15 @@ class _Become_member extends State<Become_member> {
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w300,
+                                      fontFamily: "segoe",
                                       color: Color.fromARGB(153, 57, 55, 55),
                                     ),
                                   ),
                                   TextSpan(
                                     text: ' Privacy Policy',
                                     style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      fontFamily: "segoe",
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
@@ -188,11 +370,15 @@ class _Become_member extends State<Become_member> {
                             width: 325,
                             height: 50,
                             child: const Padding(
-                              padding: EdgeInsets.only(top: 14,bottom: 15),
+                              padding: EdgeInsets.only(top: 14, bottom: 15),
                               child: Text(
                                 'Become a Member',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 16, color: Colors.white,fontWeight:FontWeight.w600),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontFamily: "segoe",
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                             decoration: BoxDecoration(
@@ -206,7 +392,7 @@ class _Become_member extends State<Become_member> {
                                 ])),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 23),
+                        padding: const EdgeInsets.only(top: 15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -215,14 +401,16 @@ class _Become_member extends State<Become_member> {
                                 text: 'Already have an account ?  ',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
+                                  fontFamily: "segoe",
                                   color: Color.fromARGB(144, 140, 184, 201),
                                 ),
                               ),
                             ),
-                            Text(
+                            const Text(
                               'Login',
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
+                                  fontFamily: "segoe",
                                   color: Color.fromARGB(228, 130, 7, 7),
                                   decoration: TextDecoration.underline),
                             ),
