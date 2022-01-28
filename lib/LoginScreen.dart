@@ -19,6 +19,7 @@ class _LoginScreen extends State<StatefulWidget> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,28 +85,28 @@ class _LoginScreen extends State<StatefulWidget> {
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.fromLTRB( 20,10,20,10),
                   child: (Text("Login Your Account",
                       textAlign: TextAlign.start,
-                      style: TextStyle(
+                      style: TextStyle(fontWeight: FontWeight.w600,
                           color: Colors.black87,
                           fontFamily: "assets/fonts/segui.TTf",
                           fontSize: 22))),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.fromLTRB( 20,10,20,10),
                   child: Text(
                       "Login to daily reach to access more posts and access many more",
                       textAlign: TextAlign.start,
-                      style: TextStyle(
+                      style: TextStyle(fontWeight: FontWeight.w400,
                           color: Colors.black87,
                           fontFamily: "assets/fonts/segui.TTf",
                           fontSize: 13)),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.fromLTRB( 20,10,20,10),
                     child: TextFormField(
-                        style: TextStyle(
+                        style: TextStyle(fontWeight: FontWeight.w400,
                           fontSize: 13,
                           fontFamily: "assets/fonts/segui.TTf",
                         ),
@@ -117,10 +118,10 @@ class _LoginScreen extends State<StatefulWidget> {
                           //filled: true,
                         ))),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.fromLTRB( 20,10,20,10),
                   child: Center(
                     child: TextFormField(
-                      style: TextStyle(
+                      style: TextStyle(fontWeight: FontWeight.w400,
                           fontSize: 13, fontFamily: "assets/fonts/segui.TTf"),
                       controller: passwordController,
                       obscureText: _isObscure,
@@ -184,7 +185,7 @@ class _LoginScreen extends State<StatefulWidget> {
                       child: const Text(
                         "Login",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: TextStyle(fontWeight: FontWeight.w600,
                             fontSize: 16,
                             fontFamily: "assets/fonts/segui.TTf",
                             color: Colors.white),
@@ -220,6 +221,7 @@ class _LoginScreen extends State<StatefulWidget> {
                         text: 'Forgot Password?  ',
                         style: TextStyle(
                           fontFamily: "assets/fonts/segui.TTf",
+                          fontWeight: FontWeight.w600,
                           color: Colors.black87,
                           fontSize: 14,
                         ),
