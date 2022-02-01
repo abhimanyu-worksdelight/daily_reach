@@ -1,7 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:dailyreach/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
-import 'main.dart';
 
 class Become_member extends StatefulWidget {
   @override
@@ -141,17 +141,30 @@ class _Become_member extends State<Become_member> {
                     ),
                     Row(
                       children: [
-                        CountryCodePicker(
-                          onChanged: print,
-                          // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                          initialSelection: 'IT',
-                          favorite: ['+39','FR'],
-                          // optional. Shows only country name and flag
-                          showCountryOnly: false,
-                          // optional. Shows only country name and flag when popup is closed.
-                          showOnlyCountryWhenClosed: false,
-                          // optional. aligns the flag and the Text left
-                          alignLeft: false,
+                        Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 60),
+                              child: Container(
+                                height: 1,
+                                width:90,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            CountryCodePicker(
+                              onChanged: print,
+                              // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                              initialSelection: 'IT',
+                              favorite: ['+39','FR'],
+                              // optional. Shows only country name and flag
+                              showCountryOnly: false,
+                              // optional. Shows only country name and flag when popup is closed.
+                              showOnlyCountryWhenClosed: false,
+                              // optional. aligns the flag and the Text left
+                              alignLeft: false,
+                            ),
+                          ],
+
                         ),
                         Expanded(flex:1,
                           child: TextFormField(
@@ -369,7 +382,7 @@ class _Become_member extends State<Become_member> {
       return;
     } else {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Login_screen()));
+          context, MaterialPageRoute(builder: (context) => Profile_screen()));
     }
     _formKey.currentState?.save();
   }

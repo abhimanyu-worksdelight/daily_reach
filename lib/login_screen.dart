@@ -1,8 +1,6 @@
 import 'package:dailyreach/reset_password.dart';
 import 'package:flutter/material.dart';
 
-import 'become_member.dart';
-
 class Login_screen extends StatefulWidget {
   @override
   State<Login_screen> createState() {

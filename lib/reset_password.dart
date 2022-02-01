@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'home_screen.dart';
 import 'login_screen.dart';
 
 class Reset_password extends StatefulWidget{
@@ -174,7 +175,7 @@ class _Reset_password extends State<Reset_password>{
       return;
     } else {
       Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Login_screen()));
+          builder: (context) => Home_screen()));
     }
     _formKey.currentState?.save();
   }

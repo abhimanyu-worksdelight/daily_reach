@@ -1,5 +1,7 @@
+import 'package:dailyreach/profile_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'become_member.dart';
 import 'main.dart';
 
 class Splash_screen extends StatefulWidget {
@@ -15,7 +17,7 @@ class _Splash_screen extends State<Splash_screen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 3000),(){
-      Navigator.pushReplacement(context,MaterialPageRoute(builder:(context)=> HomePage()));
+      Navigator.pushReplacement(context,MaterialPageRoute(builder:(context)=> Become_member()));
     });
   }
 
