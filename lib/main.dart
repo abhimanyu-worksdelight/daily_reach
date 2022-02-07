@@ -1,5 +1,7 @@
 import 'package:dailyreach/Feed.dart';
 import 'package:dailyreach/LoginScreen.dart';
+import 'package:dailyreach/Notification.dart';
+import 'package:dailyreach/PostDetail.dart';
 import 'package:dailyreach/SplashScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(  debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: Feed(),
+      home: PostDetail(),
     );
   }
 }
