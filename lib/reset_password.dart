@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'home_screen.dart';
+import 'profile_name.dart';
 import 'login_screen.dart';
 
 class Reset_password extends StatefulWidget{
@@ -21,64 +21,61 @@ class _Reset_password extends State<Reset_password>{
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(children: [
-        Stack(
-        children: [
-        Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Positioned(
-              left: -89,
-              top: -71,
-              child: Image.asset(
-                'assets/images/subtract.png',
-                width: 105,
-                height: 168,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 60, left: 139),
-              child: Image.asset(
-                'assets/images/vector.png',
-                height: 56,
-              ),
-            )
-          ],
-        ),
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 70, left: 30),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+          Stack(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/images/subtract.png',
+                    height: 100,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30, left: 182),
                     child: Image.asset(
-                      'assets/images/arrow.png',
-                      height: 32,
-                      width: 32,
+                      'assets/images/vector.png',
+                      height: 54,
+                      width: 90,
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 70, left: 30),
-                  child: Image.asset(
-                    'assets/images/daily_reach_logo.png',
-                    height: 42,
-                    width: 190,
-                  ),
-                ),
-              ],
-            )
-          ],
-        )
-        ],
-      ),
-        Padding(
-            padding: EdgeInsets.only(left: 35, right: 25),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 60, left: 30),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Image.asset(
+                            'assets/images/arrow.png',
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 60, left: 30),
+                        child: Image.asset(
+                          'assets/images/daily_reach_logo.png',
+                          height: 42,
+                          width: 190,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(left: 35, right: 25,top: 27),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

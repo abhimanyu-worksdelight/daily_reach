@@ -1,3 +1,4 @@
+import 'package:dailyreach/profile_screen.dart';
 import 'package:dailyreach/reset_password.dart';
 import 'package:flutter/material.dart';
 
@@ -19,65 +20,61 @@ class _Login_screen extends State<Login_screen> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Column(children: [
-          Stack(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Positioned(
-                    left: -89,
-                    top: -71,
-                    child: Image.asset(
-                      'assets/images/subtract.png',
-                      width: 105,
-                      height: 168,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 60, left: 139),
-                    child: Image.asset(
-                      'assets/images/vector.png',
-                      height: 56,
-                    ),
-                  )
-                ],
-              ),
-              Column(
+              Stack(
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 70, left: 30),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset(
-                            'assets/images/arrow.png',
-                            height: 32,
-                            width: 32,
-                          ),
-                        ),
+                      Image.asset(
+                        'assets/images/subtract.png',
+                        height: 100,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 70, left: 30),
+                        padding: const EdgeInsets.only(top: 30, left: 182),
                         child: Image.asset(
-                          'assets/images/daily_reach_logo.png',
-                          height: 42,
-                          width: 190,
+                          'assets/images/vector.png',
+                          height: 54,
+                          width: 90,
                         ),
-                      ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 60, left: 30),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset(
+                                'assets/images/arrow.png',
+                                height: 32,
+                                width: 32,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 60, left: 30),
+                            child: Image.asset(
+                              'assets/images/daily_reach_logo.png',
+                              height: 42,
+                              width: 190,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   )
                 ],
-              )
-            ],
-          ),
+              ),
 
               Padding(
-                  padding: EdgeInsets.only(left: 30, right: 25),
+                  padding: EdgeInsets.only(left: 30, right: 25,top: 27),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -231,7 +228,7 @@ class _Login_screen extends State<Login_screen> {
       return;
     } else {
       Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Login_screen()));
+          builder: (context) => Profile_screen()));
     }
     _formKey.currentState?.save();
   }

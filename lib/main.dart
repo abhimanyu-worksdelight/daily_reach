@@ -6,7 +6,7 @@ import 'become_member.dart';
 import 'login_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,14 +18,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home:  Splash_screen(),
+      home: Splash_screen(),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-   const HomePage({Key? key}) : super(key: key);
-
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -48,6 +47,7 @@ class _HomePage extends State<HomePage> {
       videoPlayerController: _videoPlayerController1!,
       autoPlay: true,
       looping: true,
+      aspectRatio: _videoPlayerController1!.value.aspectRatio,
     );
 
     _videoPlayerController1?.addListener(() {
@@ -72,115 +72,127 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Stack(
-            children: [
-              Container(
-                height: 414,
-                width: 436,
-                child: Chewie(
-                  controller: _chewieController!,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 260),
-                child: Image(
-                  height: 142.0,
-                  width: 375,
-                  image: AssetImage(
-                    'assets/images/blur.png',
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: Text(
-              'Welcome to',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15,fontFamily: "segoe"),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 0),
-            child: Image.asset('assets/images/daily_reach_logo.png',
-                height: 40, width: 180),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              top: 0,
-            ),
-            child: Text(
-              'Become a member to access exclusive content',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600,fontFamily: "segoe"),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 10),
-            child: Text(
-              'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. ',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13,fontFamily: "segoe",fontWeight: FontWeight.w400),
-            ),
-          ),
-          GestureDetector(
-            onTap: (){
-              Navigator.push(context,MaterialPageRoute(builder: (context)=> Become_member()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(top: 7, right: 16, left: 16),
-              child: Container(
-                height: 50,
-                width: 350,
-                decoration: BoxDecoration(
-                    color: const Color(0xffD6D4D4).withOpacity(0.4),
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
-                child: const Padding(
-                  padding:
-                      EdgeInsets.only(left: 24, right: 24, top: 14, bottom: 0),
-                  child: Text(
-                    'Become a Member',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16,fontFamily: "segoe"),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        body: SingleChildScrollView(
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Stack(
               children: [
-                RichText(
-                  text: const TextSpan(
-                    text: 'Already a member ? ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,fontFamily: "segoe",
-                      color: Color.fromARGB(144, 140, 184, 201),
-                    ),
+                Container(
+                  height: 414,
+                  width: MediaQuery.of(context).size.width,
+                  child: Chewie(
+                    controller: _chewieController!,
                   ),
                 ),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Login_screen()));
-                  },
-                  child: Text(
-                    ' Login',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromARGB(228, 130, 7, 7),
-                        decoration: TextDecoration.underline),
+                const Padding(
+                  padding: EdgeInsets.only(top: 276),
+                  child: Image(
+                    height: 142.0,
+                    width: 375,
+                    image: AssetImage(
+                      'assets/images/blur.png',
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        ]));
+            const Padding(
+              padding: EdgeInsets.only(top: 0),
+              child: Text(
+                'Welcome to',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15, fontFamily: "segoe"),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, left: 98, right: 97),
+              child: Image.asset('assets/images/daily_reach_logo.png',
+                  height: 40, width: 180),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 9, left: 32, right: 33),
+              child: Text(
+                'Become a member to access exclusive content',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: "segoe"),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 9, right: 24, left: 26, bottom: 0),
+              child: Text(
+                'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. ',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: "segoe",
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Become_member()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 22, right: 24, left: 24),
+                child: Container(
+                  height: 50,
+                  width: 350,
+                  decoration: BoxDecoration(
+                      color: const Color(0xffD6D4D4).withOpacity(0.4),
+                      borderRadius:const BorderRadius.all(Radius.circular(8))),
+                  child: const Padding(
+                    padding: EdgeInsets.only(
+                        left: 24, right: 24, top: 14, bottom: 0),
+                    child: Text(
+                      'Become a Member',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          fontFamily: "segoe"),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 40, right: 0, left: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
+                    text: const TextSpan(
+                      text: 'Already a member ? ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "segoe",
+                        fontSize: 13,
+                        color: Color.fromARGB(144, 140, 184, 201),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Login_screen()));
+                    },
+                    child: Text(
+                      ' Login',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(228, 130, 7, 7),
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]),
+        ));
   }
 }

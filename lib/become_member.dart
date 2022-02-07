@@ -28,20 +28,16 @@ class _Become_member extends State<Become_member> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Positioned(
-                    left: -89,
-                    top: -71,
-                    child: Image.asset(
-                      'assets/images/subtract.png',
-                      width: 105,
-                      height: 168,
-                    ),
+                  Image.asset(
+                    'assets/images/subtract.png',
+                    height: 100,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 60, left: 139),
+                    padding: const EdgeInsets.only(top: 30, left: 182),
                     child: Image.asset(
                       'assets/images/vector.png',
-                      height: 56,
+                      height: 54,
+                      width: 90,
                     ),
                   )
                 ],
@@ -52,7 +48,7 @@ class _Become_member extends State<Become_member> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 70, left: 30),
+                        padding: const EdgeInsets.only(top: 60, left: 30),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -65,7 +61,7 @@ class _Become_member extends State<Become_member> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 70, left: 30),
+                        padding: const EdgeInsets.only(top: 60, left: 30),
                         child: Image.asset(
                           'assets/images/daily_reach_logo.png',
                           height: 42,
@@ -79,7 +75,7 @@ class _Become_member extends State<Become_member> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(left: 30, right: 25),
+            padding: const EdgeInsets.only(left: 30, right: 25,top: 27),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text(
@@ -98,7 +94,7 @@ class _Become_member extends State<Become_member> {
                     fontWeight: FontWeight.w400,
                     fontFamily: "segoe",
                     fontSize: 14,
-                    color: Color(0xff4C4949).withOpacity(0.8),
+                    color: const Color(0xff4C4949).withOpacity(0.8),
                   ),
                 ),
               ),
@@ -153,14 +149,10 @@ class _Become_member extends State<Become_member> {
                             ),
                             CountryCodePicker(
                               onChanged: print,
-                              // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                               initialSelection: 'IT',
-                              favorite: ['+39','FR'],
-                              // optional. Shows only country name and flag
+                              favorite: const ['+39','FR'],
                               showCountryOnly: false,
-                              // optional. Shows only country name and flag when popup is closed.
                               showOnlyCountryWhenClosed: false,
-                              // optional. aligns the flag and the Text left
                               alignLeft: false,
                             ),
                           ],
@@ -179,7 +171,7 @@ class _Become_member extends State<Become_member> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Enter a valid Phone Number!';
-                              } else if (value.length < 12) {
+                              } else if (value.length < 6) {
                                 return 'Enter valid Phone Number!';
                               }
                               return null;
@@ -323,18 +315,20 @@ class _Become_member extends State<Become_member> {
                               ),
                             ),
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(228, 130, 7, 7),
+                                color: const Color.fromARGB(228, 130, 7, 7),
                                 borderRadius: BorderRadius.circular(50),
                                 boxShadow: const [
                                   BoxShadow(
                                       color: Colors.white,
                                       blurRadius: 3.0,
                                       spreadRadius: 1.0)
-                                ])),
+                                ]
+                            )
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: const EdgeInsets.only(top: 23),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -355,7 +349,7 @@ class _Become_member extends State<Become_member> {
                                   MaterialPageRoute(
                                       builder: (context) => Login_screen()));
                             },
-                            child: Text(
+                            child: const Text(
                               'Login',
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,

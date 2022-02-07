@@ -1,14 +1,12 @@
-import 'package:country_code_picker/country_code_picker.dart';
-import 'package:dailyreach/profile_screen.dart';
-import 'package:dailyreach/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-class Home_screen extends StatefulWidget{
+import 'main.dart';
+
+class Home_screen extends StatefulWidget {
   @override
   State<Home_screen> createState() {
     return _Home_screen();
   }
-
 }
 
 class _Home_screen extends State<Home_screen> {
@@ -16,8 +14,9 @@ class _Home_screen extends State<Home_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body:SingleChildScrollView(
-        child: Column(children: [
+      body: SingleChildScrollView(
+        child: Column(
+            children: [
           Stack(
             children: [
               Row(
@@ -35,7 +34,7 @@ class _Home_screen extends State<Home_screen> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 65, left: 240, right: 19),
+                        const EdgeInsets.only(top: 65, left: 240, right: 19),
                     child: Image.asset(
                       'assets/images/bell.png',
                       width: 18,
@@ -79,68 +78,68 @@ class _Home_screen extends State<Home_screen> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30,),
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+            ),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                        hintText: 'Name',
-                        hintStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "segoe",
-                        ),
-                        border: InputBorder.none),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                        hintText: 'Email Address',
-                        hintStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "segoe",
-                        ),
-                        border: InputBorder.none),
-                  ),
-                ),
+                const Padding(
+                    padding: EdgeInsets.only(top: 5),
+                    child: Text(
+                      'Pardeep',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "segoe",
+                      ),
+                    )),
+                const Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(
+                      'pardeep@gmail.com',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "segoe",
+                        color: Color.fromARGB(153, 57, 55, 55),
+
+                      ),
+                    )),
                 Row(
                   children: [
-                    Stack(
-                      children: [
-                        CountryCodePicker(
-                          onChanged: print,
-                          initialSelection: 'IT',
-                          favorite: const ['+39', 'FR'],
-                          showCountryOnly: false,
-                          showOnlyCountryWhenClosed: false,
-                          alignLeft: false,
-                        ),
-                      ],
-                    ),
-                    const Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 0),
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                              hintText: 'Phone Number',
-                              hintStyle: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "segoe",
-                              ),
-                              border: InputBorder.none),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10,left: 85),
+                      child: Image.asset(
+                        'assets/images/flag.png',
+                        height: 19,
+                        width: 19,
                       ),
                     ),
+                    const Padding(
+                        padding: EdgeInsets.only(top: 10,left: 3),
+                        child: Text(
+                          '+1',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "segoe",
+                            color: Color.fromARGB(153, 179, 195, 210),
+
+                          ),
+                        )),
+                    const Padding(
+                        padding: EdgeInsets.only(top: 10,left: 8),
+                        child: Text(
+                          '87896 5668',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "segoe",
+                            color: Color.fromARGB(153, 179, 195, 210),
+
+                          ),
+                        )),
                   ],
                 ),
               ],
@@ -173,20 +172,24 @@ class _Home_screen extends State<Home_screen> {
                           spreadRadius: 1.0)
                     ])),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 10, top: 140, bottom: 50),
-            child: Text(
-              'Logout',
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                  fontFamily: "segoe",
-                  fontWeight: FontWeight.w600),
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(left: 10, top: 230, bottom: 10),
+              child: Text(
+                'Logout',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                    fontFamily: "segoe",
+                    fontWeight: FontWeight.w600),
+              ),
             ),
           ),
         ]),
       ),
-
     );
   }
 }

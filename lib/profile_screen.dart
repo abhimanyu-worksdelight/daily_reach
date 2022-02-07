@@ -1,8 +1,8 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 
-import 'archive_screen.dart';
-import 'home_screen.dart';
+import 'archive_list.dart';
+import 'feed_screen.dart';
+import 'profile_name.dart';
 
 class Profile_screen extends StatefulWidget {
   @override
@@ -12,47 +12,49 @@ class Profile_screen extends StatefulWidget {
 }
 
 class _Profile_screen extends State<Profile_screen> {
-  int tabClick=0;
+  int tabClick = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body:tabClick==0?Container():tabClick==1?new Archive_screen():Home_screen(),
-      bottomNavigationBar:
-      BottomNavigationBar(
+      body: tabClick == 0 ? Feed_screen() : tabClick == 1 ?  Archive_list() : Home_screen(),
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 40,
         type: BottomNavigationBarType.fixed,
-        backgroundColor:  Colors.white,
+        backgroundColor: Colors.white,
         selectedItemColor: Colors.grey,
         unselectedItemColor: Colors.grey,
         selectedFontSize: 14,
         unselectedFontSize: 12,
         onTap: (value) {
-          if(value==0){
-            tabClick=value;
-
-          }else if(value==1){
-            tabClick=value;
-
-          }else{
-            tabClick=value;
-
+          if (value == 0) {
+            tabClick = value;
+          } else if (value == 1) {
+            tabClick = value;
+          } else {
+            tabClick = value;
           }
-          setState(() {
-
-          });
+          setState(() {});
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            title: Text('Feed'),
+label: "Feed",
+          //  title: Text('Feed'),
             icon: Icon(Icons.now_widgets_outlined),
           ),
           BottomNavigationBarItem(
-            title: Text('Archive'),
+            label: "Archive",
+
+            //  title: Text('Archive'),
             icon: Icon(Icons.archive_outlined),
           ),
           BottomNavigationBarItem(
-            title: Text('Profile'),
-            icon: Icon(Icons.person_outlined,),
+            label: "Profile",
+
+            //   title: Text('Profile'),
+            icon: Icon(
+              Icons.person_outlined,
+            ),
           ),
         ],
       ),
