@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dailyreach/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'archive_list.dart';
 import 'login_screen.dart';
 
 class Become_member extends StatefulWidget {
@@ -75,7 +76,7 @@ class _Become_member extends State<Become_member> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30, right: 25,top: 27),
+            padding: const EdgeInsets.only(left: 30, right: 25, top: 27),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text(
@@ -137,28 +138,34 @@ class _Become_member extends State<Become_member> {
                     ),
                     Row(
                       children: [
-                        Stack(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 60),
-                              child: Container(
-                                height: 1,
-                                width:90,
+                        Container(
+                          margin: const EdgeInsets.only(top: 11),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CountryCodePicker(
+                                onChanged: print,
+                                initialSelection: 'IN',
+                                favorite: const ['+1', 'Can'],
+                                textStyle: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                                showCountryOnly: false,
+                                showOnlyCountryWhenClosed: false,
+                                alignLeft: false,
+                                flagWidth: 15,
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 4),
+                                height: 1.5,
+                                width: 80,
                                 color: Colors.grey,
                               ),
-                            ),
-                            CountryCodePicker(
-                              onChanged: print,
-                              initialSelection: 'IT',
-                              favorite: const ['+39','FR'],
-                              showCountryOnly: false,
-                              showOnlyCountryWhenClosed: false,
-                              alignLeft: false,
-                            ),
-                          ],
-
+                            ],
+                          ),
                         ),
-                        Expanded(flex:1,
+                        Expanded(
+                          flex: 1,
                           child: TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Phone Number',
@@ -322,9 +329,7 @@ class _Become_member extends State<Become_member> {
                                       color: Colors.white,
                                       blurRadius: 3.0,
                                       spreadRadius: 1.0)
-                                ]
-                            )
-                        ),
+                                ])),
                       ),
                     ),
                     Padding(
@@ -365,7 +370,7 @@ class _Become_member extends State<Become_member> {
             ]),
           ),
           Container(
-            height: 60,
+            height: 30,
           )
         ])));
   }
@@ -376,7 +381,7 @@ class _Become_member extends State<Become_member> {
       return;
     } else {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Profile_screen()));
+          context, MaterialPageRoute(builder: (context) => Archive_list()));
     }
     _formKey.currentState?.save();
   }

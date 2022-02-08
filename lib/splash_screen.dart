@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'archive_list.dart';
 import 'main.dart';
 
 class Splash_screen extends StatefulWidget {
@@ -15,7 +14,7 @@ class _Splash_screen extends State<Splash_screen> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 3000), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) =>  Archive_list()));
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
     });
   }
 

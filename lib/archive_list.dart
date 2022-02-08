@@ -81,7 +81,13 @@ class _Archive_list extends State<Archive_list> {
           ),
           Expanded(
               flex: 1,
-              child: ListView.builder(
+              child: ListView.separated(separatorBuilder: (Context, Index){
+                return Container(
+                  height: 1,
+                  color: Colors.grey,
+                );
+              },
+
                   itemCount: 1,
                   itemBuilder: (BuildContext, Index) {
                     return GestureDetector(
@@ -92,7 +98,7 @@ class _Archive_list extends State<Archive_list> {
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 27, left: 21),
+                                const EdgeInsets.only(top: 27, left: 21),
                                 child: Image.asset(
                                   "assets/images/photoo.png",
                                   width: 119,
@@ -130,7 +136,7 @@ class _Archive_list extends State<Archive_list> {
                                       children: [
                                         Padding(
                                           padding:
-                                              EdgeInsets.only(top: 7, left: 13),
+                                          EdgeInsets.only(top: 7, left: 13),
                                           child: Container(
                                               width: 44,
                                               height: 17,
@@ -149,7 +155,7 @@ class _Archive_list extends State<Archive_list> {
                                               decoration: BoxDecoration(
                                                 color: Colors.grey,
                                                 borderRadius:
-                                                    BorderRadius.circular(34),
+                                                BorderRadius.circular(34),
                                               )),
                                         ),
                                         Padding(
@@ -516,7 +522,9 @@ class _Archive_list extends State<Archive_list> {
                         ],
                       ),
                     );
-                  })),
+                  }
+              )
+          ),
         ],
       ),
     );

@@ -115,7 +115,12 @@ class _Archive_screen extends State<Archive_screen> {
               ),
               Expanded(
                   flex: 1,
-                  child: ListView.builder(
+                  child: ListView.separated( separatorBuilder: (context, index) {
+                    return Container(
+                      height: 1,
+                      color: Colors.grey,
+                    );
+                    },
                       itemCount: 1,
                       itemBuilder: (BuildContext, Index) {
                         return GestureDetector(
@@ -163,7 +168,9 @@ class _Archive_screen extends State<Archive_screen> {
                             ],
                           ),
                         );
-                      })),
+                      }
+                      )
+              ),
               Container(
                 height: 50,
               )

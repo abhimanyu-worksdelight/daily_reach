@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'Notification.dart';
 import 'main.dart';
 
 class Home_screen extends StatefulWidget {
@@ -13,40 +14,19 @@ class _Home_screen extends State<Home_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:Colors.white ,
       body: SingleChildScrollView(
         child: Column(
             children: [
           Stack(
             children: [
-              Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 65, left: 19),
-                    child: Text(
-                      'Profile',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: "segoe",
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 65, left: 240, right: 19),
-                    child: Image.asset(
-                      'assets/images/bell.png',
-                      width: 18,
-                      height: 18,
-                    ),
-                  )
-                ],
-              ),
-              Image.asset(
-                'assets/images/rectangle_back.png',
-                height: 208,
-                width: 375,
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Image.asset(
+                  'assets/images/rectangle_back.png',
+                  height: 208,
+                  fit: BoxFit.fill,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 141, left: 120),
@@ -75,6 +55,38 @@ class _Home_screen extends State<Home_screen> {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                  Text(
+                    'Profile',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "segoe",
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Notefication()));
+                    },
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.only(top:0),
+                      child: Image.asset(
+                        'assets/images/bell.png',
+                        width: 18,
+                        height: 18,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+
             ],
           ),
           Padding(

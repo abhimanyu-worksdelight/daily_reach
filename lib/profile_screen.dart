@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'Feed.dart';
 import 'archive_list.dart';
 import 'feed_screen.dart';
 import 'profile_name.dart';
@@ -17,7 +18,7 @@ class _Profile_screen extends State<Profile_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: tabClick == 0 ? Feed_screen() : tabClick == 1 ?  Archive_list() : Home_screen(),
+      body: tabClick == 0 ? Feed() : tabClick == 1 ?  Archive_list() : Home_screen(),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 40,
         type: BottomNavigationBarType.fixed,

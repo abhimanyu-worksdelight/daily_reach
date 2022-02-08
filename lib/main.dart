@@ -79,8 +79,11 @@ class _HomePage extends State<HomePage> {
                 Container(
                   height: 414,
                   width: MediaQuery.of(context).size.width,
-                  child: Chewie(
-                    controller: _chewieController!,
+                  child:AspectRatio(
+                    aspectRatio: _videoPlayerController1!.value.aspectRatio,
+                    child: Chewie(
+                      controller: _chewieController!,
+                    ),
                   ),
                 ),
                 const Padding(
@@ -181,7 +184,7 @@ class _HomePage extends State<HomePage> {
                           MaterialPageRoute(
                               builder: (context) => Login_screen()));
                     },
-                    child: Text(
+                    child: const Text(
                       ' Login',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
