@@ -56,15 +56,16 @@ class _Home_screen extends State<Home_screen> {
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
-                  Text(
-                    'Profile',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: "segoe",
+                  Padding(
+                    padding: const EdgeInsets.only(top: 64,left: 23),
+                    child: Text(
+                      'Profile',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "segoe",
+                      ),
                     ),
                   ),
                   GestureDetector(
@@ -75,8 +76,7 @@ class _Home_screen extends State<Home_screen> {
                               builder: (context) => Notefication()));
                     },
                     child: Padding(
-                      padding:
-                      const EdgeInsets.only(top:0),
+                      padding: EdgeInsets.only(top:64,left: 230,right: 23),
                       child: Image.asset(
                         'assets/images/bell.png',
                         width: 18,
@@ -175,7 +175,7 @@ class _Home_screen extends State<Home_screen> {
                   ),
                 ),
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(228, 130, 7, 7),
+                    color: const Color.fromARGB(228, 189, 20, 20),
                     borderRadius: BorderRadius.circular(50),
                     boxShadow: const [
                       BoxShadow(
@@ -184,7 +184,7 @@ class _Home_screen extends State<Home_screen> {
                           spreadRadius: 1.0)
                     ])),
           ),
-          GestureDetector(
+          InkWell(
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
             },
