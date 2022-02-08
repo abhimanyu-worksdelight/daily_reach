@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'FirstPage.dart';
 import 'SplashScreen.dart';
 
-class Notefication extends StatefulWidget {
+class NotificationScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _Notefication();
+    return _NotificationScreen();
   }
 }
 
-class _Notefication extends State<StatefulWidget> {
+class _NotificationScreen extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +32,16 @@ class _Notefication extends State<StatefulWidget> {
                         MaterialPageRoute(
                             builder: (context) => SplashScreen()));
                   },
-                  child: Image.asset(
+                  child:  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child:Image.asset(
                     "assets/images/arrowvector.png",
                     width: 24,
                     height: 24,
                   ),
+                ),
                 ),
                 SizedBox(
                   width: 21,

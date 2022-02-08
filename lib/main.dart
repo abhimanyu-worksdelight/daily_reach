@@ -3,6 +3,8 @@ import 'package:dailyreach/LoginScreen.dart';
 import 'package:dailyreach/Notification.dart';
 import 'package:dailyreach/PostDetail.dart';
 import 'package:dailyreach/SplashScreen.dart';
+import 'package:dailyreach/Notification.dart';
+import 'package:dailyreach/PostDetail.dart';
 import 'package:flutter/material.dart';
 
 void main() {

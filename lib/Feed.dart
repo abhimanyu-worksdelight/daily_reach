@@ -2,6 +2,8 @@ import 'package:dailyreach/FirstPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'Notification.dart';
+import 'PostDetail.dart';
 import 'main.dart';
 
 class Feed extends StatefulWidget {
@@ -40,11 +42,19 @@ class _Feed extends State<Feed> {
                   SizedBox(
                     width:21.5,
                   ),
-                  Image.asset(
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>NotificationScreen ()));
+                    },
+                  child:Image.asset(
                     "assets/images/bell.png",
                     width: 20,
                     height: 20,
                   ),
+                  )
                 ],
               ),
             ],
@@ -57,7 +67,7 @@ class _Feed extends State<Feed> {
             itemBuilder: (context, index) {
               return GestureDetector(onTap: (){
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>  FirstPage()));
+                    MaterialPageRoute(builder: (context) =>  PostDetail()));
               },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
