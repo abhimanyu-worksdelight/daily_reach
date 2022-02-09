@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'FirstPage.dart';
-import 'SplashScreen.dart';
 
-class NotificationScreen extends StatefulWidget {
+class Notefication extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _NotificationScreen();
+    return _Notefication();
   }
 }
 
-class _NotificationScreen extends State<StatefulWidget> {
+class _Notefication extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
