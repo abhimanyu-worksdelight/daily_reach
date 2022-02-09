@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'archive_list.dart';
-
 class Archive_screen extends StatefulWidget {
   const Archive_screen({Key? key}) : super(key: key);
 
@@ -12,6 +10,17 @@ class Archive_screen extends StatefulWidget {
 }
 
 class _Archive_screen extends State<Archive_screen> {
+  var arr = [
+    'Entertainment',
+    'Painting',
+    'News',
+    'Technology',
+    'Software',
+    'Real estate',
+    'Fun',
+    'Explore',
+    'Gym'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +55,8 @@ class _Archive_screen extends State<Archive_screen> {
               Row(
                 children: [
                   InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Archive_list()));
+                    onTap: () {
+                      Navigator.pop(context);
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(top: 20, left: 20),
@@ -77,19 +86,24 @@ class _Archive_screen extends State<Archive_screen> {
                     ),
                   ),
                   InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Archive_list()));
+                    onTap: () {
+                      Navigator.pop(context);
                     },
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(top: 20, left: 70),
-                      child: Text(
-                        'Cancel ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "segoe",
-                          color: Color.fromARGB(232, 34, 65, 170),
+                      child: InkWell(
+                        onTap: (){
+
+                        },
+                        child: Text(
+                          'Cancel ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "segoe",
+                            color: Color.fromARGB(232, 34, 65, 170),
+                          ),
                         ),
                       ),
                     ),
@@ -97,7 +111,7 @@ class _Archive_screen extends State<Archive_screen> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 18, left: 20),
+                padding: const EdgeInsets.only(top: 18, left: 10),
                 child: Container(
                   height: 40,
                   width: 320,
@@ -113,6 +127,7 @@ class _Archive_screen extends State<Archive_screen> {
                         border: InputBorder.none,
                         hintText: 'Search',
                         hintStyle: TextStyle(
+                            fontFamily: "segoe",
                             fontSize: 14, fontWeight: FontWeight.w400),
                         prefixIcon: Icon(
                           Icons.search,
@@ -128,35 +143,41 @@ class _Archive_screen extends State<Archive_screen> {
               Expanded(
                   flex: 1,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 10),
-                    child: ListView.separated( separatorBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Container(
-                          height: 1,
-                          color: Colors.grey,
-                        ),
-                      );
-                      },
-                        itemCount:90,
-                        itemBuilder: (BuildContext, Index) {
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 5,left: 17,right: 5),
+                            child: Container(
+                              height: 1,
+                                color: Color.fromARGB(100, 214, 212, 212),
+                            ),
+                          );
+                        },
+                        itemCount: arr.length,
+                        itemBuilder: (BuildContext, index) {
                           return GestureDetector(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Padding(
-                                  padding: EdgeInsets.only(top: 25,left: 20,bottom: 10),
-                                  child: Text('Entertainment',style: TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w400),),
+                                  padding: EdgeInsets.only(
+                                      top: 25, left: 20, bottom: 10),
+                                  child: Text(
+                                    arr[index],
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                           );
-                        }
-                        ),
-                  )
-              ),
+                        }),
+                  )),
               Container(
                 height: 50,
               )

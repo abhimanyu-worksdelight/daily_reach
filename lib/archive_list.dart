@@ -1,6 +1,4 @@
-import 'package:dailyreach/profile_name.dart';
 import 'package:flutter/material.dart';
-import 'Feed.dart';
 import 'archive_screen.dart';
 
 class Archive_list extends StatefulWidget {
@@ -15,6 +13,7 @@ class _Archive_list extends State<Archive_list> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,7 +43,7 @@ class _Archive_list extends State<Archive_list> {
             ],
           ),
           const Padding(
-            padding: EdgeInsets.only(left: 21, top: 12),
+            padding: EdgeInsets.only(left: 15, top: 12),
             child: Text(
               "Archived Posts",
               style: TextStyle(
@@ -54,7 +53,7 @@ class _Archive_list extends State<Archive_list> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 18, left: 20),
+            padding: const EdgeInsets.only(top: 18, left: 14),
             child: Container(
               height: 40,
               width: 320,
@@ -82,14 +81,13 @@ class _Archive_list extends State<Archive_list> {
           Expanded(
               flex: 1,
               child: Padding(
-                padding: const EdgeInsets.only(top: 10,right: 10,left: 10),
+                padding: const EdgeInsets.only(top: 0,right: 0,left: 0),
                 child: ListView.separated(separatorBuilder: (Context, Index){
                   return Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Container(
                       height: 1.6,
-                      color: Color.fromARGB(153, 179, 195, 210),
-                    ),
+                      color: Color.fromARGB(100, 214, 212, 212),                    ),
                   );
                 },
 
@@ -103,7 +101,7 @@ class _Archive_list extends State<Archive_list> {
                               children: [
                                 Padding(
                                   padding:
-                                  const EdgeInsets.only(top: 27, left: 21,bottom: 6),
+                                   EdgeInsets.only(top: 27, left: 21,bottom: 6),
                                   child: Image.asset(
                                     "assets/images/photoo.png",
                                     width: 116,
@@ -123,6 +121,7 @@ class _Archive_list extends State<Archive_list> {
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 14,
+                                              fontFamily: "segoe",
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ),
@@ -132,6 +131,8 @@ class _Archive_list extends State<Archive_list> {
                                         child: Text(
                                           'This post is a test post to ensure that things are working properly.',
                                           style: TextStyle(
+                                            letterSpacing: -0.6,
+                                              fontFamily: "segoe",
                                               color: Colors.black,
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400),
@@ -139,64 +140,78 @@ class _Archive_list extends State<Archive_list> {
                                       ),
                                       Row(
                                         children: [
-                                          Padding(
-                                            padding:
-                                            EdgeInsets.only(top: 7, left: 13),
-                                            child: Container(
-                                                width: 44,
-                                                height: 17,
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(0),
-                                                  child: Text(
-                                                    'Music',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 10,
-                                                        color: Colors.black,
-                                                        fontFamily: "segoe",
-                                                        fontWeight: FontWeight.w600),
+                                          InkWell(
+                                            onTap: (){
+
+                                            },
+                                            child: Padding(
+                                              padding:
+                                              EdgeInsets.only(top: 7, left: 7),
+                                              child: Container(
+                                                  width: 44,
+                                                  height: 17,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(0),
+                                                    child: Text(
+                                                      'Music',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.black,
+                                                          fontFamily: "segoe",
+                                                          fontWeight: FontWeight.w600),
+                                                    ),
                                                   ),
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: Color.fromARGB(153, 179, 195, 210),
-                                                  borderRadius:
-                                                  BorderRadius.circular(34),
-                                                )),
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
+                                                    BorderRadius.circular(34),
+                                                  )),
+                                            ),
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 7, left: 6),
-                                            child: Container(
-                                                width: 44,
-                                                height: 17,
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(0),
-                                                  child: Text(
-                                                    'Movie',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 10,
-                                                        color: Colors.black,
-                                                        fontFamily: "segoe",
-                                                        fontWeight: FontWeight.w600),
+                                          InkWell(
+                                                onTap: (){
+
+                                                },
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 7, left: 6),
+                                              child: Container(
+                                                  width: 44,
+                                                  height: 17,
+                                                  child: const Padding(
+                                                    padding: EdgeInsets.all(0),
+                                                    child: Text(
+                                                      'Movie',
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.black,
+                                                          fontFamily: "segoe",
+                                                          fontWeight: FontWeight.w600),
+                                                    ),
                                                   ),
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: Color.fromARGB(153, 179, 195, 210),
-                                                  borderRadius:
-                                                  BorderRadius.circular(34.62),
-                                                )),
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
+                                                    BorderRadius.circular(34.62),
+                                                  )),
+                                            ),
                                           )
                                         ],
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 11, left: 7, right: 0),
-                                        child: Text(
-                                          'Read More',
-                                          style: TextStyle(
-                                              color: Color.fromARGB(228, 189, 20, 20),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400),
+                                      InkWell(
+                                        onTap: (){
+
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 11, left: 7, right: 0),
+                                          child: Text(
+                                            'Read More',
+                                            style: TextStyle(
+                                                color: Color.fromARGB(228, 189, 20, 20),
+                                                fontSize: 12,
+                                                fontFamily: "segoe",
+                                                fontWeight: FontWeight.w400),
+                                          ),
                                         ),
                                       ),
 
@@ -213,47 +228,6 @@ class _Archive_list extends State<Archive_list> {
               )
           ),
 
-          // tabClick == 0 ? Feed() : tabClick == 1 ?  Archive_list() : Home_screen(),
-          //  BottomNavigationBar(
-          //   elevation: 40,
-          //   type: BottomNavigationBarType.fixed,
-          //   backgroundColor: Colors.white,
-          //   selectedItemColor: Colors.grey,
-          //   unselectedItemColor: Colors.grey,
-          //   selectedFontSize: 14,
-          //   unselectedFontSize: 12,
-          //   onTap: (value) {
-          //     if (value == 0) {
-          //       tabClick = value;
-          //     } else if (value == 1) {
-          //       tabClick = value;
-          //     } else {
-          //       tabClick = value;
-          //     }
-          //     setState(() {});
-          //   },
-          //   items: const [
-          //     BottomNavigationBarItem(
-          //       label: "Feed",
-          //       //  title: Text('Feed'),
-          //       icon: Icon(Icons.now_widgets_outlined),
-          //     ),
-          //     BottomNavigationBarItem(
-          //       label: "Archive",
-          //
-          //       //  title: Text('Archive'),
-          //       icon: Icon(Icons.archive_outlined),
-          //     ),
-          //     BottomNavigationBarItem(
-          //       label: "Profile",
-          //
-          //       //   title: Text('Profile'),
-          //       icon: Icon(
-          //         Icons.person_outlined,
-          //       ),
-          //     ),
-          //   ],
-          // ),
 
         ],
       ),

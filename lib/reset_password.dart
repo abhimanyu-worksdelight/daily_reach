@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'profile_name.dart';
-import 'login_screen.dart';
 
 class Reset_password extends StatefulWidget{
   @override
@@ -106,6 +105,7 @@ class _Reset_password extends State<Reset_password>{
                             TextFormField(
                               decoration: const InputDecoration(
                                 labelText: 'Email Address',
+                                contentPadding: EdgeInsets.all(12),
                                 labelStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,

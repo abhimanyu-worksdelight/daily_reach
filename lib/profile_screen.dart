@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'Feed.dart';
 import 'archive_list.dart';
-import 'feed_screen.dart';
 import 'profile_name.dart';
 
 class Profile_screen extends StatefulWidget {
@@ -18,12 +17,17 @@ class _Profile_screen extends State<Profile_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: tabClick == 0 ? Feed() : tabClick == 1 ?  Archive_list() : Home_screen(),
+      body: tabClick == 0
+          ? Feed()
+          : tabClick == 1
+              ? Archive_list()
+              : Home_screen(),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 40,
+        currentIndex: tabClick,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        selectedItemColor: Colors.grey,
+        selectedItemColor: Colors.red,
         unselectedItemColor: Colors.grey,
         selectedFontSize: 14,
         unselectedFontSize: 12,
@@ -39,20 +43,15 @@ class _Profile_screen extends State<Profile_screen> {
         },
         items: const [
           BottomNavigationBarItem(
-label: "Feed",
-          //  title: Text('Feed'),
+            label: "Feed",
             icon: Icon(Icons.now_widgets_outlined),
           ),
           BottomNavigationBarItem(
             label: "Archive",
-
-            //  title: Text('Archive'),
             icon: Icon(Icons.archive_outlined),
           ),
           BottomNavigationBarItem(
             label: "Profile",
-
-            //   title: Text('Profile'),
             icon: Icon(
               Icons.person_outlined,
             ),

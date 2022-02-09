@@ -1,7 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dailyreach/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'archive_list.dart';
 import 'login_screen.dart';
 
 class Become_member extends StatefulWidget {
@@ -105,6 +104,7 @@ class _Become_member extends State<Become_member> {
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Full Name',
+                        contentPadding: EdgeInsets.all(12),
                         labelStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -121,6 +121,7 @@ class _Become_member extends State<Become_member> {
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Email Address',
+                        contentPadding: EdgeInsets.all(12),
                         labelStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -149,21 +150,20 @@ class _Become_member extends State<Become_member> {
                                     onChanged: print,
                                     initialSelection: 'US',
                                     favorite: const ['+1', 'US'],
+                                    flagWidth: 25,
                                     textStyle: const TextStyle(
                                       fontSize: 13,
                                     ),
                                     showCountryOnly: false,
                                     showOnlyCountryWhenClosed: false,
                                     alignLeft: false,
-
-
                                   ),
                                 ],
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 0),
                                 height: 1.1,
-                                width: 65,
+                                width: 80,
                                 color: Color.fromARGB(174, 146, 142, 142),
                               ),
                             ],
@@ -173,6 +173,7 @@ class _Become_member extends State<Become_member> {
                           flex: 1,
                           child: TextFormField(
                             decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.all(12),
                               labelText: 'Phone Number',
                               labelStyle: TextStyle(
                                 fontSize: 13,
@@ -195,6 +196,7 @@ class _Become_member extends State<Become_member> {
                     TextFormField(
                       obscureText: _isObscure,
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(12),
                         labelText: 'Create Password',
                         labelStyle: const TextStyle(
                           fontSize: 13,
@@ -203,7 +205,7 @@ class _Become_member extends State<Become_member> {
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
-                              ?Icons.visibility_off_outlined
+                              ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined),
                           onPressed: () {
                             setState(
@@ -228,6 +230,7 @@ class _Become_member extends State<Become_member> {
                       obscureText: _isObscure,
                       controller: passwordcontroller,
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(12),
                         labelText: 'Confirm Password',
                         labelStyle: const TextStyle(
                           fontSize: 13,
@@ -236,7 +239,7 @@ class _Become_member extends State<Become_member> {
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
-                              ?Icons.visibility_off_outlined
+                              ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined),
                           onPressed: () {
                             setState(
@@ -258,6 +261,7 @@ class _Become_member extends State<Become_member> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Checkbox(
+                          checkColor: Color.fromARGB(100, 214, 212, 212),
                           value: _ischecked,
                           onChanged: (v) {
                             setState(() {
@@ -271,6 +275,7 @@ class _Become_member extends State<Become_member> {
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
+                                letterSpacing: -1,
                                 fontFamily: "segoe",
                                 color: Color.fromARGB(153, 57, 55, 55),
                               ),
@@ -280,22 +285,25 @@ class _Become_member extends State<Become_member> {
                                     style: TextStyle(
                                         decoration: TextDecoration.underline,
                                         fontFamily: "segoe",
+                                        letterSpacing: -1,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black)),
                                 TextSpan(
-                                  text: ' and',
+                                  text: ' and  ',
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
+                                    letterSpacing: -1,
                                     fontFamily: "segoe",
                                     color: Color.fromARGB(153, 57, 55, 55),
                                   ),
                                 ),
                                 TextSpan(
-                                  text: ' Privacy Policy',
+                                  text: 'Privacy Policy',
                                   style: TextStyle(
                                     decoration: TextDecoration.underline,
                                     fontFamily: "segoe",
+                                    letterSpacing: -1,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black,
@@ -342,16 +350,18 @@ class _Become_member extends State<Become_member> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                       Padding(
-                         padding: const EdgeInsets.only(top: 4),
-                         child: Text ('Already have an account ?  ',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: "segoe",
-                              color: Color.fromARGB(144, 140, 184, 201),
-                            ),),
-                       ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              'Already have an account ?  ',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: "segoe",
+                                color: Color.fromARGB(144, 140, 184, 201),
+                              ),
+                            ),
+                          ),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -362,7 +372,7 @@ class _Become_member extends State<Become_member> {
                             child: const Text(
                               'Login',
                               style: TextStyle(
-                                fontSize: 12,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: "segoe",
                                   color: Color.fromARGB(228, 189, 20, 20),

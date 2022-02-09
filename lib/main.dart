@@ -135,8 +135,8 @@ class _HomePage extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                _videoPlayerController1 = null;
-                _videoPlayerController2 = null;
+                _videoPlayerController1!.dispose();
+                _videoPlayerController2!.dispose();
                 _chewieController?.dispose();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Become_member()));
@@ -194,6 +194,7 @@ class _HomePage extends State<HomePage> {
                       ' Login',
                       style: TextStyle(
                         fontSize: 13,
+                          fontFamily: "segoe",
                           fontWeight: FontWeight.w600,
                           color: Color.fromARGB(198, 219, 11, 11),
                           decoration: TextDecoration.underline),
@@ -202,6 +203,7 @@ class _HomePage extends State<HomePage> {
                 ],
               ),
             ),
+            Container(height: 30,)
           ]),
         ));
   }
