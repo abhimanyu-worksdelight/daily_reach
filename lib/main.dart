@@ -1,10 +1,6 @@
 import 'package:dailyreach/Feed.dart';
-import 'package:dailyreach/LoginScreen.dart';
-import 'package:dailyreach/Notification.dart';
 import 'package:dailyreach/PostDetail.dart';
-import 'package:dailyreach/SplashScreen.dart';
-import 'package:dailyreach/Notification.dart';
-import 'package:dailyreach/PostDetail.dart';
+import 'package:dailyreach/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
@@ -20,8 +16,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -31,10 +25,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/*class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -96,11 +88,11 @@ class _HomePage extends State<HomePage> {
                     ),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 276),
                   child: Image(
                     height: 142.0,
-                    width: 375,
+                    width:MediaQuery.of(context).size.width,
                     image: AssetImage(
                       'assets/images/blur.png',
                     ),
@@ -145,6 +137,9 @@ class _HomePage extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
+                _videoPlayerController1 = null;
+                _videoPlayerController2 = null;
+                _chewieController?.dispose();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Become_member()));
               },
@@ -189,6 +184,9 @@ class _HomePage extends State<HomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      _videoPlayerController1?.dispose();
+                      _videoPlayerController2?.dispose();
+                      _chewieController?.dispose();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -197,8 +195,9 @@ class _HomePage extends State<HomePage> {
                     child: const Text(
                       ' Login',
                       style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(228, 130, 7, 7),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(198, 219, 11, 11),
                           decoration: TextDecoration.underline),
                     ),
                   ),
@@ -208,4 +207,4 @@ class _HomePage extends State<HomePage> {
           ]),
         ));
   }
-}*/
+}

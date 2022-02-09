@@ -17,6 +17,7 @@ class _Feed extends State<Feed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Colors.white ,
         body: Column(
       children: [
         Padding(
@@ -47,7 +48,7 @@ class _Feed extends State<Feed> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>NotificationScreen ()));
+                              builder: (context) =>Notefication ()));
                     },
                   child:Image.asset(
                     "assets/images/bell.png",
@@ -139,13 +140,13 @@ class _Feed extends State<Feed> {
                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [Row(
                             children: [
-                            Container(
+                            Container(width:44,height: 17,
                               padding: const EdgeInsets.all(4),
                               child: Text(
                                 "Music",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 10,
                                     fontFamily: "assets/fonts/segui.TTf",
                                     color: Colors.black),
@@ -169,13 +170,13 @@ class _Feed extends State<Feed> {
                             SizedBox(
                               width: 10,
                             ),
-                            Container(
+                              Container(width:44,height: 17,
                               padding: const EdgeInsets.all(4),
                               child: Text(
                                 "Movie",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 10,
                                     fontFamily: "assets/fonts/segui.TTf",
                                     color: Colors.black),

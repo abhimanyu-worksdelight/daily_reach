@@ -1,3 +1,4 @@
+import 'package:dailyreach/SplashScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'FirstPage.dart';
@@ -13,13 +14,12 @@ class _Notefication extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(100, 229, 229, 229),
 
         body: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(31, 67, 7, 23),
+          padding: EdgeInsets.fromLTRB(31,30, 7, 23),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -31,16 +31,16 @@ class _Notefication extends State<StatefulWidget> {
                         MaterialPageRoute(
                             builder: (context) => SplashScreen()));
                   },
-                  child:  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+                  // child:  GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.pop(context);
+                  //   },
                     child:Image.asset(
                     "assets/images/arrowvector.png",
                     width: 24,
                     height: 24,
                   ),
-                ),
+               // ),
                 ),
                 SizedBox(
                   width: 21,
@@ -106,9 +106,9 @@ class _Notefication extends State<StatefulWidget> {
                                   ),
                               ),
                                 Container(
-                                  padding: EdgeInsets.fromLTRB(0,9,16,9),
+                                  padding: EdgeInsets.fromLTRB(0,9,12,9),
                                   width: MediaQuery.of(context).size.width,
-                                  child: Text("4 new posts are available for you, click here to read out"
+                                  child: Text("4 new posts are available for you, click here to\n read out"
                                       , overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,

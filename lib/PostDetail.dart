@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'Feed.dart';
 import 'FirstPage.dart';
+import 'SplashScreen.dart';
 class PostDetail extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -12,20 +14,43 @@ class _PostDetail extends   State<StatefulWidget>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
+      body: Column(
+        children: [
+      Stack(
           children: [ Container(
           child:(Image.asset("assets/images/daily2.png" )
 
-          )
-        ),
+          ),
+
+    ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(21,40, 7, 23),
+                child:
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  GestureDetector(
+                    onTap: () {
+                     Navigator.pop(context);
+                    },
+
+                      child:Image.asset(
+                        "assets/images/arrowvector.png",color: Colors.white,
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                  // ),
+                ]
+                )
+            ),
+
+          ]),
+
 Expanded(child:
             ListView.builder(
               itemCount: 1,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) { return GestureDetector(onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>  FirstPage()));
+
               },
                 child:
 
@@ -100,7 +125,7 @@ Expanded(child:
               Flexible(child:
               Column(mainAxisSize: MainAxisSize.min,
               children: [  Container(
-              padding: EdgeInsets.fromLTRB(16,40,0,0),
+              padding: EdgeInsets.fromLTRB(16,35,0,0),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children:const [ Text("Song Release Coming \nSoon!"
               , style: TextStyle(
@@ -118,7 +143,7 @@ Expanded(child:
                 ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(16,8,0,43),
+                  padding: EdgeInsets.fromLTRB(16,8,0,20),
                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:const [ Text("Jordan’s First Single – Release"
                           , style: TextStyle( overflow: TextOverflow.ellipsis,
@@ -172,12 +197,17 @@ Expanded(child:
 
               },
             ),
+),
+Container(height: 20,
+
 )
               ],
             ),
-      )
+
 
     );
+
+
   }
 
 }
