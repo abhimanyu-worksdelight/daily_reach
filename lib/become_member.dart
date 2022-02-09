@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dailyreach/profile_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
@@ -15,6 +16,7 @@ class _Become_member extends State<Become_member> {
   bool _isObscure = true;
   var passwordcontroller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool isClick = false;
 
   @override
   Widget build(BuildContext context) {
@@ -257,39 +259,45 @@ class _Become_member extends State<Become_member> {
                         return null;
                       },
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Checkbox(
-                          checkColor: Color.fromARGB(100, 214, 212, 212),
-                          value: _ischecked,
-                          onChanged: (v) {
-                            setState(() {
-                              _ischecked = v!;
-                            });
-                          },
-                        ),
-                        RichText(
-                          text: const TextSpan(
-                              text: 'I agree with',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -1,
-                                fontFamily: "segoe",
-                                color: Color.fromARGB(153, 57, 55, 55),
+                    Padding(
+                      padding: EdgeInsets.only(top: 29),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              isClick = !isClick;
+                              setState(() {});
+                            },
+                            child: Container(
+                              height: 19,
+                              width: 19,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: isClick == false
+                                        ? Color.fromARGB(153, 179, 195, 210)
+                                        : Color.fromARGB(228, 40, 40, 234),
+                                    width: 1.5),
+                                borderRadius: BorderRadius.circular(2),
                               ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: ' Terms of use ',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        fontFamily: "segoe",
-                                        letterSpacing: -1,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black)),
-                                TextSpan(
-                                  text: ' and  ',
+                              child: isClick == false?Image.asset('assets/images/white.jpg',height: 19,width: 19,)
+                                  :Image.asset('assets/images/group.png')
+                            ),
+                          ),
+                          // Checkbox(
+                          //   checkColor: Color.fromARGB(100, 214, 212, 212),
+                          //   value: _ischecked,
+                          //   onChanged: (v) {
+                          //     setState(() {
+                          //       _ischecked = v!;
+                          //     });
+                          //   },
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: RichText(
+                              text: const TextSpan(
+                                  text: 'I agree with',
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -297,28 +305,49 @@ class _Become_member extends State<Become_member> {
                                     fontFamily: "segoe",
                                     color: Color.fromARGB(153, 57, 55, 55),
                                   ),
-                                ),
-                                TextSpan(
-                                  text: 'Privacy Policy',
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    fontFamily: "segoe",
-                                    letterSpacing: -1,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                  ),
-                                )
-                              ]),
-                        ),
-                      ],
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: ' Terms of use ',
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontFamily: "segoe",
+                                            letterSpacing: -1,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black)),
+                                    TextSpan(
+                                      text: ' and  ',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: -1,
+                                        fontFamily: "segoe",
+                                        color: Color.fromARGB(153, 57, 55, 55),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Privacy Policy',
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        fontFamily: "segoe",
+                                        letterSpacing: -1,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {
                         _submit();
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(top: 46),
                         child: Container(
                             width: 325,
                             height: 50,
