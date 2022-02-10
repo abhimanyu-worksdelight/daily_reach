@@ -185,10 +185,7 @@ class _HomePage extends State<HomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      _videoPlayerController1?.dispose();
-                      _videoPlayerController2?.dispose();
-                      _chewieController?.dispose();
-                      Navigator.push(
+                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Login_screen()));
@@ -196,7 +193,8 @@ class _HomePage extends State<HomePage> {
                     child: const Text(
                       ' Login',
                       style: TextStyle(
-                          fontSize: 13,
+                        fontSize: 13,
+                          fontFamily: "segoe",
                           fontWeight: FontWeight.w600,
                           color: Color.fromARGB(198, 219, 11, 11),
                           decoration: TextDecoration.underline),
@@ -205,6 +203,7 @@ class _HomePage extends State<HomePage> {
                 ],
               ),
             ),
+            Container(height: 30,)
           ]),
         ));
   }

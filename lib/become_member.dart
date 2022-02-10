@@ -1,7 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dailyreach/profile_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'archive_list.dart';
 import 'login_screen.dart';
 
 class Become_member extends StatefulWidget {
@@ -16,6 +16,7 @@ class _Become_member extends State<Become_member> {
   bool _isObscure = true;
   var passwordcontroller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool isClick = false;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +106,7 @@ class _Become_member extends State<Become_member> {
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Full Name',
+                        contentPadding: EdgeInsets.all(12),
                         labelStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -121,6 +123,7 @@ class _Become_member extends State<Become_member> {
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Email Address',
+                        contentPadding: EdgeInsets.all(12),
                         labelStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -143,23 +146,27 @@ class _Become_member extends State<Become_member> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              CountryCodePicker(
-                                onChanged: print,
-                                initialSelection: 'IN',
-                                favorite: const ['+1', 'Can'],
-                                textStyle: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                                showCountryOnly: false,
-                                showOnlyCountryWhenClosed: false,
-                                alignLeft: false,
-                                flagWidth: 15,
+                              Row(
+                                children: [
+                                  CountryCodePicker(
+                                    onChanged: print,
+                                    initialSelection: 'US',
+                                    favorite: const ['+1', 'US'],
+                                    flagWidth: 25,
+                                    textStyle: const TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                    showCountryOnly: false,
+                                    showOnlyCountryWhenClosed: false,
+                                    alignLeft: false,
+                                  ),
+                                ],
                               ),
                               Container(
-                                margin: const EdgeInsets.only(top: 4),
-                                height: 1.5,
+                                margin: const EdgeInsets.only(top: 0),
+                                height: 1.1,
                                 width: 80,
-                                color: Colors.grey,
+                                color: Color.fromARGB(174, 146, 142, 142),
                               ),
                             ],
                           ),
@@ -168,6 +175,7 @@ class _Become_member extends State<Become_member> {
                           flex: 1,
                           child: TextFormField(
                             decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.all(12),
                               labelText: 'Phone Number',
                               labelStyle: TextStyle(
                                 fontSize: 13,
@@ -190,6 +198,7 @@ class _Become_member extends State<Become_member> {
                     TextFormField(
                       obscureText: _isObscure,
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(12),
                         labelText: 'Create Password',
                         labelStyle: const TextStyle(
                           fontSize: 13,
@@ -198,8 +207,8 @@ class _Become_member extends State<Become_member> {
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined),
                           onPressed: () {
                             setState(
                               () {
@@ -223,6 +232,7 @@ class _Become_member extends State<Become_member> {
                       obscureText: _isObscure,
                       controller: passwordcontroller,
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(12),
                         labelText: 'Confirm Password',
                         labelStyle: const TextStyle(
                           fontSize: 13,
@@ -231,8 +241,8 @@ class _Become_member extends State<Become_member> {
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined),
                           onPressed: () {
                             setState(
                               () {
@@ -249,63 +259,95 @@ class _Become_member extends State<Become_member> {
                         return null;
                       },
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Checkbox(
-                          value: _ischecked,
-                          onChanged: (v) {
-                            setState(() {
-                              _ischecked = v!;
-                            });
-                          },
-                        ),
-                        RichText(
-                          text: const TextSpan(
-                              text: 'I agree with',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                                fontFamily: "segoe",
-                                color: Color.fromARGB(153, 57, 55, 55),
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: ' Terms of use ',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        fontFamily: "segoe",
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black)),
-                                TextSpan(
-                                  text: ' and',
+                    Padding(
+                      padding: EdgeInsets.only(top: 29),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                isClick = !isClick;
+                              });
+                            },
+                            child: Container(
+                              height: 19,
+                                width:19,
+
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Color.fromARGB(100, 214, 212, 212),
+                                      width: 1.5),
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                                child:isClick? Icon(
+                                  Icons.check,size:18,color:Color.fromARGB(228, 189, 20, 20)
+                                ):Container()),
+                          ),
+                          // Checkbox(
+                          //   checkColor: Color.fromARGB(100, 214, 212, 212),
+                          //   value: _ischecked,
+                          //   onChanged: (v) {
+                          //     setState(() {
+                          //       _ischecked = v!;
+                          //     });
+                          //   },
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: RichText(
+                              text: const TextSpan(
+                                  text: 'I agree with',
                                   style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -1,
                                     fontFamily: "segoe",
                                     color: Color.fromARGB(153, 57, 55, 55),
                                   ),
-                                ),
-                                TextSpan(
-                                  text: ' Privacy Policy',
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    fontFamily: "segoe",
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                  ),
-                                )
-                              ]),
-                        ),
-                      ],
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: ' Terms of use ',
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontFamily: "segoe",
+                                            letterSpacing: -1,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black)),
+                                    TextSpan(
+                                      text: ' and  ',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        letterSpacing: -1,
+                                        fontFamily: "segoe",
+                                        color: Color.fromARGB(153, 57, 55, 55),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Privacy Policy',
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        fontFamily: "segoe",
+                                        letterSpacing: -1,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {
                         _submit();
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(top: 46),
                         child: Container(
                             width: 325,
                             height: 50,
@@ -322,7 +364,7 @@ class _Become_member extends State<Become_member> {
                               ),
                             ),
                             decoration: BoxDecoration(
-                                color: const Color.fromARGB(228, 130, 7, 7),
+                                color: const Color.fromARGB(228, 189, 20, 20),
                                 borderRadius: BorderRadius.circular(50),
                                 boxShadow: const [
                                   BoxShadow(
@@ -337,10 +379,12 @@ class _Become_member extends State<Become_member> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Already have an account ?  ',
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              'Already have an account ?  ',
                               style: TextStyle(
+                                fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: "segoe",
                                 color: Color.fromARGB(144, 140, 184, 201),
@@ -357,9 +401,10 @@ class _Become_member extends State<Become_member> {
                             child: const Text(
                               'Login',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
                                   fontFamily: "segoe",
-                                  color: Color.fromARGB(228, 130, 7, 7),
+                                  color: Color.fromARGB(228, 189, 20, 20),
                                   decoration: TextDecoration.underline),
                             ),
                           ),
@@ -369,9 +414,6 @@ class _Become_member extends State<Become_member> {
                   ]))
             ]),
           ),
-          Container(
-            height: 30,
-          )
         ])));
   }
 
@@ -381,7 +423,7 @@ class _Become_member extends State<Become_member> {
       return;
     } else {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Archive_list()));
+          context, MaterialPageRoute(builder: (context) => Profile_screen()));
     }
     _formKey.currentState?.save();
   }

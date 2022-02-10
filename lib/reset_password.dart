@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'profile_name.dart';
-import 'login_screen.dart';
 
 class Reset_password extends StatefulWidget{
   @override
@@ -106,6 +105,7 @@ class _Reset_password extends State<Reset_password>{
                             TextFormField(
                               decoration: const InputDecoration(
                                 labelText: 'Email Address',
+                                contentPadding: EdgeInsets.all(12),
                                 labelStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,
@@ -144,8 +144,7 @@ class _Reset_password extends State<Reset_password>{
                                       ),
                                     ),
                                     decoration: BoxDecoration(
-                                        color: Color.fromARGB(228, 130, 7, 7),
-                                        borderRadius: BorderRadius.circular(50),
+                                        color: const Color.fromARGB(228, 189, 20, 20),                                        borderRadius: BorderRadius.circular(50),
                                         boxShadow: const [
                                           BoxShadow(
                                               color: Colors.white,
