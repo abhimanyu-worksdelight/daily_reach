@@ -266,23 +266,23 @@ class _Become_member extends State<Become_member> {
                         children: [
                           InkWell(
                             onTap: () {
-                              isClick = !isClick;
-                              setState(() {});
+                              setState(() {
+                                isClick = !isClick;
+                              });
                             },
                             child: Container(
                               height: 19,
-                              width: 19,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: isClick == false
-                                        ? Color.fromARGB(153, 179, 195, 210)
-                                        : Color.fromARGB(228, 40, 40, 234),
-                                    width: 1.5),
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                              child: isClick == false?Image.asset('assets/images/white.jpg',height: 19,width: 19,)
-                                  :Image.asset('assets/images/group.png')
-                            ),
+                                width:19,
+
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Color.fromARGB(100, 214, 212, 212),
+                                      width: 1.5),
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                                child:isClick? Icon(
+                                  Icons.check,size:18,color:Color.fromARGB(228, 189, 20, 20)
+                                ):Container()),
                           ),
                           // Checkbox(
                           //   checkColor: Color.fromARGB(100, 214, 212, 212),

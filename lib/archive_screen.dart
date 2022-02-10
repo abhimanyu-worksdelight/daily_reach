@@ -102,7 +102,7 @@ class _Archive_screen extends State<Archive_screen> {
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             fontFamily: "segoe",
-                            color: Color.fromARGB(232, 34, 65, 170),
+                            color: Color.fromRGBO(66, 103, 176, 1.0)
                           ),
                         ),
                       ),
