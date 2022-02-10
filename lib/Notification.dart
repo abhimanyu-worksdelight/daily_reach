@@ -19,7 +19,7 @@ class _Notefication extends State<StatefulWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(31,30, 7, 23),
+          padding: EdgeInsets.fromLTRB(25,50, 7, 23),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -43,7 +43,7 @@ class _Notefication extends State<StatefulWidget> {
                // ),
                 ),
                 SizedBox(
-                  width: 21,
+                  width: 18,
                 )
               ]),
               // Padding(
@@ -77,18 +77,24 @@ class _Notefication extends State<StatefulWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(padding:EdgeInsets.fromLTRB(25,15,14,18),
-                           child: Image.asset(
+                           child:Container(
+                             decoration:  BoxDecoration(
+                                 border:Border.all(color: Color.fromARGB(100, 214, 212, 212,),),
+                                   borderRadius: BorderRadius.all(Radius.circular(10)),),
+                             child:
+                           Image.asset(
                               "assets/images/Handprint.png",
                               height: 42.79,
                               width: 42.79,
                             ),
+                           ),
                           ),
                           Flexible(
                             child: Column(mainAxisSize: MainAxisSize.min,
                               children: [  Container(
-                                  padding: EdgeInsets.fromLTRB(0,15,16,0),
+                                  padding: EdgeInsets.fromLTRB(0,23,16,0),
                                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children:const [ Text("Some New Post Added "
+                                    children:[ Text("Some New Post Added "
                                      , style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14,
