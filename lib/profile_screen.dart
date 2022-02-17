@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Feed.dart';
+import 'main_Feed.dart';
 import 'archive_list.dart';
 import 'profile_name.dart';
 

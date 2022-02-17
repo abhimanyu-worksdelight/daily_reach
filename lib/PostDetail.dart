@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Feed.dart';
+import 'main_Feed.dart';
 import 'FirstPage.dart';
 import 'SplashScreen.dart';
 class PostDetail extends StatefulWidget{

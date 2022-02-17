@@ -1,4 +1,4 @@
-import 'package:dailyreach/Feed.dart';
+import 'package:dailyreach/main_Feed.dart';
 import 'package:dailyreach/Notification.dart';
 import 'package:dailyreach/PostDetail.dart';
 import 'package:dailyreach/splash_screen.dart';

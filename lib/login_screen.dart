@@ -1,5 +1,12 @@
+import 'dart:io';
+
+import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
+import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/profile_screen.dart';
 import 'package:dailyreach/reset_password.dart';
+import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
 
 class Login_screen extends StatefulWidget {
@@ -9,10 +16,13 @@ class Login_screen extends StatefulWidget {
   }
 }
 
-class _Login_screen extends State<Login_screen> {
+class _Login_screen extends State<Login_screen>implements ApiInterface {
   final _formKey = GlobalKey<FormState>();
   bool _ischecked = false;
   bool _isObscure = true;
+  NetworkUtil _networkUtil = new NetworkUtil();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +113,7 @@ class _Login_screen extends State<Login_screen> {
                   child: Column(
                     children: [
                   TextFormField(
+                  controller: emailController,
                   decoration: const InputDecoration(
                   labelText: 'Email Address',
                     contentPadding: EdgeInsets.all(12),
@@ -124,6 +135,7 @@ class _Login_screen extends State<Login_screen> {
                   },
                 ),
                 TextFormField(
+                  controller: passwordController,
                   obscureText: _isObscure,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -234,6 +246,37 @@ class _Login_screen extends State<Login_screen> {
           builder: (context) => Profile_screen()));
     }
     _formKey.currentState?.save();
+  }
+
+  void LoginApi() async {
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      FlashHelper.singleFlash(context, 'Check your internet');
+    } else {
+      setState(() {});
+      _networkUtil.post(Constants.loginUrl, this, body: {
+        'email': emailController.text,
+        'password': passwordController.text,
+        'app_version': Platform.version,
+        'device_info': '',
+        'one_signal_id': 'lkjlknjljn'
+      });
+    }
+  }
+
+  @override
+  void onFailure(message, code) {
+    // TODO: implement onFailure
+  }
+
+  @override
+  void onSuccess(data, code) {
+    // TODO: implement onSuccess
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    // TODO: implement onTokenExpire
   }
 }
 

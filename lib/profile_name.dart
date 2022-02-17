@@ -186,8 +186,8 @@ class _Home_screen extends State<Home_screen> {
           onTap: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
           },
-          child: const Padding(
-            padding: EdgeInsets.only(left: 10, top: 200, bottom: 10),
+          child: Padding(
+            padding: EdgeInsets.only(top: 200,bottom: 20),
             child: Text(
               'Logout',
               style: TextStyle(

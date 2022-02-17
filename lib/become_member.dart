@@ -14,6 +14,7 @@ class Become_member extends StatefulWidget {
 class _Become_member extends State<Become_member> {
   bool _ischecked = false;
   bool _isObscure = true;
+  bool _isObscureConfirm = true;
   var passwordcontroller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isClick = false;
@@ -229,7 +230,7 @@ class _Become_member extends State<Become_member> {
                       },
                     ),
                     TextFormField(
-                      obscureText: _isObscure,
+                      obscureText: _isObscureConfirm,
                       controller: passwordcontroller,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(12),
@@ -240,13 +241,13 @@ class _Become_member extends State<Become_member> {
                           fontFamily: "segoe",
                         ),
                         suffixIcon: IconButton(
-                          icon: Icon(_isObscure
+                          icon: Icon(_isObscureConfirm
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined),
                           onPressed: () {
                             setState(
                               () {
-                                _isObscure = !_isObscure;
+                                _isObscureConfirm = !_isObscureConfirm;
                               },
                             );
                           },
