@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/profile_screen.dart';
 import 'package:dailyreach/reset_password.dart';
@@ -242,8 +243,8 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
     if (isValid == false) {
       return;
     } else {
-      Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Profile_screen()));
+      LoginApi();
+      
     }
     _formKey.currentState?.save();
   }
@@ -253,12 +254,12 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
     if (result == ConnectivityResult.none) {
       FlashHelper.singleFlash(context, 'Check your internet');
     } else {
-      setState(() {});
+      
       _networkUtil.post(Constants.loginUrl, this, body: {
         'email': emailController.text,
         'password': passwordController.text,
-        'app_version': Platform.version,
-        'device_info': '',
+        'app_version': '1.2',
+        'device_info': 'jknbkjn',
         'one_signal_id': 'lkjlknjljn'
       });
     }
@@ -266,16 +267,28 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
 
   @override
   void onFailure(message, code) {
+    EasyLoader.hideLoader();
     // TODO: implement onFailure
   }
 
   @override
   void onSuccess(data, code) {
+    EasyLoader.hideLoader();
     // TODO: implement onSuccess
+    
+
+          if (data['status'] == 1) {
+      print('successfully login');
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => Profile_screen()));
+    } else {
+      print('error while login');
+    }
   }
 
   @override
   void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
     // TODO: implement onTokenExpire
   }
 }

@@ -2,6 +2,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/SplashScreen.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/utils/commonmethod.dart';
 import 'package:dailyreach/utils/flash_Helper.dart';
@@ -188,10 +189,12 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                       //           SharedPref.setPassword("");
                       //           SharedPref.setBoxValue(_isChecked);
                       //         }
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => FirstPage()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => FirstPage()),
+                      // );
+
+                      LoginApi();
                     }
                   },
                   child: Container(
@@ -262,29 +265,31 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
     } else {
       setState(() {});
       _networkUtil.post(Constants.loginUrl, this, body: {
-        'email': '',
-        'password': '',
-        'app_version': '',
-        'device_info': '',
+        'email': emailController.text,
+        'password': passwordController.text,
+        'app_version': '1.2',
+        'device_info': 'jknbkjn',
         'one_signal_id': 'lkjlknjljn'
       });
     }
   }
 
+
   @override
   void onFailure(message, code) {
     // TODO: implement onFailure
     print('error');
-    setState(() {});
+    EasyLoader.hideLoader();
   }
 
   @override
   void onSuccess(data, code) {
     // TODO: implement onSuccess
-    setState(() {
-      // showLoader = false;
-    });
+
+    EasyLoader.hideLoader();
     if (data['status'] == 1) {
+      var dataVal = data['data'];
+      Constants.token = data['token'];
       print('successfully login');
       Navigator.push(
         context,
@@ -297,9 +302,8 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
 
   @override
   void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
     // TODO: implement onTokenExpire
-    setState(() {
-      // showLoader = false;
-    });
+    
   }
 }

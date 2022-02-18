@@ -1,14 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/FirstPage.dart';
 import 'package:dailyreach/Models/FeedModel.dart';
 import 'package:dailyreach/login_screen.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:dailyreach/utils/session_expired.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'Notification.dart';
@@ -24,9 +27,11 @@ class Feed extends StatefulWidget {
 
 class _Feed extends State<Feed> implements ApiInterface {
   // FeedData? feedData;
-  List<FeedData> feedData = [];
+  List<FeedData> feedList = [];
+  List<Banners> bannerList = [];
   NetworkUtil networkUtil = new NetworkUtil();
   int _index = 0;
+  var htmlStr = "";
 
   @override
   void initState() {
@@ -92,7 +97,7 @@ class _Feed extends State<Feed> implements ApiInterface {
             Expanded(
               flex: 1,
               child: ListView.separated(
-                itemCount: feedData.length,
+                itemCount: feedList.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
@@ -119,7 +124,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                             padding: EdgeInsets.fromLTRB(18, 7, 24, 7),
                             width: MediaQuery.of(context).size.width,
                             child: Text(
-                              "Custom excerpt",
+                              feedList[index].title!,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 19,
@@ -150,17 +155,18 @@ class _Feed extends State<Feed> implements ApiInterface {
                         //           : Container()
                         //     ],
                         //   ),
-                        // ),
+                        // ), #old code
 
+                        //New code
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 7, 0, 6),
                           width: MediaQuery.of(context).size.width,
                           child: SizedBox(
                               height: 200, // card height
                               child: PageView.builder(
-                                  itemCount: 10,
+                                  itemCount: feedList[index].banners!.length,
                                   controller:
-                                      PageController(viewportFraction: 0.7),
+                                      PageController(viewportFraction: 1),
                                   onPageChanged: (int index) =>
                                       setState(() => _index = index),
                                   itemBuilder: (_, i) {
@@ -168,21 +174,37 @@ class _Feed extends State<Feed> implements ApiInterface {
                                       scale: i == _index ? 1 : 1,
                                       child: Card(
                                         child: Center(
-                                            child: Image.asset(
-                                          "assets/images/feed.png",
-                                          height: 200,
-                                          fit: BoxFit.fill,
-                                        )),
+                                            child:(feedList[index].banners!.length > 0)
+                            ? CachedNetworkImage(
+                                imageUrl: feedList[index].banners![index].banner!,
+                                placeholder: (context, url) => Container(
+                                    height: 2.0,
+                                    width: 2.0,
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                    fit: BoxFit.fitWidth,
+                        
+                            
+                              ) :Image.asset(
+                                "assets/images/feed.png",
+                                height: 169,
+                                fit: BoxFit.fill,
+                              ), 
+
+                                        )
                                       ),
                                     );
                                   })),
                         ),
 
                         Container(
+                          
                             padding: EdgeInsets.fromLTRB(20, 7, 24, 0),
                             width: MediaQuery.of(context).size.width,
+                            
                             child: Text(
-                              feedData[index].title!,
+                              Constants.parseHtmlString(feedList[index].body!),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
@@ -215,16 +237,6 @@ class _Feed extends State<Feed> implements ApiInterface {
                                     shape: BoxShape.rectangle,
                                     color: Color.fromARGB(100, 214, 212, 212),
                                     borderRadius: BorderRadius.circular(34.62),
-                                    // boxShadow: [
-                                    // BoxShadow(
-                                    //   color: Colors.black12,
-                                    //   spreadRadius: 2.0,
-                                    //   blurRadius: 2.0,
-                                    //   offset: Offset.fromDirection(
-                                    //     1.0,
-                                    //   ),
-                                    // ),
-                                    //  ],
                                   ),
                                 ),
                                 SizedBox(
@@ -247,16 +259,6 @@ class _Feed extends State<Feed> implements ApiInterface {
                                     shape: BoxShape.rectangle,
                                     color: Color.fromARGB(100, 214, 212, 212),
                                     borderRadius: BorderRadius.circular(34.62),
-                                    // boxShadow: [
-                                    // BoxShadow(
-                                    //   color: Colors.black12,
-                                    //   spreadRadius: 2.0,
-                                    //   blurRadius: 2.0,
-                                    //   offset: Offset.fromDirection(
-                                    //     1.0,
-                                    //   ),
-                                    // ),
-                                    //  ],
                                   ),
                                 ),
                               ]),
@@ -290,8 +292,12 @@ class _Feed extends State<Feed> implements ApiInterface {
               ),
             )
           ],
-        ));
+        )
+      );
   }
+
+
+
 
   Future<void> getFeeds() async {
     var token = "";
@@ -300,7 +306,7 @@ class _Feed extends State<Feed> implements ApiInterface {
     if (result == ConnectivityResult.none) {
       FlashHelper.singleFlash(context, 'Check internet connection');
     } else {
-      // showLoader = true;
+      EasyLoader.showLoader();
       await networkUtil.getAuth(Constants.feedUrl, token, this);
     }
   }
@@ -308,7 +314,7 @@ class _Feed extends State<Feed> implements ApiInterface {
   @override
   void onFailure(message, code) {
     // TODO: implement onFailure
-
+    EasyLoader.hideLoader();
     print('onFailure $message');
     if (this.mounted) {
       setState(() {});
@@ -318,11 +324,13 @@ class _Feed extends State<Feed> implements ApiInterface {
   @override
   void onSuccess(data, code) {
     // TODO: implement onSuccess
-
+    EasyLoader.hideLoader();
     FeedModel feedModel = new FeedModel.fromJson(data);
     if (feedModel.status == 1) {
-      feedData.addAll(feedModel.data!.data!);
+      feedList.addAll(feedModel.data!.data!);
       print(feedModel.data!.data!);
+      
+
     }
     setState(() {});
   }
@@ -330,8 +338,7 @@ class _Feed extends State<Feed> implements ApiInterface {
   @override
   void onTokenExpire(message, code) {
     // TODO: implement onTokenExpire
-
-    //  showLoader = false;
+    EasyLoader.hideLoader();
     if (this.mounted) {
       setState(() {});
     }
