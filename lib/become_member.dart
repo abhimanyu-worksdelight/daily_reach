@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:dailyreach/apiservice/api_class.dart';
+import 'package:dailyreach/apiservice/api_interface.dart';
 import 'package:dailyreach/profile_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
@@ -11,10 +12,16 @@ class Become_member extends StatefulWidget {
   }
 }
 
-class _Become_member extends State<Become_member> {
-  bool _ischecked = false;
+class _Become_member extends State<Become_member> implements ApiInterface {
   bool _isObscure = true;
+  bool isLoader=false;
+  var emailcontroller = TextEditingController();
+  var namecontroller = TextEditingController();
+  var phonecontroller = TextEditingController();
+
   var passwordcontroller = TextEditingController();
+  var confirmpasswordcontroller = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   bool isClick = false;
 
@@ -37,7 +44,7 @@ class _Become_member extends State<Become_member> {
                   Padding(
                     padding: const EdgeInsets.only(top: 30, left: 182),
                     child: Image.asset(
-                      'assets/images/vector.png',
+                      'assets/images/Vector.png',
                       height: 54,
                       width: 90,
                     ),
@@ -104,6 +111,8 @@ class _Become_member extends State<Become_member> {
                   key: _formKey,
                   child: Column(children: [
                     TextFormField(
+                    controller: namecontroller
+                      ,
                       decoration: const InputDecoration(
                         labelText: 'Full Name',
                         contentPadding: EdgeInsets.all(12),
@@ -121,6 +130,7 @@ class _Become_member extends State<Become_member> {
                       },
                     ),
                     TextFormField(
+                      controller: emailcontroller,
                       decoration: const InputDecoration(
                         labelText: 'Email Address',
                         contentPadding: EdgeInsets.all(12),
@@ -174,7 +184,9 @@ class _Become_member extends State<Become_member> {
                         Expanded(
                           flex: 1,
                           child: TextFormField(
+                            controller: phonecontroller,
                             decoration: const InputDecoration(
+
                               contentPadding: EdgeInsets.all(12),
                               labelText: 'Phone Number',
                               labelStyle: TextStyle(
@@ -196,6 +208,7 @@ class _Become_member extends State<Become_member> {
                       ],
                     ),
                     TextFormField(
+                      controller: passwordcontroller,
                       obscureText: _isObscure,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(12),
@@ -230,9 +243,9 @@ class _Become_member extends State<Become_member> {
                     ),
                     TextFormField(
                       obscureText: _isObscure,
-                      controller: passwordcontroller,
+                      controller: confirmpasswordcontroller,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(12),
+                        contentPadding: const EdgeInsets.all(12),
                         labelText: 'Confirm Password',
                         labelStyle: const TextStyle(
                           fontSize: 13,
@@ -276,12 +289,12 @@ class _Become_member extends State<Become_member> {
 
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Color.fromARGB(100, 214, 212, 212),
+                                      color: const Color.fromARGB(100, 214, 212, 212),
                                       width: 1.5),
                                   borderRadius: BorderRadius.circular(2),
                                 ),
-                                child:isClick? Icon(
-                                  Icons.check,size:18,color:Color.fromARGB(228, 189, 20, 20)
+                                child:isClick?
+                                   Icon(Icons.check,size:18,color:Color.fromARGB(228, 189, 20, 20)
                                 ):Container()),
                           ),
                           // Checkbox(
@@ -342,6 +355,7 @@ class _Become_member extends State<Become_member> {
                         ],
                       ),
                     ),
+                    isLoader==false?
                     GestureDetector(
                       onTap: () {
                         _submit();
@@ -373,14 +387,14 @@ class _Become_member extends State<Become_member> {
                                       spreadRadius: 1.0)
                                 ])),
                       ),
-                    ),
+                    ):Container(),
                     Padding(
                       padding: const EdgeInsets.only(top: 23),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 4),
                             child: Text(
                               'Already have an account ?  ',
                               style: TextStyle(
@@ -422,9 +436,29 @@ class _Become_member extends State<Become_member> {
     if (isValid == false) {
       return;
     } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Profile_screen()));
+      setState(() {
+        isLoader=true;
+      });
+     ApiClass.registerApi(emailcontroller.text, phonecontroller.text, namecontroller.text, passwordcontroller.text, this, context);
     }
     _formKey.currentState?.save();
+  }
+
+  @override
+  onFailure(String message) {
+    setState(() {
+      isLoader=false;
+    });
+    print(message);
+
+  }
+
+  @override
+  onSuccess(data) {
+    setState(() {
+      isLoader=false;
+    });
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Profile_screen()));
   }
 }

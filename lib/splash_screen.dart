@@ -1,3 +1,6 @@
+import 'package:dailyreach/profile_screen.dart';
+import 'package:dailyreach/utils/UrlConstants.dart';
+import 'package:dailyreach/utils/commonmethod.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
@@ -13,8 +16,16 @@ class _Splash_screen extends State<Splash_screen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 3000), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+      SharedPref.getData(URlConstants.token)!.then((value) {
+if(value==""){
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => HomePage()));
+}else{
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => Profile_screen()));
+}
+      });
+
     });
   }
 
@@ -36,7 +47,7 @@ class _Splash_screen extends State<Splash_screen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 60, left: 139),
                   child: Image.asset(
-                    'assets/images/vector.png',
+                    'assets/images/Vector.png',
                     height: 56,
                   ),
                 )

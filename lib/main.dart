@@ -138,9 +138,7 @@ class _HomePage extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                _videoPlayerController1 = null;
-                _videoPlayerController2 = null;
-                _chewieController?.dispose();
+                _chewieController!.pause();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Become_member()));
               },
@@ -185,7 +183,9 @@ class _HomePage extends State<HomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                       Navigator.push(
+                      _chewieController!.pause();
+
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Login_screen()));

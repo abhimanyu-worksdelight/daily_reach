@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'Notification.dart';
 import 'PostDetail.dart';
+import 'login_screen.dart';
 import 'main.dart';
 
 class Feed extends StatefulWidget {
@@ -33,13 +34,18 @@ class _Feed extends State<Feed> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("Login",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color.fromARGB(233, 182, 3, 3),
-                        fontWeight: FontWeight.w600,
-                        fontFamily: "assets/fonts/segui.TTf",
-                      )),
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder:(context)=> Login_screen()));
+                    },
+                    child: Text("Login",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color.fromARGB(233, 182, 3, 3),
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "assets/fonts/segui.TTf",
+                        )),
+                  ),
                   SizedBox(
                     width:21.5,
                   ),

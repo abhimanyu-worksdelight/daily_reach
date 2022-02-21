@@ -33,7 +33,7 @@ class _Reset_password extends State<Reset_password>{
                   Padding(
                     padding: const EdgeInsets.only(top: 30, left: 182),
                     child: Image.asset(
-                      'assets/images/vector.png',
+                      'assets/images/Vector.png',
                       height: 54,
                       width: 90,
                     ),
@@ -170,8 +170,7 @@ class _Reset_password extends State<Reset_password>{
     if (isValid==false) {
       return;
     } else {
-      Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Home_screen()));
+      Navigator.pop(context);
     }
     _formKey.currentState?.save();
   }

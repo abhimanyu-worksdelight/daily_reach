@@ -1,9 +1,5 @@
-import 'package:dailyreach/SplashScreen.dart';
 import 'package:dailyreach/utils/commonmethod.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'FirstPage.dart';
 import 'ForgotPassword.dart';
 
@@ -36,14 +32,6 @@ class _LoginScreen extends State<StatefulWidget> {
               ),
             ),
 
-            // Row(mainAxisAlignment: MainAxisAlignment.end,
-            //    children:[ Expanded(
-            //       child: Image.asset(
-            //           "assets/images/Vector.png", width: 90, height: 54
-            //       ),
-            //     ),
-            //     ]
-            // ),
             Image.asset("assets/images/Vector.png", width: 90, height: 54),
           ]),
           Column(
@@ -60,10 +48,7 @@ class _LoginScreen extends State<StatefulWidget> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SplashScreen()));
+                                Navigator.pop(context);
                               },
                               child: Image.asset(
                                 "assets/images/arrowvector.png",

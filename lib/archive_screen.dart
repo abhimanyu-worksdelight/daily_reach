@@ -85,25 +85,20 @@ class _Archive_screen extends State<Archive_screen> {
                       ),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 20, left: 70),
-                      child: InkWell(
-                        onTap: (){
-
-                        },
-                        child: Text(
-                          'Cancel ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "segoe",
-                            color: Color.fromRGBO(66, 103, 176, 1.0)
-                          ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20, left: 70),
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Cancel ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "segoe",
+                          color: Color.fromRGBO(66, 103, 176, 1.0)
                         ),
                       ),
                     ),

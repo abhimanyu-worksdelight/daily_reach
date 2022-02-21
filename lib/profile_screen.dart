@@ -1,3 +1,6 @@
+
+import 'package:dailyreach/utils/UrlConstants.dart';
+import 'package:dailyreach/utils/commonmethod.dart';
 import 'package:flutter/material.dart';
 
 import 'Feed.dart';
@@ -13,11 +16,16 @@ class Profile_screen extends StatefulWidget {
 
 class _Profile_screen extends State<Profile_screen> {
   int tabClick = 0;
+  @override
+  void initState() {
+super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: tabClick == 0
+      body:
+      tabClick == 0
           ? Feed()
           : tabClick == 1
               ? Archive_list()
@@ -32,6 +40,15 @@ class _Profile_screen extends State<Profile_screen> {
         selectedFontSize: 14,
         unselectedFontSize: 12,
         onTap: (value) {
+          SharedPref.getData(URlConstants.token)!.then((value) {
+            print(value);
+
+          });
+          SharedPref.getData(URlConstants.email)!.then((value) {
+            print(value);
+
+          });
+
           if (value == 0) {
             tabClick = value;
           } else if (value == 1) {

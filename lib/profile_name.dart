@@ -55,8 +55,8 @@ class _Home_screen extends State<Home_screen> {
             ),
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 64,left: 23),
+                const Padding(
+                  padding: EdgeInsets.only(top: 64,left: 23),
                   child: Text(
                     'Profile',
                     style: TextStyle(
@@ -187,7 +187,7 @@ class _Home_screen extends State<Home_screen> {
             Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
           },
           child: const Padding(
-            padding: EdgeInsets.only(left: 10, top: 200, bottom: 10),
+            padding: EdgeInsets.only(left: 10, top: 100, bottom: 10),
             child: Text(
               'Logout',
               style: TextStyle(
