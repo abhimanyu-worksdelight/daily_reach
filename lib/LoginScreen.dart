@@ -4,11 +4,13 @@ import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/utils/commonmethod.dart';
 import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'FirstPage.dart';
@@ -17,6 +19,7 @@ import 'ForgotPassword.dart';
 class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+     EasyLoading.init();
     return _LoginScreen();
   }
 }
@@ -128,10 +131,21 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                       controller: emailController,
                       decoration: const InputDecoration(
                         // border: OutlineInputBorder(),
+                        
                         labelText: "Email Address",
                         // fillColor: Color.fromARGB(255, 243, 243, 245),
                         //filled: true,
-                      ))),
+                        enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                      )
+
+                      )
+                      ),
+                    Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
+
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: Center(
@@ -148,18 +162,31 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                         // fillColor: const Color.fromARGB(255, 243, 243, 245),
                         //filled: true,
                         suffixIcon: IconButton(
-                          icon: Icon(_isObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                          // icon: Icon(_isObscure
+                          //     ? Icons.visibility
+                          //     : Icons.visibility_off),
+
+                           icon: Icon(
+                           Icons.visibility_outlined, color: Colors.grey,),
+
                           onPressed: () {
                             setState(() {
                               _isObscure = !_isObscure;
                             });
                           },
-                        )),
+                        ),
+                         enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                        ),
                   ),
+                  
                 ),
               ),
+            Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
+
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
                 child:
@@ -200,7 +227,7 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                   child: Container(
                     alignment: Alignment.center,
                     height: 52,
-                    width: MediaQuery.of(context).size.width,
+                    width: 380,
                     child: const Text(
                       "Login",
                       textAlign: TextAlign.center,
@@ -263,7 +290,7 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
     if (result == ConnectivityResult.none) {
       FlashHelper.singleFlash(context, 'Check your internet');
     } else {
-      setState(() {});
+      EasyLoader.showLoader();
       _networkUtil.post(Constants.loginUrl, this, body: {
         'email': emailController.text,
         'password': passwordController.text,
@@ -283,11 +310,13 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
   }
 
   @override
-  void onSuccess(data, code) {
+  void onSuccess(data, code) async {
     // TODO: implement onSuccess
-
-    EasyLoader.hideLoader();
+     EasyLoader.hideLoader();
     if (data['status'] == 1) {
+     Constants.isLoggedIn = true;
+      SharedPreference.saveBooleanValue(Constants.loginStatus, true);
+
       var dataVal = data['data'];
       Constants.token = data['token'];
       print('successfully login');

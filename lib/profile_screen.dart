@@ -13,6 +13,9 @@ class Profile_screen extends StatefulWidget {
 
 class _Profile_screen extends State<Profile_screen> {
   int tabClick = 0;
+  var selectedFeed = true;
+  var selectedArchieve = false;
+  var selectedUser = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,26 +37,47 @@ class _Profile_screen extends State<Profile_screen> {
         onTap: (value) {
           if (value == 0) {
             tabClick = value;
+            selectedFeed = true;
+            selectedArchieve = false;
+            selectedUser = false;
           } else if (value == 1) {
             tabClick = value;
+            selectedFeed = false;
+            selectedArchieve = true;
+            selectedUser = false;
           } else {
             tabClick = value;
+            selectedUser = true;
+            selectedArchieve = false;
+            selectedFeed = false;
           }
           setState(() {});
         },
-        items: const [
+        items:  [
           BottomNavigationBarItem(
             label: "Feed",
-            icon: Icon(Icons.now_widgets_outlined),
+            icon: Padding(
+              padding: EdgeInsets.only(top:16.0,bottom: 8),
+              // child: Icon(Icons.now_widgets_outlined),
+              child: Image.asset("assets/images/grid.png",height: 24,width: 24,color: (selectedFeed == true) ? Colors.red:Colors.grey,),
+            ),
           ),
           BottomNavigationBarItem(
             label: "Archive",
-            icon: Icon(Icons.archive_outlined),
+            icon: Padding(
+              padding: EdgeInsets.only(top:16.0,bottom: 8),
+              // child: Icon(Icons.archive_outlined),
+              child: Image.asset("assets/images/archive.png",height: 24,width: 24,color: (selectedArchieve == true) ? Colors.red:Colors.grey,),
+            ),
           ),
           BottomNavigationBarItem(
             label: "Profile",
-            icon: Icon(
-              Icons.person_outlined,
+            icon: Padding(
+              padding: EdgeInsets.only(top:16.0,bottom: 8),
+              // child: Icon(
+              //   Icons.person_outlined,
+              // ),
+              child: Image.asset("assets/images/user.png",height: 24,width: 24,color: (selectedUser == true) ? Colors.red:Colors.grey,),
             ),
           ),
         ],

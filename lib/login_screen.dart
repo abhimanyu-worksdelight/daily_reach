@@ -5,14 +5,17 @@ import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/profile_screen.dart';
 import 'package:dailyreach/reset_password.dart';
 import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class Login_screen extends StatefulWidget {
   @override
   State<Login_screen> createState() {
+     EasyLoading.init();
     return _Login_screen();
   }
 }
@@ -71,10 +74,12 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 60, left: 30),
-                            child: Image.asset(
-                              'assets/images/daily_reach_logo.png',
-                              height: 42,
-                              width: 190,
+                            child: Center(
+                              child: Image.asset(
+                                'assets/images/daily_reach_logo.png',
+                                height: 42,
+                                width: 190,
+                              ),
                             ),
                           ),
                         ],
@@ -117,13 +122,21 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                   controller: emailController,
                   decoration: const InputDecoration(
                   labelText: 'Email Address',
-                    contentPadding: EdgeInsets.all(12),
+                  
+                    contentPadding: EdgeInsets.only(top:12),
 
                     labelStyle: TextStyle(
-                      fontSize: 13,
+                      fontSize: 17,
                       fontWeight: FontWeight.w400,
                       fontFamily: "segoe",
+                      color: Colors.grey
                     ),
+
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
                   ),
                   validator: (value) {
                     if (value!.isEmpty ||
@@ -135,21 +148,26 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                     return null;
                   },
                 ),
+                Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
                 TextFormField(
                   controller: passwordController,
                   obscureText: _isObscure,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    contentPadding: EdgeInsets.all(12),
+                    contentPadding: EdgeInsets.only(top: 12),
                     labelStyle: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 17,
                       fontWeight: FontWeight.w400,
                       fontFamily: "segoe",
+                      color: Colors.grey
                     ),
                     suffixIcon: IconButton(
-                      icon: Icon(_isObscure
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined),
+                      // icon: Icon(_isObscure
+                      //     ? Icons.visibility_off_outlined
+                      //     : Icons.visibility_outlined, color: Colors.grey,),
+
+                      icon: Icon(
+                           Icons.visibility_outlined, color: Colors.grey,),
                       onPressed: () {
                         setState(
                               () {
@@ -158,6 +176,11 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                         );
                       },
                     ),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -169,6 +192,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                     }
                   },
                 ),
+                Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
                 GestureDetector(
                   onTap: () {
                     _submit();
@@ -176,7 +200,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                   child: Padding(
                       padding: const EdgeInsets.only(top: 35),
                       child: Container(
-                          width: 325,
+                          width: 380,
                           height: 50,
                           child: const Padding(
                             padding: EdgeInsets.only(top: 14, bottom: 15),
@@ -213,7 +237,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                     children: [
                       RichText(
                         text: const TextSpan(
-                          text: 'Forget Password ? ',
+                          text: 'Forgot Password ? ',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -254,7 +278,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
     if (result == ConnectivityResult.none) {
       FlashHelper.singleFlash(context, 'Check your internet');
     } else {
-      
+      EasyLoader.showLoader();
       _networkUtil.post(Constants.loginUrl, this, body: {
         'email': emailController.text,
         'password': passwordController.text,
@@ -277,7 +301,12 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
     // TODO: implement onSuccess
     
 
-          if (data['status'] == 1) {
+      if (data['status'] == 1) {
+      var dataVal = data['data'];
+      Constants.token = data['token'];
+      Constants.isLoggedIn = true;
+      SharedPreference.saveBooleanValue(Constants.loginStatus, true);
+
       print('successfully login');
       Navigator.push(context, MaterialPageRoute(
           builder: (context) => Profile_screen()));

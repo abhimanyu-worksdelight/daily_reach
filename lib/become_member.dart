@@ -1,5 +1,12 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
+import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
+import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/profile_screen.dart';
+import 'package:dailyreach/utils/commonmethod.dart';
+import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
@@ -11,13 +18,20 @@ class Become_member extends StatefulWidget {
   }
 }
 
-class _Become_member extends State<Become_member> {
+class _Become_member extends State<Become_member> implements ApiInterface {
   bool _ischecked = false;
   bool _isObscure = true;
   bool _isObscureConfirm = true;
   var passwordcontroller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isClick = false;
+  NetworkUtil _networkUtil = new NetworkUtil();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final createPasswordctrl = TextEditingController();
+  final confirmpsdctrl = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +119,7 @@ class _Become_member extends State<Become_member> {
                   key: _formKey,
                   child: Column(children: [
                     TextFormField(
+                      controller: nameController,
                       decoration: const InputDecoration(
                         labelText: 'Full Name',
                         contentPadding: EdgeInsets.all(12),
@@ -122,6 +137,7 @@ class _Become_member extends State<Become_member> {
                       },
                     ),
                     TextFormField(
+                      controller: emailController,
                       decoration: const InputDecoration(
                         labelText: 'Email Address',
                         contentPadding: EdgeInsets.all(12),
@@ -175,6 +191,7 @@ class _Become_member extends State<Become_member> {
                         Expanded(
                           flex: 1,
                           child: TextFormField(
+                            controller: phoneController,
                             decoration: const InputDecoration(
                               contentPadding: EdgeInsets.all(12),
                               labelText: 'Phone Number',
@@ -197,6 +214,7 @@ class _Become_member extends State<Become_member> {
                       ],
                     ),
                     TextFormField(
+                      controller: createPasswordctrl,
                       obscureText: _isObscure,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(12),
@@ -230,8 +248,9 @@ class _Become_member extends State<Become_member> {
                       },
                     ),
                     TextFormField(
+                      
                       obscureText: _isObscureConfirm,
-                      controller: passwordcontroller,
+                      controller: confirmpsdctrl,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(12),
                         labelText: 'Confirm Password',
@@ -254,7 +273,12 @@ class _Become_member extends State<Become_member> {
                         ),
                       ),
                       validator: (value) {
-                        if (value != passwordcontroller.text) {
+                        if (value!.isEmpty) {
+                          return 'Enter a valid password!';
+                        } else if (value.length < 6) {
+                          return 'Enter at least 6 digit';
+                        } 
+                        else if (value != createPasswordctrl.text) {
                           return 'Enter a valid password!';
                         }
                         return null;
@@ -388,7 +412,7 @@ class _Become_member extends State<Become_member> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: "segoe",
-                                color: Color.fromARGB(144, 140, 184, 201),
+                                color: Color(0XFF8D95B2),
                               ),
                             ),
                           ),
@@ -423,9 +447,57 @@ class _Become_member extends State<Become_member> {
     if (isValid == false) {
       return;
     } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Profile_screen()));
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => Profile_screen()));
+
+      registerApi();
     }
     _formKey.currentState?.save();
   }
+
+  @override
+  void onFailure(message, code) {
+    EasyLoader.hideLoader();
+  }
+
+  @override
+  void onSuccess(data, code) {
+    EasyLoader.hideLoader();
+    var dataVal = data['data'];
+    if (data['status'] == 1) {
+      print('successfully registered');
+
+      Constants.token = data['token'];
+    
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Login_screen()));
+      
+    } else {
+      print('error while login');
+    }
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
+  }
+
+  void registerApi() async {
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      FlashHelper.singleFlash(context, 'Check your internet');
+    } else {
+      EasyLoader.showLoader();
+      _networkUtil.post(Constants.registerUrl, this, body: {
+        'email': emailController.text,
+        'password': confirmpsdctrl.text,
+        'name': nameController.text,
+        'phone': phoneController.text,
+      });
+    }
+  }
+
+
+
+
 }

@@ -1,9 +1,11 @@
 import 'package:dailyreach/main_Feed.dart';
 import 'package:dailyreach/Notification.dart';
 import 'package:dailyreach/PostDetail.dart';
+import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:video_player/video_player.dart';
 import 'become_member.dart';
 import 'login_screen.dart';
@@ -17,11 +19,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(),
       home: Splash_screen(),
+      builder: EasyLoading.init(),
     );
   }
 }
@@ -36,22 +40,21 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   TargetPlatform? _platform;
   VideoPlayerController? _videoPlayerController1;
-  VideoPlayerController? _videoPlayerController2;
   ChewieController? _chewieController;
-
+bool isInit= true;
   @override
   void initState() {
     _videoPlayerController1 = VideoPlayerController.network(
         'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
-    _videoPlayerController1!.setLooping(true);
-    _videoPlayerController2 = VideoPlayerController.network(
-        'https://www.sample-videos.com/video123/mp4/480/asdasdas.mp4');
+   
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1!,
       autoPlay: true,
       looping: true,
       aspectRatio: _videoPlayerController1!.value.aspectRatio,
+      showControls: false,
     );
+// _chewieController!.showControls =false;
 
     _videoPlayerController1?.addListener(() {
       if (_videoPlayerController1?.value.position ==
@@ -66,7 +69,6 @@ class _HomePage extends State<HomePage> {
   @override
   void dispose() {
     _videoPlayerController1?.dispose();
-    _videoPlayerController2?.dispose();
     _chewieController?.dispose();
     super.dispose();
   }
@@ -76,17 +78,40 @@ class _HomePage extends State<HomePage> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
+          
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Stack(
               children: [
                 Container(
                   height: 414,
                   width: MediaQuery.of(context).size.width,
+                  
                   child:AspectRatio(
                     aspectRatio: _videoPlayerController1!.value.aspectRatio,
                     child: Chewie(
                       controller: _chewieController!,
+
                     ),
+                  ),
+                ),
+                Center(
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 180 ),
+                      child: Icon(
+                        isInit ?Icons.pause: Icons.play_arrow  ,
+                        color: Colors.grey,
+                        size: 60,
+                      ),
+                    ),
+                    onTap: () {
+                      setState(() {
+                       isInit =!isInit;
+                         _videoPlayerController1!.value.isPlaying
+                            ? _videoPlayerController1!.pause() 
+                            : _videoPlayerController1!.play();
+                      });
+                    },
                   ),
                 ),
                 Padding(
@@ -109,8 +134,7 @@ class _HomePage extends State<HomePage> {
                 style: TextStyle(fontSize: 15, fontFamily: "segoe"),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 98, right: 97),
+            Center(
               child: Image.asset('assets/images/daily_reach_logo.png',
                   height: 40, width: 180),
             ),
@@ -139,7 +163,6 @@ class _HomePage extends State<HomePage> {
             GestureDetector(
               onTap: () {
                 _videoPlayerController1 = null;
-                _videoPlayerController2 = null;
                 _chewieController?.dispose();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Become_member()));
@@ -150,7 +173,7 @@ class _HomePage extends State<HomePage> {
                   height: 50,
                   width: 350,
                   decoration: BoxDecoration(
-                      color: const Color(0xffD6D4D4).withOpacity(0.4),
+                      color: AppColors.buttonBackColor,
                       borderRadius:const BorderRadius.all(Radius.circular(8))),
                   child: const Padding(
                     padding: EdgeInsets.only(
@@ -161,7 +184,7 @@ class _HomePage extends State<HomePage> {
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
-                          fontFamily: "segoe"),
+                          fontFamily: "segoe",color: Colors.black),
                     ),
                   ),
                 ),
@@ -179,7 +202,7 @@ class _HomePage extends State<HomePage> {
                         fontWeight: FontWeight.w600,
                         fontFamily: "segoe",
                         fontSize: 13,
-                        color: Color.fromARGB(144, 140, 184, 201),
+                        color: Color(0XFF8D95B2),
                       ),
                     ),
                   ),

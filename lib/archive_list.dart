@@ -1,3 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/Models/ArchiveModel.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
+import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
+import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
 import 'archive_screen.dart';
 
@@ -8,7 +16,19 @@ class Archive_list extends StatefulWidget {
   }
 }
 
-class _Archive_list extends State<Archive_list> {
+class _Archive_list extends State<Archive_list> implements ApiInterface {
+
+  List<ArchievData> archieveList = [];
+  List<Banners> bannerList = [];
+  NetworkUtil networkUtil = new NetworkUtil();
+  int _index = 0;
+  var htmlStr = "";
+
+  @override
+  void initState() {
+    super.initState();
+    showArchiveListApi();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +51,7 @@ class _Archive_list extends State<Archive_list> {
                 padding: const EdgeInsets.only(top: 65, right: 23, left: 29),
                 child: GestureDetector(
                   onTap: (){
+                    
                     Navigator.push(context,MaterialPageRoute(builder: (context)=> Archive_screen()));
                   },
                   child: Image.asset(
@@ -91,8 +112,8 @@ class _Archive_list extends State<Archive_list> {
                   );
                 },
 
-                    itemCount: 90,
-                    itemBuilder: (BuildContext, Index) {
+                    itemCount: archieveList.length,
+                    itemBuilder: (BuildContext, index) {
                       return GestureDetector(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -102,11 +123,25 @@ class _Archive_list extends State<Archive_list> {
                                 Padding(
                                   padding:
                                    EdgeInsets.only(top: 27, left: 21,bottom: 6),
-                                  child: Image.asset(
-                                    "assets/images/photoo.png",
-                                    width: 116,
-                                    height: 104,
-                                  ),
+                                  child: (archieveList[index].banners!.length > 0)
+                            ? CachedNetworkImage(
+                                imageUrl: archieveList[index].banners![index].banner!,
+                                width: 116,
+                                height: 104,
+                                placeholder: (context, url) => Container(
+                                    height: 2.0,
+                                    width: 2.0,
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                    fit: BoxFit.fitWidth,
+                        
+                            
+                              ) :Image.asset(
+                                "assets/images/photoo.png",
+                                height: 169,
+                                fit: BoxFit.fill,
+                              ), 
                                 ),
                                 Flexible(
                                   child: Column(
@@ -117,7 +152,7 @@ class _Archive_list extends State<Archive_list> {
                                         padding: EdgeInsets.only(
                                             top: 20, left: 7, right: 0),
                                         child: Text(
-                                          'Mon, 3 Jan, 2022',
+                                          Constants.convertDateFormate(archieveList[index].createdAt!),
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 14,
@@ -129,7 +164,8 @@ class _Archive_list extends State<Archive_list> {
                                         padding: EdgeInsets.only(
                                             top: 0, left: 7, right: 19,),
                                         child: Text(
-                                          'This post is a test post to ensure that things are working properly.',
+                                         Constants.parseHtmlString(archieveList[index].body!),
+                                         maxLines: 2,
                                           style: TextStyle(
                                             letterSpacing: -0.6,
                                               fontFamily: "segoe",
@@ -152,15 +188,23 @@ class _Archive_list extends State<Archive_list> {
                                                   height: 17,
                                                   child: Padding(
                                                     padding: EdgeInsets.all(0),
-                                                    child: Text(
-                                                      'Music',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 10,
-                                                          color: Colors.black,
-                                                          fontFamily: "segoe",
-                                                          fontWeight: FontWeight.w600),
+                                                    child: ListView.builder(
+                                                    itemCount: archieveList[index].categoriesData!.length ,
+                                                    itemBuilder: (context, index){ 
+                                                    return GestureDetector(
+                                                    onTap: (){
+                                                      print('clicked');
+                                                    },
+                                                    child: Center(
+                                                      child: FittedBox(
+                                                        fit: BoxFit.contain,
+                                                        child: Text(
+                                                          archieveList[index].categoriesData![index].name!
+                                                        ),
+                                                      ),
                                                     ),
+                                                    );
+                                                    }),
                                                   ),
                                                   decoration: BoxDecoration(
                                                     color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
@@ -168,33 +212,7 @@ class _Archive_list extends State<Archive_list> {
                                                   )),
                                             ),
                                           ),
-                                          InkWell(
-                                                onTap: (){
-
-                                                },
-                                            child: Padding(
-                                              padding: EdgeInsets.only(top: 7, left: 6),
-                                              child: Container(
-                                                  width: 44,
-                                                  height: 17,
-                                                  child: const Padding(
-                                                    padding: EdgeInsets.all(0),
-                                                    child: Text(
-                                                      'Movie',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 10,
-                                                          color: Colors.black,
-                                                          fontFamily: "segoe",
-                                                          fontWeight: FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
-                                                    BorderRadius.circular(34.62),
-                                                  )),
-                                            ),
-                                          )
+                                          
                                         ],
                                       ),
                                       InkWell(
@@ -232,5 +250,47 @@ class _Archive_list extends State<Archive_list> {
         ],
       ),
     );
+  }
+
+
+  void showArchiveListApi() async{
+    var token = Constants.token;
+
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      FlashHelper.singleFlash(context, 'Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await networkUtil.getAuth(Constants.archiveUrl, token, this);
+    }
+
+  }
+
+  @override
+  void onFailure(message, code) {
+    // TODO: implement onFailure
+    EasyLoader.hideLoader();
+  }
+
+  @override
+  void onSuccess(data, code) {
+    // TODO: implement onSuccess
+    EasyLoader.hideLoader();
+    
+    ArchievModel archievModel = new ArchievModel.fromJson(data);
+    if (archievModel.status == 1) {
+      archieveList.addAll(archievModel.data!.data!);
+      print(archievModel.data!.data!);
+      
+
+    }
+    setState(() {});
+
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    // TODO: implement onTokenExpire
+    EasyLoader.hideLoader();
   }
 }

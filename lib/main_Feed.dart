@@ -11,6 +11,7 @@ import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:dailyreach/utils/session_expired.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:html/parser.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -113,7 +114,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                             padding: EdgeInsets.fromLTRB(18, 19, 24, 7),
                             width: MediaQuery.of(context).size.width,
                             child: Text(
-                              "Monday, Jan 10, 2022",
+                              Constants.convertDateFormate(feedList[index].createdAt!),
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15,
@@ -205,6 +206,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                             
                             child: Text(
                               Constants.parseHtmlString(feedList[index].body!),
+                              maxLines: 5,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
@@ -214,54 +216,43 @@ class _Feed extends State<Feed> implements ApiInterface {
                                   height: 1.5),
                             )),
                         Container(
+                          height:50,
                           padding: EdgeInsets.fromLTRB(21, 0, 26, 7),
                           width: MediaQuery.of(context).size.width,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(children: [
-                                Container(
-                                  width: 44,
+                              Expanded(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: feedList[index].categories!.length ,
+                                itemBuilder: (context, index){ 
+                                return GestureDetector(
+                                onTap: (){
+                                  print('clicked');
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.all(2),
+                                  color: Colors.grey,
+                                  width: 70,
                                   height: 20,
-                                  padding: const EdgeInsets.all(2),
-                                  child: Text(
-                                    "Music",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 10,
-                                        fontFamily: "assets/fonts/segui.TTf",
-                                        color: Colors.black),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    color: Color.fromARGB(100, 214, 212, 212),
-                                    borderRadius: BorderRadius.circular(34.62),
+                                  child: Center(
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: Text(
+                                        feedList[index].categoriesData![index].name!
+                                        
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  width: 44,
-                                  height: 20,
-                                  padding: const EdgeInsets.all(4),
-                                  child: Text(
-                                    "Movie",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 10,
-                                        fontFamily: "assets/fonts/segui.TTf",
-                                        color: Colors.black),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    color: Color.fromARGB(100, 214, 212, 212),
-                                    borderRadius: BorderRadius.circular(34.62),
-                                  ),
-                                ),
-                              ]),
+                                );
+                                }),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
                               Padding(
                                 padding: EdgeInsets.all(16),
                                 child: Row(

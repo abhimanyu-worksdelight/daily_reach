@@ -1,3 +1,7 @@
+import 'package:dailyreach/become_member.dart';
+import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
+import 'package:dailyreach/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
@@ -9,13 +13,45 @@ class Splash_screen extends StatefulWidget {
 }
 
 class _Splash_screen extends State<Splash_screen> {
+
+bool isLoggedIn = false;
+
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 3000), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+
+      getLoginStatus();
+      
     });
+  }
+
+  void getLoginStatus() {
+    print("getLoginStatus :: ");
+    Future<bool> status =
+        SharedPreference.getLoginStatus(Constants.loginStatus);
+    status.then(
+        (value) => {
+              isLoggedIn = value,
+              print("Splash value ::: $value"),
+              Constants.isLoggedIn = value,
+             (isLoggedIn == true) ? goToprofilePage() : goTologin()
+            }, onError: (err) {
+      print("Error occured :: $err");
+    });
+  }
+
+  void goToprofilePage(){
+    
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Profile_screen()));
+    // Navigator.pushReplacement(
+    //       context, MaterialPageRoute(builder: (context) => HomePage()));
+  }
+
+  void goTologin(){
+    Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   @override
