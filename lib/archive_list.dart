@@ -174,46 +174,49 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                               fontWeight: FontWeight.w400),
                                         ),
                                       ),
-                                      Row(
-                                        children: [
-                                          InkWell(
-                                            onTap: (){
-
-                                            },
-                                            child: Padding(
-                                              padding:
-                                              EdgeInsets.only(top: 7, left: 7),
+                                      Container(
+                                        height:50,
+                                        padding: EdgeInsets.fromLTRB(21, 0,26, 7),
+                                        width: MediaQuery.of(context).size.width,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: archieveList[index].categoriesData!.length ,
+                                              itemBuilder: (context, index){ 
+                                              return GestureDetector(
+                                              onTap: (){
+                                                print('clicked');
+                                              },
                                               child: Container(
-                                                  width: 44,
-                                                  height: 17,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(0),
-                                                    child: ListView.builder(
-                                                    itemCount: archieveList[index].categoriesData!.length ,
-                                                    itemBuilder: (context, index){ 
-                                                    return GestureDetector(
-                                                    onTap: (){
-                                                      print('clicked');
-                                                    },
-                                                    child: Center(
-                                                      child: FittedBox(
-                                                        fit: BoxFit.contain,
-                                                        child: Text(
-                                                          archieveList[index].categoriesData![index].name!
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    );
-                                                    }),
+                                              // margin: EdgeInsets.all(2),
+                                              width: 70,
+                                              height: 20,
+                                              child: Center(
+                                                child: FittedBox(
+                                                  fit: BoxFit.contain,
+                                                  child: Text(
+                                                    archieveList[index].categoriesData![index].name!
                                                   ),
-                                                  decoration: BoxDecoration(
-                                                    color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
-                                                    BorderRadius.circular(34),
-                                                  )),
+                                                ),
+                                              ),
+                                              decoration: BoxDecoration(
+                                            color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
+                                            BorderRadius.circular(34),
+                                            )),
+                                            
+                                              );
+                                              }),
                                             ),
-                                          ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                          ],
                                           
-                                        ],
+                                        ),
+                                         
                                       ),
                                       InkWell(
                                         onTap: (){

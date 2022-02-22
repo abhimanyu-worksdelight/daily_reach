@@ -233,8 +233,8 @@ class _Feed extends State<Feed> implements ApiInterface {
                                   print('clicked');
                                 },
                                 child: Container(
-                                  margin: EdgeInsets.all(2),
-                                  color: Colors.grey,
+                                  // margin: EdgeInsets.all(2),
+                                  
                                   width: 70,
                                   height: 20,
                                   child: Center(
@@ -242,11 +242,16 @@ class _Feed extends State<Feed> implements ApiInterface {
                                       fit: BoxFit.contain,
                                       child: Text(
                                         feedList[index].categoriesData![index].name!
-                                        
+
                                       ),
                                     ),
                                   ),
+                                  decoration: BoxDecoration(
+                                            color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
+                                            BorderRadius.circular(34),
+                                            )
                                 ),
+                                
                                 );
                                 }),
                               ),
