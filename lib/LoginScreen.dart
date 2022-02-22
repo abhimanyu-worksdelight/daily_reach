@@ -135,16 +135,31 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                         labelText: "Email Address",
                         // fillColor: Color.fromARGB(255, 243, 243, 245),
                         //filled: true,
-                        enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    border: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                       )
 
                       )
                       ),
-                    Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
+                    // Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
 
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -175,17 +190,32 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                             });
                           },
                         ),
-                         enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    border: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
+                         enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                         ),
                   ),
                   
                 ),
               ),
-            Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
+            // Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
 
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
@@ -314,11 +344,11 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
     // TODO: implement onSuccess
      EasyLoader.hideLoader();
     if (data['status'] == 1) {
-     Constants.isLoggedIn = true;
+     var dataVal = data['data'];
+      var token = data['token'];
+      Constants.isLoggedIn = true;
       SharedPreference.saveBooleanValue(Constants.loginStatus, true);
-
-      var dataVal = data['data'];
-      Constants.token = data['token'];
+      SharedPreference.saveStringValue(Constants.token, token);
       print('successfully login');
       Navigator.push(
         context,

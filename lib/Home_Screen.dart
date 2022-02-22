@@ -1,3 +1,10 @@
+import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
+import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
+import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
+import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
 import 'Notification.dart';
 import 'main.dart';
@@ -9,7 +16,28 @@ class Home_screen extends StatefulWidget {
   }
 }
 
-class _Home_screen extends State<Home_screen> {
+class _Home_screen extends State<Home_screen> implements ApiInterface {
+
+
+NetworkUtil _networkUtil = new NetworkUtil();
+
+
+@override void initState() {
+    getToken();
+    super.initState();
+  }
+
+  getToken(){
+    Future<String> loginToken = SharedPreference.getStringValuesSF(Constants.token);
+    loginToken.then(
+        (value) => {
+               Constants.tokenStr = value
+            }, onError:(err) {
+      print("Error occured :: $err");
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,34 +185,39 @@ class _Home_screen extends State<Home_screen> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 25),
-          child: Container(
-              width: 149,
-              height: 50,
-              child: const Padding(
-                padding: EdgeInsets.only(top: 14, bottom: 10),
-                child: Text(
-                  'Edit Profile',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontFamily: "segoe",
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(228, 189, 20, 20),
-                  borderRadius: BorderRadius.circular(50),
-                  boxShadow: const [
-                    BoxShadow(
+          child: InkWell(
+            onTap: (){
+              print("clicked");
+            },
+            child: Container(
+                width: 149,
+                height: 50,
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 14, bottom: 10),
+                  child: Text(
+                    'Edit Profile',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 16,
                         color: Colors.white,
-                        blurRadius: 3.0,
-                        spreadRadius: 1.0)
-                  ])),
+                        fontFamily: "segoe",
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(228, 189, 20, 20),
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.white,
+                          blurRadius: 3.0,
+                          spreadRadius: 1.0)
+                    ])),
+          ),
         ),
         InkWell(
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+            logoutApi();
           },
           child: Padding(
             padding: EdgeInsets.only(top: 200,bottom: 20),
@@ -200,5 +233,47 @@ class _Home_screen extends State<Home_screen> {
         ),
       ]),
     );
+  }
+
+
+  void logoutApi() async{
+    
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      FlashHelper.singleFlash(context, 'Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await _networkUtil.getAuth(Constants.logoutUrl, Constants.tokenStr, this);
+    }
+
+  }
+
+  @override
+  void onFailure(message, code) {
+    EasyLoader.hideLoader();
+  }
+
+  @override
+  void onSuccess(data, code) {
+    EasyLoader.hideLoader();
+    
+    if (data['status'] == 1) {
+      SharedPreference.saveBooleanValue(Constants.loginStatus, false);
+      SharedPreference.saveStringValue(Constants.token, '');
+
+      Future<String> status = SharedPreference.getStringValuesSF(Constants.videoStr);
+    status.then(
+        (value) => {
+               Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage(intro_video: value,)))
+            }, onError: (err) {
+      print("Error occured :: $err");
+    });
+    }
+    
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
   }
 }

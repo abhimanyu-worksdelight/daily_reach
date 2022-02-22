@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'main_Feed.dart';
 import 'archive_list.dart';
-import 'profile_name.dart';
+import 'Home_Screen.dart';
 
 class Profile_screen extends StatefulWidget {
   @override

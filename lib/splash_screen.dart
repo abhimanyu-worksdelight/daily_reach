@@ -1,7 +1,12 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/become_member.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
+import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/profile_screen.dart';
+import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
@@ -12,21 +17,22 @@ class Splash_screen extends StatefulWidget {
   }
 }
 
-class _Splash_screen extends State<Splash_screen> {
+class _Splash_screen extends State<Splash_screen> implements ApiInterface {
 
 bool isLoggedIn = false;
+NetworkUtil networkUtil = new NetworkUtil();
 
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 3000), () {
 
-      getLoginStatus();
+      getGeneralSettingsApi();
       
     });
   }
 
-  void getLoginStatus() {
+  void getLoginStatus(String video) {
     print("getLoginStatus :: ");
     Future<bool> status =
         SharedPreference.getLoginStatus(Constants.loginStatus);
@@ -35,7 +41,7 @@ bool isLoggedIn = false;
               isLoggedIn = value,
               print("Splash value ::: $value"),
               Constants.isLoggedIn = value,
-             (isLoggedIn == true) ? goToprofilePage() : goTologin()
+             (isLoggedIn == true) ? goToprofilePage() : goTologin(video)
             }, onError: (err) {
       print("Error occured :: $err");
     });
@@ -45,13 +51,12 @@ bool isLoggedIn = false;
     
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Profile_screen()));
-    // Navigator.pushReplacement(
-    //       context, MaterialPageRoute(builder: (context) => HomePage()));
+    
   }
 
-  void goTologin(){
+  void goTologin(String videoStr){
     Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => HomePage(intro_video: videoStr ,)));
   }
 
   @override
@@ -87,5 +92,49 @@ bool isLoggedIn = false;
             ),
           ],
         ));
+  }
+
+  void getGeneralSettingsApi() async{
+
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      FlashHelper.singleFlash(context, 'Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await networkUtil.get(Constants.generalSettingsUrl, this);
+    }
+
+  }
+
+  @override
+  void onFailure(message, code) {
+    EasyLoader.hideLoader();
+    
+  }
+
+  @override
+  void onSuccess(data, code) {
+    EasyLoader.hideLoader();
+    if (data['status'] == 1) {
+      var dataVal = data['data'];
+      var videoStr = dataVal['intro_video'];
+      var privacyStr = dataVal['privacy_policy'];
+      var termsconditionStr = dataVal['terms'];
+      SharedPreference.saveStringValue(Constants.videoStr, videoStr);
+      SharedPreference.saveStringValue(Constants.privacyPolicyStr,privacyStr);
+      SharedPreference.saveStringValue(Constants.termsconditionStr,termsconditionStr);
+
+      print('successfully login');
+      getLoginStatus(videoStr);
+      
+    } else {
+      print('error while login');
+    }
+
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
   }
 }

@@ -1,15 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/Archive_Detail.dart';
 import 'package:dailyreach/Models/ArchiveModel.dart';
+import 'package:dailyreach/PostDetail.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
 import 'archive_screen.dart';
 
 class Archive_list extends StatefulWidget {
+
+
   @override
   State<Archive_list> createState() {
     return _Archive_list();
@@ -115,6 +120,18 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                     itemCount: archieveList.length,
                     itemBuilder: (BuildContext, index) {
                       return GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ArchiveDetail(
+                                
+                                bodyStr: archieveList[index].body!, 
+                                titleStr: archieveList[index].title!,
+                                dateStr: archieveList[index].createdAt!,
+                                bannerImageArr: archieveList[index].banners!,
+                              )));
+                        },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -191,7 +208,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                                 print('clicked');
                                               },
                                               child: Container(
-                                              // margin: EdgeInsets.all(2),
+                                              margin: EdgeInsets.all(2),
                                               width: 70,
                                               height: 20,
                                               child: Center(
@@ -257,7 +274,15 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
 
 
   void showArchiveListApi() async{
-    var token = Constants.token;
+
+    var token = "";
+    Future<String> loginToken = SharedPreference.getStringValuesSF(Constants.token);
+    loginToken.then(
+        (value) => {
+               token = value
+            }, onError:(err) {
+      print("Error occured :: $err");
+    });
 
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {

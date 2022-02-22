@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'profile_name.dart';
+import 'Home_Screen.dart';
 
 class Reset_password extends StatefulWidget{
   @override

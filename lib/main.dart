@@ -31,7 +31,13 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  
+
+  String intro_video;
+
+  HomePage({
+    required this.intro_video,
+  });
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -45,7 +51,7 @@ bool isInit= true;
   @override
   void initState() {
     _videoPlayerController1 = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
+        widget.intro_video);
    
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1!,

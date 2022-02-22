@@ -1,5 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:dailyreach/Privacy_Policy.dart';
+import 'package:dailyreach/Terms_and_Condition.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
@@ -8,6 +10,7 @@ import 'package:dailyreach/profile_screen.dart';
 import 'package:dailyreach/utils/commonmethod.dart';
 import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 
@@ -31,7 +34,6 @@ class _Become_member extends State<Become_member> implements ApiInterface {
   final phoneController = TextEditingController();
   final createPasswordctrl = TextEditingController();
   final confirmpsdctrl = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +130,26 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
                         ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -145,6 +167,26 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
                         ),
                       ),
                       validator: (value) {
@@ -200,6 +242,26 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "segoe",
                               ),
+                              enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -236,6 +298,26 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                             );
                           },
                         ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -248,7 +330,6 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                       },
                     ),
                     TextFormField(
-                      
                       obscureText: _isObscureConfirm,
                       controller: confirmpsdctrl,
                       decoration: InputDecoration(
@@ -271,14 +352,34 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                             );
                           },
                         ),
+                        // enabledBorder: InputBorder.none,
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Enter a valid password!';
                         } else if (value.length < 6) {
                           return 'Enter at least 6 digit';
-                        } 
-                        else if (value != createPasswordctrl.text) {
+                        } else if (value != createPasswordctrl.text) {
                           return 'Enter a valid password!';
                         }
                         return null;
@@ -296,18 +397,19 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                               });
                             },
                             child: Container(
-                              height: 19,
-                                width:19,
-
+                                height: 19,
+                                width: 19,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Color.fromARGB(100, 214, 212, 212),
                                       width: 1.5),
                                   borderRadius: BorderRadius.circular(2),
                                 ),
-                                child:isClick? Icon(
-                                  Icons.check,size:18,color:Color.fromARGB(228, 189, 20, 20)
-                                ):Container()),
+                                child: isClick
+                                    ? Icon(Icons.check,
+                                        size: 18,
+                                        color: Color.fromARGB(228, 189, 20, 20))
+                                    : Container()),
                           ),
                           // Checkbox(
                           //   checkColor: Color.fromARGB(100, 214, 212, 212),
@@ -321,7 +423,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: RichText(
-                              text: const TextSpan(
+                              text:  TextSpan(
                                   text: 'I agree with',
                                   style: TextStyle(
                                     fontSize: 13,
@@ -339,7 +441,9 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                             fontFamily: "segoe",
                                             letterSpacing: -1,
                                             fontWeight: FontWeight.w400,
-                                            color: Colors.black)),
+                                            color: Colors.black),recognizer: TapGestureRecognizer()..onTap = () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=> TermsCondition()));
+                                          },),
                                     TextSpan(
                                       text: ' and  ',
                                       style: TextStyle(
@@ -349,6 +453,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                         fontFamily: "segoe",
                                         color: Color.fromARGB(153, 57, 55, 55),
                                       ),
+                                      
                                     ),
                                     TextSpan(
                                       text: 'Privacy Policy',
@@ -360,8 +465,12 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black,
                                       ),
+                                      recognizer: TapGestureRecognizer()..onTap = () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=> PrivacyPolicy()));
+                                          }
                                     )
-                                  ]),
+                                  ]
+                                  ),
                             ),
                           ),
                         ],
@@ -468,10 +577,9 @@ class _Become_member extends State<Become_member> implements ApiInterface {
       print('successfully registered');
 
       Constants.token = data['token'];
-    
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Login_screen()));
-      
     } else {
       print('error while login');
     }
@@ -496,8 +604,4 @@ class _Become_member extends State<Become_member> implements ApiInterface {
       });
     }
   }
-
-
-
-
 }

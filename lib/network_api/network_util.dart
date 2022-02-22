@@ -57,7 +57,8 @@ class NetworkUtil {
     var uri = Uri.parse(Constants.baseUrl + url);
     return http.get(uri, headers: {
       // 'Accept': 'application/json',
-      'Authorization': 'Token $token'
+      'Authorization': 'Token $token',
+      'Accept':'application/json'
     }).then((response) {
       final String res = response.body;
       final int statusCode = response.statusCode;

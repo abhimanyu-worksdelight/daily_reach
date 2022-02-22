@@ -1,5 +1,12 @@
+import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
+import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
+import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'LoginScreen.dart';
@@ -11,7 +18,10 @@ class SplashScreen extends StatefulWidget {
   }
 }
 
-class _SplashScreen extends State<SplashScreen> {
+class _SplashScreen extends State<SplashScreen> implements ApiInterface {
+
+  NetworkUtil networkUtil = new NetworkUtil();
+  
   @override
   void initState() {
     super.initState();
@@ -53,5 +63,46 @@ class _SplashScreen extends State<SplashScreen> {
         ),
       ),
     ]));
+  }
+
+
+  void getGeneralSettingsApi() async{
+
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      FlashHelper.singleFlash(context, 'Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await networkUtil.get(Constants.generalSettingsUrl, this);
+    }
+
+  }
+
+  @override
+  void onFailure(message, code) {
+    EasyLoader.hideLoader();
+    
+  }
+
+  @override
+  void onSuccess(data, code) {
+    EasyLoader.hideLoader();
+    if (data['status'] == 1) {
+     Constants.isLoggedIn = true;
+
+      var dataVal = data['data'];
+      Constants.token = data['token'];
+      
+      print('successfully login');
+      
+    } else {
+      print('error while login');
+    }
+
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
   }
 }

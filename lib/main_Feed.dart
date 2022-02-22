@@ -7,6 +7,7 @@ import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:dailyreach/utils/session_expired.dart';
 import 'package:flutter/cupertino.dart';
@@ -105,7 +106,12 @@ class _Feed extends State<Feed> implements ApiInterface {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PostDetail()));
+                              builder: (context) => PostDetail( 
+                                bodyStr: feedList[index].body!, 
+                                titleStr: feedList[index].title!,
+                                dateStr: feedList[index].createdAt!,
+                                bannerImageArr: feedList[index].banners!,
+                              )));
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -132,31 +138,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                   fontFamily: "assets/fonts/segui.TTf",
                                   color: Colors.black),
                             )),
-                        // Container(
-                        //   padding: EdgeInsets.fromLTRB(18, 7, 24, 6),
-                        //   width: MediaQuery.of(context).size.width,
-                        //   child: Stack(
-                        //     children: [
-                        //       Image.asset(
-                        //         "assets/images/feed.png",
-                        //         height: 169,
-                        //         fit: BoxFit.fill,
-                        //       ),
-                        //       index == 1
-                        //           ? Positioned(
-                        //               top: 1,
-                        //               bottom: 1,
-                        //               left: 1,
-                        //               right: 1,
-                        //               child: Icon(
-                        //                 Icons.play_circle_fill,
-                        //                 size: 80,
-                        //                 color: Colors.grey.withOpacity(0.7),
-                        //               ))
-                        //           : Container()
-                        //     ],
-                        //   ),
-                        // ), #old code
+                        
 
                         //New code
                         Container(
@@ -177,7 +159,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                         child: Center(
                                             child:(feedList[index].banners!.length > 0)
                             ? CachedNetworkImage(
-                                imageUrl: feedList[index].banners![index].banner!,
+                                imageUrl: feedList[index].banners![i].banner!,
                                 placeholder: (context, url) => Container(
                                     height: 2.0,
                                     width: 2.0,
@@ -296,7 +278,14 @@ class _Feed extends State<Feed> implements ApiInterface {
 
 
   Future<void> getFeeds() async {
-    var token = "";
+   var token = "";
+    Future<String> loginToken = SharedPreference.getStringValuesSF(Constants.token);
+    loginToken.then(
+        (value) => {
+               token = value
+            }, onError:(err) {
+      print("Error occured :: $err");
+    });
 
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {

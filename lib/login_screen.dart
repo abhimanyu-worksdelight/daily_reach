@@ -132,11 +132,26 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                       color: Colors.grey
                     ),
 
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    border: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
+                    enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                   ),
                   validator: (value) {
                     if (value!.isEmpty ||
@@ -148,7 +163,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                     return null;
                   },
                 ),
-                Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
+                // Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
                 TextFormField(
                   controller: passwordController,
                   obscureText: _isObscure,
@@ -176,11 +191,26 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                         );
                       },
                     ),
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    border: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
+                    enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -192,7 +222,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                     }
                   },
                 ),
-                Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
+                // Padding(padding:EdgeInsets.only(top: 13), child:Container(color: Colors.grey,height: 1,)),
                 GestureDetector(
                   onTap: () {
                     _submit();
@@ -303,10 +333,10 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
 
       if (data['status'] == 1) {
       var dataVal = data['data'];
-      Constants.token = data['token'];
+      var token = data['token'];
       Constants.isLoggedIn = true;
       SharedPreference.saveBooleanValue(Constants.loginStatus, true);
-
+      SharedPreference.saveStringValue(Constants.token, token);
       print('successfully login');
       Navigator.push(context, MaterialPageRoute(
           builder: (context) => Profile_screen()));

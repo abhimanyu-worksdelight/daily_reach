@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dailyreach/Models/FeedModel.dart';
+import 'package:dailyreach/Models/ArchiveModel.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:flutter/material.dart';
 
-import 'main_Feed.dart';
-import 'FirstPage.dart';
-import 'SplashScreen.dart';
 
-class PostDetail extends StatefulWidget {
-  String bodyStr;
-  String titleStr;
-  String dateStr;
+class ArchiveDetail extends StatefulWidget {
+
+  String? bodyStr;
+  String? archiveBody;
+  String? titleStr;
+  String? dateStr;
   List<Banners> bannerImageArr;
 
-  PostDetail({
+  ArchiveDetail({
     required this.titleStr,
     required this.bodyStr,
     required this.dateStr,
@@ -21,10 +20,10 @@ class PostDetail extends StatefulWidget {
   });
 
   @override
-  _PostDetail createState() => _PostDetail();
+  _ArchiveDetail createState() => _ArchiveDetail();
 }
 
-class _PostDetail extends State<PostDetail> {
+class _ArchiveDetail extends State<ArchiveDetail> {
   int _index = 0;
 
   @override
@@ -55,14 +54,15 @@ class _PostDetail extends State<PostDetail> {
                                       imageUrl:
                                           widget.bannerImageArr[i].banner!,
                                       height: 200,
-                                      // width: MediaQuery.of(context).size.width,
+                                      width: MediaQuery.of(context).size.width,
+                                      
                                       placeholder: (context, url) => Container(
                                           height: 2.0,
                                           width: 2.0,
                                           child: CircularProgressIndicator()),
                                       errorWidget: (context, url, error) =>
                                           Icon(Icons.error),
-                                      fit: BoxFit.fitWidth,
+                                      fit: BoxFit.fill,
                                     )
                                   : Image.asset(
                                       "assets/images/feed.png",
@@ -108,7 +108,7 @@ class _PostDetail extends State<PostDetail> {
                             padding: EdgeInsets.fromLTRB(21, 27, 16, 0),
                             width: MediaQuery.of(context).size.width,
                             child: Text(
-                              Constants.convertDateFormate(widget.dateStr),
+                              Constants.convertDateFormate(widget.dateStr!),
                               // "Monday, Jan 10, 2022",
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -120,7 +120,7 @@ class _PostDetail extends State<PostDetail> {
                             padding: EdgeInsets.fromLTRB(21, 8, 16, 0),
                             width: MediaQuery.of(context).size.width,
                             child: Text(
-                              widget.titleStr,
+                              widget.titleStr!,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 22,
@@ -131,7 +131,7 @@ class _PostDetail extends State<PostDetail> {
                           padding: EdgeInsets.fromLTRB(23, 8, 16, 0),
                           width: MediaQuery.of(context).size.width,
                           child:  Text(
-                            Constants.parseHtmlString(widget.bodyStr),
+                            Constants.parseHtmlString(widget.bodyStr!),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,

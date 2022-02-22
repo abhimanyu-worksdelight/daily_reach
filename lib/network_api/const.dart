@@ -6,8 +6,6 @@ import 'package:intl/intl.dart' as intl;
 
 
 class Constants{
- 
-
 
   
   static String baseUrl = "http://daily-reach-2022.us-east-2.elasticbeanstalk.com/api/";
@@ -15,10 +13,8 @@ class Constants{
   static String loginUrl = "login";
   static String registerUrl = "register";
   static String archiveUrl = "archive-posts";
-
-
-
-
+  static String generalSettingsUrl = "general-settings";
+  static String logoutUrl = "logout";
 
 
 
@@ -39,13 +35,18 @@ class Constants{
   static String businessName = "businessName";
   static String device = "device";
   static String oneSignalId = "oneSignalId";
+  static String videoStr = 'videoStr';
+  static String privacyPolicyStr = 'privacyPolicyStr';
+  static String termsconditionStr = 'termsconditionStr';
 
 
 
   //Global keys
 
    static bool isLoggedIn = false;
-    
+   static String policyStr = "";
+   static String termsStr = "";
+   static String tokenStr = "";
 
 
 
