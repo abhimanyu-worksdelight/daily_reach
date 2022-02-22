@@ -2,6 +2,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dailyreach/Privacy_Policy.dart';
 import 'package:dailyreach/Terms_and_Condition.dart';
+import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
@@ -12,6 +13,7 @@ import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'login_screen.dart';
 
 class Become_member extends StatefulWidget {
@@ -122,9 +124,10 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                   child: Column(children: [
                     TextFormField(
                       controller: nameController,
+                      keyboardType: TextInputType.name,
                       decoration: const InputDecoration(
                         labelText: 'Full Name',
-                        contentPadding: EdgeInsets.all(12),
+                        contentPadding: EdgeInsets.only(left:0,top: 12,bottom: 12),
                         labelStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -160,9 +163,10 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                     ),
                     TextFormField(
                       controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         labelText: 'Email Address',
-                        contentPadding: EdgeInsets.all(12),
+                        contentPadding: EdgeInsets.only(left:0,top:12,bottom: 12),
                         labelStyle: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -201,7 +205,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                     Row(
                       children: [
                         Container(
-                          margin: const EdgeInsets.only(top: 11),
+                          margin: const EdgeInsets.only(top: 12,bottom: 12,left: 0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -222,7 +226,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                 ],
                               ),
                               Container(
-                                margin: const EdgeInsets.only(top: 0),
+                                margin: const EdgeInsets.only(top: 0,left: 0),
                                 height: 1.1,
                                 width: 80,
                                 color: Color.fromARGB(174, 146, 142, 142),
@@ -234,8 +238,9 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           flex: 1,
                           child: TextFormField(
                             controller: phoneController,
+                            
                             decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.all(12),
+                              contentPadding: EdgeInsets.only(left:0,top:0,bottom: 12),
                               labelText: 'Phone Number',
                               labelStyle: TextStyle(
                                 fontSize: 13,
@@ -266,11 +271,12 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Enter a valid Phone Number!';
-                              } else if (value.length < 6) {
+                              } else if (value.length < 7 ) {
                                 return 'Enter valid Phone Number!';
                               }
                               return null;
                             },
+                            inputFormatters: [LengthLimitingTextInputFormatter(15)],
                           ),
                         ),
                       ],
@@ -279,7 +285,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                       controller: createPasswordctrl,
                       obscureText: _isObscure,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(12),
+                        contentPadding: EdgeInsets.only(top: 12,bottom: 12,left: 0),
                         labelText: 'Create Password',
                         labelStyle: const TextStyle(
                           fontSize: 13,
@@ -333,7 +339,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                       obscureText: _isObscureConfirm,
                       controller: confirmpsdctrl,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(12),
+                        contentPadding: EdgeInsets.only(top: 12,bottom: 12,left: 0),
                         labelText: 'Confirm Password',
                         labelStyle: const TextStyle(
                           fontSize: 13,
@@ -515,13 +521,21 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 4),
-                            child: Text(
-                              'Already have an account ?  ',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "segoe",
-                                color: Color(0XFF8D95B2),
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Login_screen()));
+                              },
+                              child: Text(
+                                'Already have an account ?  ',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "segoe",
+                                  color: Color(0XFF8D95B2),
+                                ),
                               ),
                             ),
                           ),
@@ -554,6 +568,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
   void _submit() {
     final isValid = _formKey.currentState?.validate();
     if (isValid == false) {
+      ToastManager.errorToast('Please check your data');
       return;
     } else {
       // Navigator.push(
@@ -566,6 +581,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
 
   @override
   void onFailure(message, code) {
+    ToastManager.errorToast('Something went wrong!');
     EasyLoader.hideLoader();
   }
 
@@ -577,7 +593,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
       print('successfully registered');
 
       Constants.token = data['token'];
-
+      
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Login_screen()));
     } else {
@@ -587,6 +603,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
 
   @override
   void onTokenExpire(message, code) {
+     ToastManager.errorToast('Token expired');
     EasyLoader.hideLoader();
   }
 

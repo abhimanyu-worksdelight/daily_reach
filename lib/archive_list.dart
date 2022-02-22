@@ -82,7 +82,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
             padding: const EdgeInsets.only(top: 18, left: 14),
             child: Container(
               height: 40,
-              width: 320,
+              width: 335,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.grey,
@@ -90,17 +90,23 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const TextField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Search by name, date',
-                    hintStyle: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w400),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                   ),
+              child:  Padding(
+                padding:  EdgeInsets.only(top:15.0,left: 0),
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Search by name, date',
+                      hintStyle: TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w400),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(left:0,top: 0),
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                        ),
+                      ),
+                     ),
+                ),
               ),
             ),
           ),
@@ -192,6 +198,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                         ),
                                       ),
                                       Container(
+                                        color: Colors.red,
                                         height:50,
                                         padding: EdgeInsets.fromLTRB(21, 0,26, 7),
                                         width: MediaQuery.of(context).size.width,
@@ -213,7 +220,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                               height: 20,
                                               child: Center(
                                                 child: FittedBox(
-                                                  fit: BoxFit.contain,
+                                                  fit: BoxFit.fitWidth,
                                                   child: Text(
                                                     archieveList[index].categoriesData![index].name!
                                                   ),
@@ -241,7 +248,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: 11, left: 7, right: 0),
+                                              top: 0, left: 7, right: 0),
                                           child: Text(
                                             'Read More',
                                             style: TextStyle(
