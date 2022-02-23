@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
@@ -8,7 +9,6 @@ import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/profile_screen.dart';
 import 'package:dailyreach/reset_password.dart';
-import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -307,7 +307,8 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
   void LoginApi() async {
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      FlashHelper.singleFlash(context, 'Check your internet');
+      // FlashHelper.singleFlash(context, 'Check your internet');
+      ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
       _networkUtil.post(Constants.loginUrl, this, body: {
@@ -324,6 +325,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
   void onFailure(message, code) {
     EasyLoader.hideLoader();
     // TODO: implement onFailure
+    ToastManager.errorToast('error');
   }
 
   @override
@@ -349,12 +351,14 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
           builder: (context) => Profile_screen()));
     } else {
       print('error while login');
+      ToastManager.errorToast('error fail');
     }
   }
 
   @override
   void onTokenExpire(message, code) {
     EasyLoader.hideLoader();
+    ToastManager.errorToast('token expired');
     // TODO: implement onTokenExpire
   }
 }

@@ -3,12 +3,12 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/FirstPage.dart';
 import 'package:dailyreach/Models/FeedModel.dart';
 import 'package:dailyreach/login_screen.dart';
+import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
-import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:dailyreach/utils/session_expired.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +109,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                               builder: (context) => PostDetail( 
                                 bodyStr: feedList[index].body!, 
                                 titleStr: feedList[index].title!,
-                                dateStr: feedList[index].createdAt!,
+                                dateStr: feedList[index].date!,
                                 bannerImageArr: feedList[index].banners!,
                               )));
                     },
@@ -120,7 +120,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                             padding: EdgeInsets.fromLTRB(18, 19, 24, 7),
                             width: MediaQuery.of(context).size.width,
                             child: Text(
-                              Constants.convertDateFormate(feedList[index].createdAt!),
+                              Constants.convertDateFormate(feedList[index].date!),
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15,
@@ -289,7 +289,8 @@ class _Feed extends State<Feed> implements ApiInterface {
 
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      FlashHelper.singleFlash(context, 'Check internet connection');
+      // FlashHelper.singleFlash(context, 'Check internet connection');
+      ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
       await networkUtil.getAuth(Constants.feedUrl, token, this);
@@ -300,6 +301,7 @@ class _Feed extends State<Feed> implements ApiInterface {
   void onFailure(message, code) {
     // TODO: implement onFailure
     EasyLoader.hideLoader();
+    ToastManager.errorToast('error');
     print('onFailure $message');
     if (this.mounted) {
       setState(() {});
@@ -322,11 +324,12 @@ class _Feed extends State<Feed> implements ApiInterface {
 
   @override
   void onTokenExpire(message, code) {
+    ToastManager.errorToast('token expired');
     // TODO: implement onTokenExpire
     EasyLoader.hideLoader();
     if (this.mounted) {
       setState(() {});
     }
-    SessionExpired().showTokenExpirePopUp(context);
+   
   }
 }

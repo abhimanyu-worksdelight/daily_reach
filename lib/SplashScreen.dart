@@ -1,9 +1,10 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
-import 'package:dailyreach/utils/flash_Helper.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -70,7 +71,8 @@ class _SplashScreen extends State<SplashScreen> implements ApiInterface {
 
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      FlashHelper.singleFlash(context, 'Check internet connection');
+      // FlashHelper.singleFlash(context, 'Check internet connection');
+      ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
       await networkUtil.get(Constants.generalSettingsUrl, this);
@@ -81,6 +83,7 @@ class _SplashScreen extends State<SplashScreen> implements ApiInterface {
   @override
   void onFailure(message, code) {
     EasyLoader.hideLoader();
+    ToastManager.errorToast('error');
     
   }
 
@@ -97,6 +100,7 @@ class _SplashScreen extends State<SplashScreen> implements ApiInterface {
       
     } else {
       print('error while login');
+      ToastManager.errorToast('error fail');
     }
 
   }
@@ -104,5 +108,6 @@ class _SplashScreen extends State<SplashScreen> implements ApiInterface {
   @override
   void onTokenExpire(message, code) {
     EasyLoader.hideLoader();
+    ToastManager.errorToast('token expired');
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dailyreach/Privacy_Policy.dart';
@@ -7,31 +9,41 @@ import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/profile_screen.dart';
 import 'package:dailyreach/utils/commonmethod.dart';
-import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'login_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
   String name;
   String email;
   String phone;
 
-  EditProfile({
-    required this.name,
-    required this.email,
-    required this.phone
-  });
-  
+  EditProfile({required this.name, required this.email, required this.phone});
+
   @override
   State<EditProfile> createState() => _EditProfile();
 }
 
-class _EditProfile extends State<EditProfile>  {
+@override
+void initState() {
+  getToken();
+}
+
+getToken() {
+  Future<String> loginToken =
+      SharedPreference.getStringValuesSF(Constants.token);
+  loginToken.then((value) => {Constants.tokenStr = value}, onError: (err) {
+    print("Error occured :: $err");
+  });
+}
+
+class _EditProfile extends State<EditProfile> implements ApiInterface {
   bool _ischecked = false;
   bool _isObscure = true;
   bool _isObscureConfirm = true;
@@ -45,8 +57,7 @@ class _EditProfile extends State<EditProfile>  {
   final createPasswordctrl = TextEditingController();
   final confirmpsdctrl = TextEditingController();
 
-  
-
+  PickedFile? imageFile = null;
 
   @override
   Widget build(BuildContext context) {
@@ -118,98 +129,108 @@ class _EditProfile extends State<EditProfile>  {
                   fontSize: 22,
                 ),
               ),
-
               Stack(
-          children: [
-            
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20, ),
-                child: Image.asset(
-                  'assets/images/ellispe5.png',
-                  height: 120,
-                  width: 120,
-                ),
-              ),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Image.asset(
-                  'assets/images/camera.png',
-                  height: 40,
-                  width: 40,
-                ),
-              ),
-            ),
-             Center(
-               child: Padding(
-                padding: EdgeInsets.only(top: 100),
-                child: Text(
-                  'Upload photo',
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: "segoe",
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          _showPicker(context);
+                        },
+                        child: Image.asset(
+                          'assets/images/ellispe5.png',
+                          height: 120,
+                          width: 120,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-            ),
-             ),
-            
-          
-
-          ],
-        ),
-              
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 50),
+                      child: InkWell(
+                        onTap: (){
+                          _showPicker(context);
+                        },
+                        child: (imageFile != null) ?Image.asset(
+                          'assets/images/camera.png',
+                          height: 40,
+                          width: 40,
+                        ): Image.file(
+                            imageFile,
+                            height: 300,
+                            width: 300,
+                        ),    
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 100),
+                      child: Text(
+                        'Upload photo',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "segoe",
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Form(
                     key: _formKey,
                     child: Column(children: [
                       TextFormField(
-                        controller: nameController,
-                        keyboardType: TextInputType.name,
-                        decoration: const InputDecoration(
-                          labelText: 'Full Name',
-                          contentPadding: EdgeInsets.only(left:0,top: 12,bottom: 12),
-                          labelStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "segoe",
+                          controller: nameController,
+                          keyboardType: TextInputType.name,
+                          decoration: const InputDecoration(
+                            labelText: 'Full Name',
+                            contentPadding:
+                                EdgeInsets.only(left: 0, top: 12, bottom: 12),
+                            labelStyle: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "segoe",
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
+                            ),
+                            border: UnderlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
+                            ),
+                            errorBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 0.0),
+                            ),
+                            disabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
+                            ),
                           ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.grey, width: 0.0),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.grey, width: 0.0),
-                          ),
-                          border: UnderlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.grey, width: 0.0),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 0.0),
-                          ),
-                          disabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.grey, width: 0.0),
-                          ),
-                          
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter name';
-                          }
-                          
-                          return null;
-                        },
-                        inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")), ]
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter name';
+                            }
 
-
-                      ),
+                            return null;
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[a-zA-Z]")),
+                          ]),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: TextFormField(
@@ -217,31 +238,32 @@ class _EditProfile extends State<EditProfile>  {
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
                             labelText: 'Email Address',
-                            contentPadding: EdgeInsets.only(left:0,top:12,bottom: 12),
+                            contentPadding:
+                                EdgeInsets.only(left: 0, top: 12, bottom: 12),
                             labelStyle: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
                               fontFamily: "segoe",
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.grey, width: 0.0),
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.grey, width: 0.0),
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
                             ),
                             border: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.grey, width: 0.0),
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
                             ),
                             errorBorder: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.red, width: 0.0),
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 0.0),
                             ),
                             disabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.grey, width: 0.0),
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 0.0),
                             ),
                           ),
                           validator: (value) {
@@ -259,7 +281,8 @@ class _EditProfile extends State<EditProfile>  {
                           Padding(
                             padding: const EdgeInsets.only(top: 15),
                             child: Container(
-                              margin: const EdgeInsets.only(top: 12,bottom: 12,left: 0),
+                              margin: const EdgeInsets.only(
+                                  top: 12, bottom: 12, left: 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -280,7 +303,8 @@ class _EditProfile extends State<EditProfile>  {
                                     ],
                                   ),
                                   Container(
-                                    margin: const EdgeInsets.only(top: 0,left: 0),
+                                    margin:
+                                        const EdgeInsets.only(top: 0, left: 0),
                                     height: 1.1,
                                     width: 80,
                                     color: Color.fromARGB(174, 146, 142, 142),
@@ -295,9 +319,9 @@ class _EditProfile extends State<EditProfile>  {
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
                                 controller: phoneController,
-                                
                                 decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.only(left:0,top:0,bottom: 12),
+                                  contentPadding: EdgeInsets.only(
+                                      left: 0, top: 0, bottom: 12),
                                   labelText: 'Phone Number',
                                   labelStyle: TextStyle(
                                     fontSize: 13,
@@ -305,35 +329,37 @@ class _EditProfile extends State<EditProfile>  {
                                     fontFamily: "segoe",
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.grey, width: 0.0),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.grey, width: 0.0),
-                          ),
-                          border: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.grey, width: 0.0),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.red, width: 0.0),
-                          ),
-                          disabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.grey, width: 0.0),
-                          ),
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 0.0),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 0.0),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 0.0),
+                                  ),
+                                  errorBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.red, width: 0.0),
+                                  ),
+                                  disabledBorder: UnderlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 0.0),
+                                  ),
                                 ),
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Enter a valid Phone Number!';
-                                  } else if (value.length < 7 ) {
+                                  } else if (value.length < 7) {
                                     return 'Enter valid Phone Number!';
                                   }
                                   return null;
                                 },
-                                inputFormatters: [LengthLimitingTextInputFormatter(15)],
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(15)
+                                ],
                               ),
                             ),
                           ),
@@ -371,7 +397,6 @@ class _EditProfile extends State<EditProfile>  {
                                   ])),
                         ),
                       ),
-                     
                     ])),
               )
             ]),
@@ -388,10 +413,131 @@ class _EditProfile extends State<EditProfile>  {
       // Navigator.push(
       //     context, MaterialPageRoute(builder: (context) => Profile_screen()));
 
-      
     }
     _formKey.currentState?.save();
   }
 
-  
+  void editProfileApi() async {
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      // FlashHelper.singleFlash(context, 'Check your internet');
+      ToastManager.errorToast('Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      _networkUtil.post(Constants.loginUrl, this, body: {
+        'email': emailController.text,
+        'name': nameController.text,
+        'phone': phoneController.text,
+        'photo': ""
+      });
+    }
+  }
+
+  @override
+  void onFailure(message, code) {
+    EasyLoader.hideLoader();
+    ToastManager.errorToast('error');
+  }
+
+  @override
+  void onSuccess(data, code) {
+    EasyLoader.hideLoader();
+    ToastManager.successToast('success');
+    if (data['status'] == 1) {
+      print('successfully edited profile');
+      Navigator.pop(context);
+    } else {
+      print('error while login');
+      ToastManager.errorToast('error fail');
+    }
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
+    ToastManager.errorToast('token expired');
+  }
+
+  void _openGallery(BuildContext context) async {
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+    setState(() {
+      imageFile = pickedFile!;
+    });
+
+    // Navigator.pop(context);
+  }
+
+  void _openCamera(BuildContext context) async {
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+    setState(() {
+      imageFile = pickedFile!;
+    });
+    // Navigator.pop(context);
+  }
+
+  // Future<void>_showChoiceDialog(BuildContext context)
+  // {
+  //   return showDialog(context: context,builder: (BuildContext context){
+
+  //     return AlertDialog(
+  //       title: Text("Choose option",style: TextStyle(color: Colors.blue),),
+  //       content: SingleChildScrollView(
+  //       child: ListBody(
+  //         children: [
+  //           Divider(height: 1,color: Colors.blue,),
+  //           ListTile(
+  //             onTap: (){
+  //               _openGallery(context);
+  //             },
+  //           title: Text("Gallery"),
+  //             leading: Icon(Icons.account_box,color: Colors.blue,),
+  //       ),
+
+  //           Divider(height: 1,color: Colors.blue,),
+  //           ListTile(
+  //             onTap: (){
+  //               _openCamera(context);
+  //             },
+  //             title: Text("Camera"),
+  //             leading: Icon(Icons.camera,color: Colors.blue,),
+  //           ),
+  //         ],
+  //       ),
+  //     ),);
+  //   });
+  // }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _openGallery(context);
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _openCamera(context);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
 }

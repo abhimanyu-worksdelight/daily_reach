@@ -9,7 +9,6 @@ import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/profile_screen.dart';
 import 'package:dailyreach/utils/commonmethod.dart';
-import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -594,7 +593,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
 
   @override
   void onFailure(message, code) {
-    ToastManager.errorToast('Something went wrong!');
+    ToastManager.errorToast('error');
     EasyLoader.hideLoader();
   }
 
@@ -611,6 +610,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
           context, MaterialPageRoute(builder: (context) => Login_screen()));
     } else {
       print('error while login');
+      ToastManager.errorToast('error fail');
     }
   }
 
@@ -623,7 +623,8 @@ class _Become_member extends State<Become_member> implements ApiInterface {
   void registerApi() async {
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      FlashHelper.singleFlash(context, 'Check your internet');
+      // FlashHelper.singleFlash(context, 'Check your internet');
+      ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
       _networkUtil.post(Constants.registerUrl, this, body: {

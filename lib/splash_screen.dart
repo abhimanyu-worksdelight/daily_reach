@@ -1,12 +1,13 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/become_member.dart';
+import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/profile_screen.dart';
-import 'package:dailyreach/utils/flash_Helper.dart';
+
 import 'package:flutter/material.dart';
 import 'main.dart';
 
@@ -98,7 +99,8 @@ NetworkUtil networkUtil = new NetworkUtil();
 
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      FlashHelper.singleFlash(context, 'Check internet connection');
+      // FlashHelper.singleFlash(context, 'Check internet connection');
+      ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
       await networkUtil.get(Constants.generalSettingsUrl, this);
@@ -109,7 +111,7 @@ NetworkUtil networkUtil = new NetworkUtil();
   @override
   void onFailure(message, code) {
     EasyLoader.hideLoader();
-    
+    ToastManager.errorToast('error');
   }
 
   @override
@@ -129,6 +131,7 @@ NetworkUtil networkUtil = new NetworkUtil();
       
     } else {
       print('error while login');
+      ToastManager.errorToast('error fail');
     }
 
   }
@@ -136,5 +139,6 @@ NetworkUtil networkUtil = new NetworkUtil();
   @override
   void onTokenExpire(message, code) {
     EasyLoader.hideLoader();
+    ToastManager.errorToast('Token expired');
   }
 }

@@ -1,11 +1,11 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Edit_Profile.dart';
+import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
-import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
 import 'Notification.dart';
 import 'main.dart';
@@ -244,7 +244,9 @@ NetworkUtil _networkUtil = new NetworkUtil();
           child: Padding(
             padding: EdgeInsets.only(top: 200,bottom: 20),
             child: Text(
+              
               'Logout',
+              
               style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
@@ -262,7 +264,8 @@ NetworkUtil _networkUtil = new NetworkUtil();
     
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      FlashHelper.singleFlash(context, 'Check internet connection');
+      
+      ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
       await _networkUtil.getAuth(Constants.logoutUrl, Constants.tokenStr, this);
@@ -273,13 +276,16 @@ NetworkUtil _networkUtil = new NetworkUtil();
   @override
   void onFailure(message, code) {
     EasyLoader.hideLoader();
+    ToastManager.errorToast('error');
   }
 
   @override
   void onSuccess(data, code) {
+    ToastManager.successToast('success');
     EasyLoader.hideLoader();
     
     if (data['status'] == 1) {
+      print('successfully logout');
       SharedPreference.saveBooleanValue(Constants.loginStatus, false);
       SharedPreference.saveStringValue(Constants.token, '');
 
@@ -291,11 +297,15 @@ NetworkUtil _networkUtil = new NetworkUtil();
       print("Error occured :: $err");
     });
     }
+    else{
+      ToastManager.errorToast('error fail');
+    }
     
   }
 
   @override
   void onTokenExpire(message, code) {
     EasyLoader.hideLoader();
+    ToastManager.errorToast('token expired');
   }
 }

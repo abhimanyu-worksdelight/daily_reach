@@ -63,7 +63,7 @@ static String parseHtmlString(String htmlString) {
   }
 
 static String convertDateFormate(String dateString){
-  var format = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+  var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
   var timeNowDateTime = format.parse("$dateString");
   var date = intl.DateFormat('EEE, dd MMM, yyyy').format(timeNowDateTime);
   return date;

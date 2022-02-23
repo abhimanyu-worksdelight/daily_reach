@@ -3,12 +3,12 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Archive_Detail.dart';
 import 'package:dailyreach/Models/ArchiveModel.dart';
 import 'package:dailyreach/PostDetail.dart';
+import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
-import 'package:dailyreach/utils/flash_Helper.dart';
 import 'package:flutter/material.dart';
 import 'archive_screen.dart';
 
@@ -24,6 +24,9 @@ class Archive_list extends StatefulWidget {
 class _Archive_list extends State<Archive_list> implements ApiInterface {
 
   List<ArchievData> archieveList = [];
+  var _isfromSearch = false;
+  List<ArchievData> selectedArchiveList = [];
+
   List<Banners> bannerList = [];
   List<CategoriesData>categoryList = [];
   NetworkUtil networkUtil = new NetworkUtil();
@@ -98,7 +101,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                   child: const TextField(
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Search by name,date',
+                        hintText: 'Search by name',
                         hintStyle: TextStyle(
                             fontFamily: "segoe",
                             fontSize: 14, fontWeight: FontWeight.w400),
@@ -135,7 +138,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                 
                                 bodyStr: archieveList[index].body!, 
                                 titleStr: archieveList[index].title!,
-                                dateStr: archieveList[index].createdAt!,
+                                dateStr: archieveList[index].date!,
                                 bannerImageArr: archieveList[index].banners!,
                               )));
                         },
@@ -176,7 +179,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                         padding: EdgeInsets.only(
                                             top: 20, left: 7, right: 0),
                                         child: Text(
-                                          Constants.convertDateFormate(archieveList[index].createdAt!),
+                                          Constants.convertDateFormate(archieveList[index].date!),
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 14,
@@ -294,7 +297,8 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
 
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      FlashHelper.singleFlash(context, 'Check internet connection');
+      // FlashHelper.singleFlash(context, 'Check internet connection');
+      ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
       await networkUtil.getAuth(Constants.archiveUrl, token, this);
@@ -306,6 +310,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
   void onFailure(message, code) {
     // TODO: implement onFailure
     EasyLoader.hideLoader();
+    ToastManager.errorToast('error');
   }
 
   @override
@@ -336,6 +341,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
   void onTokenExpire(message, code) {
     // TODO: implement onTokenExpire
     EasyLoader.hideLoader();
+    ToastManager.errorToast('token expired');
   }
 
   void _awaitReturnValueFromSecondScreen(BuildContext context) async {
@@ -349,5 +355,27 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
       // categoryList.where((item) => item.contains(selectedString));
       // categoryList.where((w) => w == selectedString).map((w)());
     });
+  }
+
+  onSearchTextChanged(String text) async {
+    _isfromSearch = true;
+    selectedArchiveList.clear();
+    if (text.isEmpty) {
+      _isfromSearch = false;
+      selectedArchiveList.clear();
+      setState(() {});
+      return;
+    }
+
+    selectedArchiveList.forEach((userDetail) {
+      if (text == "") {
+        print("empty");
+      } else {
+        if (userDetail.title!.toLowerCase().contains(text.toLowerCase())) selectedArchiveList.add(userDetail);
+        print(selectedArchiveList);
+      }
+    });
+
+    setState(() {});
   }
 }
