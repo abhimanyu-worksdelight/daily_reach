@@ -1,3 +1,11 @@
+import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/Models/categoryModel.dart';
+import 'package:dailyreach/network_api/Toast.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
+import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
+import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:flutter/material.dart';
 
 class Archive_screen extends StatefulWidget {
@@ -9,7 +17,7 @@ class Archive_screen extends StatefulWidget {
   }
 }
 
-class _Archive_screen extends State<Archive_screen> {
+class _Archive_screen extends State<Archive_screen> implements ApiInterface{
   var arr = [
     'Entertainment',
     'Painting',
@@ -21,7 +29,24 @@ class _Archive_screen extends State<Archive_screen> {
     'Explore',
     'Gym'
   ];
+  var _isfromSearch = false;
+  var selectedText = '';
+  var isclicked = false;
+  var idStr = "";
+  var apiType = rqgetCategoryList;
+  
+  List<CategoryData> selectedItemArr = [];
+  List<CategoryData> searchItemArr = [];
+  
+  TextEditingController searchTextController = new TextEditingController();
+  NetworkUtil networkUtil = new NetworkUtil();
 
+@override
+  void initState() {
+    super.initState();
+    ShowCategoryList();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +81,13 @@ class _Archive_screen extends State<Archive_screen> {
                 children: [
                   InkWell(
                     onTap: () {
+                      List<int> selectedIntList = []; 
+                      for (var i=0;i<searchItemArr.length;i++){
+                         if(searchItemArr[i].isselected!){
+                           selectedIntList.add(searchItemArr[i].id!);
+                         }
+                      }
+                      idStr = selectedIntList.join(', ');
                       Navigator.pop(context);
                     },
                     child: const Padding(
@@ -92,18 +124,15 @@ class _Archive_screen extends State<Archive_screen> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 20, left: 70),
                       child: InkWell(
-                        onTap: (){
-
-                        },
+                        onTap: () {},
                         child: Text(
                           'Cancel ',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "segoe",
-                            color: Color.fromRGBO(66, 103, 176, 1.0)
-                          ),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "segoe",
+                              color: Color.fromRGBO(66, 103, 176, 1.0)),
                         ),
                       ),
                     ),
@@ -122,13 +151,15 @@ class _Archive_screen extends State<Archive_screen> {
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const TextField(
+                  child: TextField(
+                    controller: searchTextController,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Search',
                         hintStyle: TextStyle(
                             fontFamily: "segoe",
-                            fontSize: 14, fontWeight: FontWeight.w400),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
                         prefixIcon: Icon(
                           Icons.search,
                           color: Colors.grey,
@@ -137,6 +168,21 @@ class _Archive_screen extends State<Archive_screen> {
                           Icons.mic,
                           color: Colors.grey,
                         )),
+                    onChanged: (value) {
+                      
+                      if (value != "") {
+                        onSearchTextChanged(
+                            searchTextController.text.toString());
+                      } else {
+                        _isfromSearch = false;
+                        searchItemArr.clear();
+                      }
+                    },
+
+                    onSubmitted: (value){
+                      
+                      FocusScope.of(context).unfocus();
+                    },
                   ),
                 ),
               ),
@@ -144,39 +190,64 @@ class _Archive_screen extends State<Archive_screen> {
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: ListView.separated(
-                        separatorBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 5,left: 17,right: 5),
-                            child: Container(
-                              height: 1,
+                    child: Container(
+                      
+                      child: ListView.separated(
+                          separatorBuilder: (context, index1) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 5, left: 17, right: 5),
+                              child: Container(
+                                height: 1,
                                 color: Color.fromARGB(100, 214, 212, 212),
-                            ),
-                          );
-                        },
-                        itemCount: arr.length,
-                        itemBuilder: (BuildContext, index) {
-                          return GestureDetector(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 25, left: 20, bottom: 10),
-                                  child: Text(
-                                    arr[index],
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-
+                              ),
+                            );
+                          },
+                          itemCount: (_isfromSearch == true) ? searchItemArr.length:selectedItemArr.length,
+                          itemBuilder: (BuildContext, index) {
+                            return InkWell(
+                              onTap: () {
+                                selectedItemArr[index].isselected = ! selectedItemArr[index].isselected!;
+                                setState(() {});
+                              },
+                              child: Container(
+                                
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 25, left: 20, bottom: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            (_isfromSearch == true) ? searchItemArr[index].name!:selectedItemArr[index].name!,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.only(right: 10),
+                                              child: (selectedItemArr[index].isselected == true) ? 
+                                              Icon(
+                                                Icons.check,
+                                                color: Colors.grey,
+                                              ) : Container()
+                                              )
+                                        ],
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          );
-                        }),
+                              ),
+                            );
+                          }),
+                    ),
                   )),
               Container(
                 height: 50,
@@ -185,4 +256,104 @@ class _Archive_screen extends State<Archive_screen> {
           ),
         ));
   }
+
+  onSearchTextChanged(String text) async {
+    _isfromSearch = true;
+    searchItemArr.clear();
+    if (text.isEmpty) {
+      _isfromSearch = false;
+      searchItemArr.clear();
+      setState(() {});
+      return;
+    }
+
+    selectedItemArr.forEach((userDetail) {
+      if (text == "") {
+        print("empty");
+      } else {
+        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) searchItemArr.add(userDetail);
+        print(searchItemArr);
+      }
+    });
+
+    setState(() {});
+  }
+
+
+  void ShowCategoryList() async{
+    apiType = rqgetCategoryList;
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      ToastManager.errorToast('please check your internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await networkUtil.get(Constants.categoryUrl, this);
+    }
+
+  }
+
+  void showFilterredList() async{
+    apiType = rqFilterList;
+    var token = "";
+    Future<String> loginToken = SharedPreference.getStringValuesSF(Constants.token);
+    loginToken.then(
+        (value) => {
+               token = value
+            }, onError:(err) {
+      print("Error occured :: $err");
+    });
+
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      ToastManager.errorToast('please check your internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await networkUtil.getAuth(Constants.archiveUrl+'search_keyword=${searchTextController.text.toString()}&categories=${int.parse(idStr)}', token, this);
+    }
+
+  }
+
+  @override
+  void onFailure(message, code) {
+    ToastManager.errorToast('Failed...please check');
+  }
+
+  @override
+  void onSuccess(data, code) {
+    EasyLoader.hideLoader();
+    switch (apiType){
+      case rqgetCategoryList:{
+        ToastManager.successToast('success');
+
+    CategoryModel catModel = new CategoryModel.fromJson(data);
+    if (catModel.status == 1) {
+      selectedItemArr.addAll(catModel.data!);
+      print(catModel.data);
+
+    }
+    setState(() {});
+
+      }
+      break;
+
+      case rqFilterList:{
+        ToastManager.successToast('success');
+        
+      }
+
+    }
+    
+
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    ToastManager.errorToast('Token expired');
+  }
+
+
 }
+
+const int rqgetCategoryList = 0;
+const int rqFilterList = 1;
+

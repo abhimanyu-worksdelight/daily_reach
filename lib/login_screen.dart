@@ -73,7 +73,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 60, left: 30),
+                            padding: const EdgeInsets.only(top: 60, left: 30,right: 30),
                             child: Center(
                               child: Image.asset(
                                 'assets/images/daily_reach_logo.png',
@@ -123,7 +123,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                   decoration: const InputDecoration(
                   labelText: 'Email Address',
                   
-                    contentPadding: EdgeInsets.only(top:12),
+                    contentPadding: EdgeInsets.only(top:9,bottom: 9),
 
                     labelStyle: TextStyle(
                       fontSize: 17,
@@ -169,7 +169,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                   obscureText: _isObscure,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    contentPadding: EdgeInsets.only(top: 12),
+                    contentPadding: EdgeInsets.only(top: 9 , bottom: 9 ,),
                     labelStyle: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
@@ -181,8 +181,9 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                       //     ? Icons.visibility_off_outlined
                       //     : Icons.visibility_outlined, color: Colors.grey,),
 
-                      icon: Icon(
-                           Icons.visibility_outlined, color: Colors.grey,),
+                      icon: Icon(_isObscure
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,color: Colors.grey,),
                       onPressed: () {
                         setState(
                               () {
@@ -334,9 +335,15 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
       if (data['status'] == 1) {
       var dataVal = data['data'];
       var token = data['token'];
+      var name = dataVal['name'];
+      var email = dataVal['email'];
+      var phone = dataVal['phone'];
       Constants.isLoggedIn = true;
       SharedPreference.saveBooleanValue(Constants.loginStatus, true);
       SharedPreference.saveStringValue(Constants.token, token);
+      SharedPreference.saveStringValue(Constants.firstName,name);
+      SharedPreference.saveStringValue(Constants.email,email);
+      SharedPreference.saveStringValue(Constants.phoneNumber,phone);
       print('successfully login');
       Navigator.push(context, MaterialPageRoute(
           builder: (context) => Profile_screen()));

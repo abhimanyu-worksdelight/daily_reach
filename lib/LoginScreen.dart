@@ -89,11 +89,13 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                       ),
                     ]),
                     Padding(
-                      padding: EdgeInsets.only(left: 48),
-                      child: Image.asset(
-                        'assets/images/daily.png',
-                        height: 42,
-                        width: 190,
+                      padding: EdgeInsets.only(left: 30,right: 30,top: 60),
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/daily.png',
+                          height: 42,
+                          width: 190,
+                        ),
                       ),
                     )
                   ],
@@ -181,8 +183,9 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                           //     ? Icons.visibility
                           //     : Icons.visibility_off),
 
-                           icon: Icon(
-                           Icons.visibility_outlined, color: Colors.grey,),
+                           icon: Icon(_isObscure
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,color: Colors.grey,),
 
                           onPressed: () {
                             setState(() {
@@ -346,9 +349,15 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
     if (data['status'] == 1) {
      var dataVal = data['data'];
       var token = data['token'];
+      var name = dataVal['name'];
+      var email = dataVal['email'];
+      var phone = dataVal['phone'];
       Constants.isLoggedIn = true;
       SharedPreference.saveBooleanValue(Constants.loginStatus, true);
       SharedPreference.saveStringValue(Constants.token, token);
+      SharedPreference.saveStringValue(Constants.firstName,name);
+      SharedPreference.saveStringValue(Constants.email,email);
+      SharedPreference.saveStringValue(Constants.phoneNumber,phone);
       print('successfully login');
       Navigator.push(
         context,

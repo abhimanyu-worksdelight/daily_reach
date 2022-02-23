@@ -59,7 +59,7 @@ class NetworkUtil {
       // 'Accept': 'application/json',
       'Authorization': 'Token $token',
       'Accept':'application/json'
-    }).then((response) {
+    },).then((response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
 

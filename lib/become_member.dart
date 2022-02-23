@@ -132,6 +132,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
+                          color: Colors.grey
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide:
@@ -153,13 +154,18 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           borderSide:
                               const BorderSide(color: Colors.grey, width: 0.0),
                         ),
+                        
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter name';
                         }
+                        
                         return null;
                       },
+                      inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")), ]
+
+
                     ),
                     TextFormField(
                       controller: emailController,
@@ -171,6 +177,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
+                          color: Colors.grey
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide:
@@ -218,6 +225,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                     flagWidth: 25,
                                     textStyle: const TextStyle(
                                       fontSize: 13,
+                                      color: Colors.grey
                                     ),
                                     showCountryOnly: false,
                                     showOnlyCountryWhenClosed: false,
@@ -246,6 +254,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "segoe",
+                                color: Colors.grey
                               ),
                               enabledBorder: UnderlineInputBorder(
                           borderSide:
@@ -291,11 +300,12 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
+                          color: Colors.grey
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscure
                               ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined),
+                              : Icons.visibility_outlined,color: Colors.grey,),
                           onPressed: () {
                             setState(
                               () {
@@ -345,11 +355,12 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
+                          color: Colors.grey
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(_isObscureConfirm
                               ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined),
+                              : Icons.visibility_outlined,color: Colors.grey,),
                           onPressed: () {
                             setState(
                               () {
@@ -402,6 +413,8 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                 isClick = !isClick;
                               });
                             },
+
+                            
                             child: Container(
                                 height: 19,
                                 width: 19,

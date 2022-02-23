@@ -25,9 +25,12 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
 
   List<ArchievData> archieveList = [];
   List<Banners> bannerList = [];
+  List<CategoriesData>categoryList = [];
   NetworkUtil networkUtil = new NetworkUtil();
   int _index = 0;
   var htmlStr = "";
+
+  var selectedString = "";
 
   @override
   void initState() {
@@ -56,8 +59,10 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                 padding: const EdgeInsets.only(top: 65, right: 23, left: 29),
                 child: GestureDetector(
                   onTap: (){
-                    
-                    Navigator.push(context,MaterialPageRoute(builder: (context)=> Archive_screen()));
+                    _awaitReturnValueFromSecondScreen(context);
+                  //  final result =  Navigator.push(context,MaterialPageRoute(builder: (context)=> Archive_screen()));
+
+
                   },
                   child: Image.asset(
                     'assets/images/group.png',
@@ -79,37 +84,33 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 18, left: 14),
-            child: Container(
-              height: 40,
-              width: 335,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child:  Padding(
-                padding:  EdgeInsets.only(top:15.0,left: 0),
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Search by name, date',
-                      hintStyle: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w400),
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.only(left:0,top: 0),
-                        child: Icon(
+                padding: const EdgeInsets.only(top: 18, left: 10),
+                child: Container(
+                  height: 40,
+                  width: 320,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const TextField(
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Search by name,date',
+                        hintStyle: TextStyle(
+                            fontFamily: "segoe",
+                            fontSize: 14, fontWeight: FontWeight.w400),
+                        prefixIcon: Icon(
                           Icons.search,
                           color: Colors.grey,
                         ),
-                      ),
-                     ),
+                        
+                        ),
+                  ),
                 ),
               ),
-            ),
-          ),
           Expanded(
               flex: 1,
               child: Padding(
@@ -198,7 +199,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                         ),
                                       ),
                                       Container(
-                                        color: Colors.red,
+                                        // color: Colors.red,
                                         height:50,
                                         padding: EdgeInsets.fromLTRB(21, 0,26, 7),
                                         width: MediaQuery.of(context).size.width,
@@ -209,7 +210,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                               child: ListView.builder(
                                               shrinkWrap: true,
                                               itemCount: archieveList[index].categoriesData!.length ,
-                                              itemBuilder: (context, index){ 
+                                              itemBuilder: (context, c_index){ 
                                               return GestureDetector(
                                               onTap: (){
                                                 print('clicked');
@@ -222,7 +223,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                                 child: FittedBox(
                                                   fit: BoxFit.fitWidth,
                                                   child: Text(
-                                                    archieveList[index].categoriesData![index].name!
+                                                    archieveList[index].categoriesData![c_index].name!
                                                   ),
                                                 ),
                                               ),
@@ -316,6 +317,14 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
     if (archievModel.status == 1) {
       archieveList.addAll(archievModel.data!.data!);
       print(archievModel.data!.data!);
+
+      for (var i = 0;i < archieveList.length; i++){
+        categoryList.addAll(archieveList[i].categoriesData!);
+      }
+      print('categoryList------------$categoryList');
+
+      print('categoryListLength------------${categoryList.length}');
+
       
 
     }
@@ -327,5 +336,18 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
   void onTokenExpire(message, code) {
     // TODO: implement onTokenExpire
     EasyLoader.hideLoader();
+  }
+
+  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+
+    // start the SecondScreen and wait for it to finish with a result
+    final result = await Navigator.push(context,MaterialPageRoute(builder: (context)=> Archive_screen()));
+
+    // after the SecondScreen result comes back update the Text widget with it
+    setState(() {
+      selectedString = result;
+      // categoryList.where((item) => item.contains(selectedString));
+      // categoryList.where((w) => w == selectedString).map((w)());
+    });
   }
 }

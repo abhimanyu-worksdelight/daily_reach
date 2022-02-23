@@ -15,7 +15,9 @@ class Constants{
   static String archiveUrl = "archive-posts";
   static String generalSettingsUrl = "general-settings";
   static String logoutUrl = "logout";
-
+  static String archivePostUrl = "archive-posts";
+  static String categoryUrl = "categories";
+  static String editProfileUrl = "edit-profile";
 
 
   // sharedPref values
@@ -47,6 +49,9 @@ class Constants{
    static String policyStr = "";
    static String termsStr = "";
    static String tokenStr = "";
+   static String nameStr = "";
+   static String emailStr = "";
+   static String phoneStr = "";
 
 
 

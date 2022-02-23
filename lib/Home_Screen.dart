@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/Edit_Profile.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
@@ -36,6 +37,34 @@ NetworkUtil _networkUtil = new NetworkUtil();
       print("Error occured :: $err");
     });
 
+    Future<String> name = SharedPreference.getStringValuesSF(Constants.firstName);
+    name.then(
+        (value) => {
+               Constants.nameStr = value
+            }, onError:(err) {
+      print("Error occured :: $err");
+    });
+
+    Future<String> email = SharedPreference.getStringValuesSF(Constants.email);
+    email.then(
+        (value) => {
+               Constants.emailStr = value
+            }, onError:(err) {
+      print("Error occured :: $err");
+    });
+
+    Future<String> phone = SharedPreference.getStringValuesSF(Constants.phoneNumber);
+    phone.then(
+        (value) => {
+               Constants.phoneStr = value
+            }, onError:(err) {
+      print("Error occured :: $err");
+    });
+
+  setState(() {
+    
+  });
+
   }
 
   @override
@@ -46,14 +75,7 @@ NetworkUtil _networkUtil = new NetworkUtil();
           children: [
         Stack(
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Image.asset(
-                'assets/images/rectangle_back.png',
-                height: 208,
-                fit: BoxFit.fill,
-              ),
-            ),
+            
             Padding(
               padding: const EdgeInsets.only(top: 141, left: 120),
               child: Image.asset(
@@ -70,7 +92,7 @@ NetworkUtil _networkUtil = new NetworkUtil();
                 width: 40,
               ),
             ),
-            const Padding(
+             Padding(
               padding: EdgeInsets.only(top: 222, left: 145),
               child: Text(
                 'Upload photo',
@@ -122,20 +144,20 @@ NetworkUtil _networkUtil = new NetworkUtil();
           ),
           child: Column(
             children: [
-              const Padding(
+               Padding(
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
-                    'Pardeep',
+                    Constants.nameStr,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       fontFamily: "segoe",
                     ),
                   )),
-              const Padding(
+               Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Text(
-                    'pardeep@gmail.com',
+                    Constants.emailStr,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
@@ -166,7 +188,7 @@ NetworkUtil _networkUtil = new NetworkUtil();
 
                         ),
                       )),
-                  const Padding(
+                   Padding(
                       padding: EdgeInsets.only(top: 10,left: 8),
                       child: Text(
                         '87896 5668',
@@ -187,7 +209,7 @@ NetworkUtil _networkUtil = new NetworkUtil();
           padding: const EdgeInsets.only(top: 25),
           child: InkWell(
             onTap: (){
-              print("clicked");
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfile(name: Constants.nameStr,email:Constants.emailStr,phone: Constants.phoneStr)));
             },
             child: Container(
                 width: 149,
