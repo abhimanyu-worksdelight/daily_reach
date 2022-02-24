@@ -61,6 +61,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: (){
                           Navigator.push(
                               context,
@@ -99,6 +100,8 @@ class _Feed extends State<Feed> implements ApiInterface {
             Expanded(
               flex: 1,
               child: ListView.separated(
+                
+                
                 itemCount: feedList.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -114,6 +117,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                               )));
                     },
                     child: Column(
+                      
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
@@ -160,7 +164,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                             child:(feedList[index].banners!.length > 0)
                             ? CachedNetworkImage(
                                 imageUrl: feedList[index].banners![i].banner!,
-                                placeholder: (context, url) => Container(
+                                placeholder: (context, url) => SizedBox(
                                     height: 2.0,
                                     width: 2.0,
                                     child: CircularProgressIndicator()),
@@ -210,9 +214,18 @@ class _Feed extends State<Feed> implements ApiInterface {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: feedList[index].categories!.length ,
                                 itemBuilder: (context, index){ 
-                                return GestureDetector(
+                                return InkWell(
+                                  highlightColor: Colors.transparent,
                                 onTap: (){
-                                  print('clicked');
+                                   Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostDetail( 
+                                bodyStr: feedList[index].body!, 
+                                titleStr: feedList[index].title!,
+                                dateStr: feedList[index].date!,
+                                bannerImageArr: feedList[index].banners!,
+                              )));
                                 },
                                 child: Container(
                                   // margin: EdgeInsets.all(2),
@@ -263,8 +276,8 @@ class _Feed extends State<Feed> implements ApiInterface {
                 },
                 separatorBuilder: (context, index) {
                   return Container(
-                    height: 1,
-                    color: Colors.grey,
+                    height: 7,
+                    color: AppColors.BackgroundColor,
                   );
                 },
               ),

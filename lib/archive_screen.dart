@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/Models/ArchiveModel.dart';
 import 'package:dailyreach/Models/categoryModel.dart';
 import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
@@ -34,9 +35,12 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
   var isclicked = false;
   var idStr = "";
   var apiType = rqgetCategoryList;
+  var nextTimehit = false;
   
   List<CategoryData> selectedItemArr = [];
   List<CategoryData> searchItemArr = [];
+  List<ArchievData> archieveList = [];
+
   
   TextEditingController searchTextController = new TextEditingController();
   NetworkUtil networkUtil = new NetworkUtil();
@@ -80,15 +84,25 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
               Row(
                 children: [
                   InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () {
                       List<int> selectedIntList = []; 
-                      for (var i=0;i<searchItemArr.length;i++){
+                     if (searchItemArr.length != 0) { 
+                       for (var i=0;i<searchItemArr.length;i++){
                          if(searchItemArr[i].isselected!){
                            selectedIntList.add(searchItemArr[i].id!);
                          }
+                     }
+                      }
+                      else{
+                        for (var i=0;i<selectedItemArr.length;i++){
+                         if(selectedItemArr[i].isselected!){
+                           selectedIntList.add(selectedItemArr[i].id!);
+                         }
+                     }
                       }
                       idStr = selectedIntList.join(', ');
-                      Navigator.pop(context);
+                      showFilterredList();
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(top: 20, left: 20),
@@ -118,6 +132,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                     ),
                   ),
                   InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -172,10 +187,15 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                       
                       if (value != "") {
                         onSearchTextChanged(
-                            searchTextController.text.toString());
+                        searchTextController.text.toString());
                       } else {
+                        nextTimehit = true;
                         _isfromSearch = false;
                         searchItemArr.clear();
+                        Future.delayed(const Duration(seconds: 1), () {
+                          ShowCategoryList();
+                        });
+                        
                       }
                     },
 
@@ -206,6 +226,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                           itemCount: (_isfromSearch == true) ? searchItemArr.length:selectedItemArr.length,
                           itemBuilder: (BuildContext, index) {
                             return InkWell(
+                              highlightColor: Colors.transparent,
                               onTap: () {
                                 selectedItemArr[index].isselected = ! selectedItemArr[index].isselected!;
                                 setState(() {});
@@ -269,6 +290,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
 
     selectedItemArr.forEach((userDetail) {
       if (text == "") {
+
         print("empty");
       } else {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) searchItemArr.add(userDetail);
@@ -286,7 +308,8 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
     if (result == ConnectivityResult.none) {
       ToastManager.errorToast('please check your internet connection');
     } else {
-      EasyLoader.showLoader();
+      
+      (nextTimehit == false)?EasyLoader.showLoader():EasyLoader.hideLoader();
       await networkUtil.get(Constants.categoryUrl, this);
     }
 
@@ -308,7 +331,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
       ToastManager.errorToast('please check your internet connection');
     } else {
       EasyLoader.showLoader();
-      await networkUtil.getAuth(Constants.archiveUrl+'search_keyword=${searchTextController.text.toString()}&categories=${int.parse(idStr)}', token, this);
+      await networkUtil.getAuth(Constants.archivePostUrl+'?search_keyword=&categories=$idStr', token, this);
     }
 
   }
@@ -323,7 +346,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
     EasyLoader.hideLoader();
     switch (apiType){
       case rqgetCategoryList:{
-        ToastManager.successToast('success');
+        // ToastManager.successToast('success');
 
     CategoryModel catModel = new CategoryModel.fromJson(data);
     if (catModel.status == 1) {
@@ -337,7 +360,13 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
       break;
 
       case rqFilterList:{
-        ToastManager.successToast('success');
+        
+      ArchievModel archievModel = new ArchievModel.fromJson(data);
+      if (archievModel.status == 1) {
+        archieveList.addAll(archievModel.data!.data!);
+        print(archievModel.data!.data!);
+        Navigator.pop(context,archieveList);
+      }
         
       }
 

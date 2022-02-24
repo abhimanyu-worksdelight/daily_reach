@@ -37,6 +37,7 @@ class _TermsConditionState extends State<TermsCondition> {
           child: Row(
             children: [
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: (){
                   Navigator.pop(context);
                 },

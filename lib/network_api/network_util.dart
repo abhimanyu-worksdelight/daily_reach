@@ -55,6 +55,7 @@ class NetworkUtil {
         (X509Certificate cert, String host, int port) => true;
     final http = new IOClient(ioc);
     var uri = Uri.parse(Constants.baseUrl + url);
+    print('url--------$uri');
     return http.get(uri, headers: {
       // 'Accept': 'application/json',
       'Authorization': 'Token $token',
@@ -90,7 +91,7 @@ class NetworkUtil {
     final httpObj = new IOClient(ioc);
     return await httpObj.post(uri, body: body, headers: {
 //      'Content-Type': 'application/json',
-      // 'Accept': 'application/json',
+      'Accept': 'application/json',
       // 'X-Requested-With': 'XMLHttpRequest',
       'Authorization': 'Token $token'
     }).then((http.Response response) {
@@ -140,4 +141,51 @@ class NetworkUtil {
 //      return _decoder.convert(res);
     });
   }
+
+  Future<dynamic> uploadMultipartImage(
+    String url,
+    ApiInterface apiInterface,
+    String authKey,
+    String firstName,
+    String email,
+    String phone,
+    String imagePath,
+  ) async {
+    final ioc = new HttpClient();
+    ioc.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+    final httpObj = new IOClient(ioc);
+
+    var uri = Uri.parse(Constants.baseUrl + url);
+    print('url ${Constants.baseUrl + url}');
+    http.MultipartRequest request = new http.MultipartRequest('POST', uri);
+
+    if (authKey.isNotEmpty) {
+      request.headers['Authorization'] = 'Token $authKey';
+    }
+
+    request.fields['name'] = firstName;
+    request.fields['phone'] = phone;
+    request.fields['email'] = email;
+
+    print('imagePath $imagePath');
+
+    if (imagePath.isNotEmpty) {
+      request.files
+          .add(await http.MultipartFile.fromPath('photo', imagePath));
+    }
+
+    http.Response response =
+        await http.Response.fromStream(await request.send());
+    print('response  ${response.statusCode} => ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      apiInterface.onSuccess(
+          _decoder.convert(response.body), response.statusCode);
+    } else {
+      apiInterface.onFailure("", response.statusCode);
+    }
+    return _decoder.convert(response.body);
+  }
+
 }

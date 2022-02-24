@@ -1,3 +1,11 @@
+import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/login_screen.dart';
+import 'package:dailyreach/network_api/Toast.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
+import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
+import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'Home_Screen.dart';
@@ -10,8 +18,9 @@ class Reset_password extends StatefulWidget{
 
 }
 
-class _Reset_password extends State<Reset_password>{
+class _Reset_password extends State<Reset_password> implements ApiInterface{
   final _formKey = GlobalKey<FormState>();
+  NetworkUtil _networkUtil = new NetworkUtil();
 
 
   @override
@@ -74,7 +83,7 @@ class _Reset_password extends State<Reset_password>{
           ),
 
           Padding(
-            padding: EdgeInsets.only(left: 35, right: 25,top: 27),
+            padding: EdgeInsets.only(left: 25, right: 25,top: 27),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -105,12 +114,33 @@ class _Reset_password extends State<Reset_password>{
                             TextFormField(
                               decoration: const InputDecoration(
                                 labelText: 'Email Address',
-                                contentPadding: EdgeInsets.all(12),
+                                contentPadding: EdgeInsets.only(top: 12,bottom: 12,left: 0),
                                 labelStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: "segoe",
+                                  color: Colors.grey
                                 ),
+                                enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 0.0),
+                        ),
+                        disabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0.0),
+                        ),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty ||
@@ -170,9 +200,47 @@ class _Reset_password extends State<Reset_password>{
     if (isValid==false) {
       return;
     } else {
-      Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Home_screen()));
+      forgotPasswordApi();
     }
     _formKey.currentState?.save();
+  }
+
+
+  void forgotPasswordApi() async{
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      // FlashHelper.singleFlash(context, 'Check your internet');
+      ToastManager.errorToast('Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      _networkUtil.post(Constants.forgetPasswordUrl, this, body: {
+        'email': 'davi.kaur003@gmail.com',
+      });
+    }
+  }
+
+
+
+  @override
+  void onFailure(message, code) {
+    ToastManager.errorToast('failuer error');
+  }
+
+  @override
+  void onSuccess(data, code) {
+     if (data['status'] == 1) {
+       
+       ToastManager.successToast('Link Sent to email Successfully');
+        Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Login_screen()));
+     }
+    
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    ToastManager.errorToast('token expired');
   }
 }

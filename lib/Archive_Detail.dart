@@ -56,7 +56,7 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                                       height: 200,
                                       width: MediaQuery.of(context).size.width,
                                       
-                                      placeholder: (context, url) => Container(
+                                      placeholder: (context, url) => SizedBox(
                                           height: 2.0,
                                           width: 2.0,
                                           child: CircularProgressIndicator()),

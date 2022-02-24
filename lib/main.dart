@@ -102,6 +102,7 @@ bool isInit= true;
                 ),
                 Center(
                   child: InkWell(
+                    highlightColor: Colors.transparent,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 180 ),
                       child: Icon(
@@ -169,7 +170,7 @@ bool isInit= true;
             GestureDetector(
               onTap: () {
                 _videoPlayerController1 = null;
-                _chewieController?.dispose();
+                _chewieController =null;
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Become_member()));
               },

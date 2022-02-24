@@ -18,6 +18,7 @@ class Constants{
   static String archivePostUrl = "archive-posts";
   static String categoryUrl = "categories";
   static String editProfileUrl = "edit-profile";
+  static String forgetPasswordUrl = "forget-password";
 
 
   // sharedPref values
@@ -76,4 +77,10 @@ static String convertDateFormate(String dateString){
   static Color buttonBackColor = Color(0XFFD6D4D4);
   static Color lineColor = Color(0XFFB9BFD6B2);
   static Color AlreadyMemberColor = Color(0XFF8D95B2);
+  static Color phoneTextColor = Color(0XFF8D95B2);
+  static Color BackgroundColor = Color(0XFFF5F5F5);
+  static Color ImageBackColor = Color(0XFFDFE2EF);
+  static Color CameraIconColor = Color(0XFF8D95B2);
+
+
   }

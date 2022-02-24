@@ -152,10 +152,10 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                    EdgeInsets.only(top: 27, left: 21,bottom: 6),
                                   child: (archieveList[index].banners!.length > 0)
                             ? CachedNetworkImage(
-                                imageUrl: archieveList[index].banners![index].banner!,
+                                imageUrl: archieveList[index].banners![0].banner!,
                                 width: 116,
                                 height: 104,
-                                placeholder: (context, url) => Container(
+                                placeholder: (context, url) => SizedBox(
                                     height: 2.0,
                                     width: 2.0,
                                     child: CircularProgressIndicator()),
@@ -214,7 +214,8 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                               shrinkWrap: true,
                                               itemCount: archieveList[index].categoriesData!.length ,
                                               itemBuilder: (context, c_index){ 
-                                              return GestureDetector(
+                                              return InkWell(
+                                                highlightColor: Colors.transparent,
                                               onTap: (){
                                                 print('clicked');
                                               },
@@ -247,6 +248,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                          
                                       ),
                                       InkWell(
+                                        highlightColor: Colors.transparent,
                                         onTap: (){
 
                                         },
@@ -303,7 +305,6 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
       EasyLoader.showLoader();
       await networkUtil.getAuth(Constants.archiveUrl, token, this);
     }
-
   }
 
   @override
@@ -351,9 +352,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
 
     // after the SecondScreen result comes back update the Text widget with it
     setState(() {
-      selectedString = result;
-      // categoryList.where((item) => item.contains(selectedString));
-      // categoryList.where((w) => w == selectedString).map((w)());
+      archieveList = result;
     });
   }
 

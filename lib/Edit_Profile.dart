@@ -30,18 +30,7 @@ class EditProfile extends StatefulWidget {
   State<EditProfile> createState() => _EditProfile();
 }
 
-@override
-void initState() {
-  getToken();
-}
 
-getToken() {
-  Future<String> loginToken =
-      SharedPreference.getStringValuesSF(Constants.token);
-  loginToken.then((value) => {Constants.tokenStr = value}, onError: (err) {
-    print("Error occured :: $err");
-  });
-}
 
 class _EditProfile extends State<EditProfile> implements ApiInterface {
   bool _ischecked = false;
@@ -51,13 +40,34 @@ class _EditProfile extends State<EditProfile> implements ApiInterface {
   final _formKey = GlobalKey<FormState>();
   bool isClick = false;
   NetworkUtil _networkUtil = new NetworkUtil();
-  final nameController = TextEditingController();
+TextEditingController   nameController =   TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final createPasswordctrl = TextEditingController();
   final confirmpsdctrl = TextEditingController();
 
   PickedFile? imageFile = null;
+
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.name;
+    emailController.text = widget.email;
+    phoneController.text = widget.phone;
+
+    getToken();
+  }
+  getToken() {
+    Future<String> loginToken =
+        SharedPreference.getStringValuesSF(Constants.token);
+    loginToken.then((value) => {Constants.tokenStr = value,setState(() {
+    
+  })}, 
+    onError: (err) {
+      print("Error occured :: $err");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,59 +139,68 @@ class _EditProfile extends State<EditProfile> implements ApiInterface {
                   fontSize: 22,
                 ),
               ),
-              Stack(
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20,
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          _showPicker(context);
-                        },
-                        child: Image.asset(
-                          'assets/images/ellispe5.png',
-                          height: 120,
-                          width: 120,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top:30),
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    onTap: (){
+                      _showPicker(context);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                  
+                      height: 160,
+                      width: 160,
+                      decoration: BoxDecoration(
+                        shape:BoxShape.circle 
+                        ,color: AppColors.ImageBackColor) ,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(90),
+                        child: Column(
+                          children: [
+                            (imageFile == null) ? Padding(
+                              padding: const EdgeInsets.only(top: 40),
+                              child: Image.asset(
+                                 'assets/images/camera.png',
+                                 width:60,
+                                 height: 60,
+                                 color: AppColors.CameraIconColor,
+                               ),
+                            ):ClipRRect(
+                        borderRadius: BorderRadius.circular(80),
+                               child: Image.file(
+                                                        File(imageFile!.path),
+                                                        height: 160,
+                                                        width: 160,
+                                                        fit: BoxFit.fill,
+                                                    ),
+                             ),
+                        Center(
+                                          child:(imageFile == null) ? Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          'Upload photo',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "segoe",
+                            color: AppColors.CameraIconColor
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 50),
-                      child: InkWell(
-                        onTap: (){
-                          _showPicker(context);
-                        },
-                        child: (imageFile != null) ?Image.asset(
-                          'assets/images/camera.png',
-                          height: 40,
-                          width: 40,
-                        ): Image.file(
-                            imageFile,
-                            height: 300,
-                            width: 300,
-                        ),    
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 100),
-                      child: Text(
-                        'Upload photo',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "segoe",
+                                          ):Container(height: 0,),
+                                  ),
+                          ],
+                          
                         ),
-                      ),
+                      ) 
+                      
+                      
                     ),
                   ),
-                ],
+                ),
               ),
+              
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Form(
@@ -410,6 +429,7 @@ class _EditProfile extends State<EditProfile> implements ApiInterface {
       ToastManager.errorToast('Please check your data');
       return;
     } else {
+      editProfileApi();
       // Navigator.push(
       //     context, MaterialPageRoute(builder: (context) => Profile_screen()));
 
@@ -418,18 +438,24 @@ class _EditProfile extends State<EditProfile> implements ApiInterface {
   }
 
   void editProfileApi() async {
+    String imagePath = "";
+    if (imageFile != null) {
+        imagePath = imageFile!.path;
+        print('imagePath$imagePath');
+      } else {
+        imagePath = "";
+      }
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      // FlashHelper.singleFlash(context, 'Check your internet');
       ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
-      _networkUtil.post(Constants.loginUrl, this, body: {
-        'email': emailController.text,
-        'name': nameController.text,
-        'phone': phoneController.text,
-        'photo': ""
-      });
+      _networkUtil.uploadMultipartImage(Constants.editProfileUrl, this, Constants.tokenStr, 
+      nameController.text, 
+      emailController.text, 
+      phoneController.text, 
+      imagePath);
+      
     }
   }
 
@@ -442,10 +468,10 @@ class _EditProfile extends State<EditProfile> implements ApiInterface {
   @override
   void onSuccess(data, code) {
     EasyLoader.hideLoader();
-    ToastManager.successToast('success');
+    // ToastManager.successToast('success');
     if (data['status'] == 1) {
       print('successfully edited profile');
-      Navigator.pop(context);
+      Navigator.pop(context,{"name":nameController.text.toString(),"email":emailController.text.toString(),"phone":phoneController.text.toString()});
     } else {
       print('error while login');
       ToastManager.errorToast('error fail');
@@ -458,6 +484,8 @@ class _EditProfile extends State<EditProfile> implements ApiInterface {
     ToastManager.errorToast('token expired');
   }
 
+
+
   void _openGallery(BuildContext context) async {
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
@@ -465,6 +493,8 @@ class _EditProfile extends State<EditProfile> implements ApiInterface {
     setState(() {
       imageFile = pickedFile!;
     });
+
+    print('imageGallery--------------${File(imageFile!.path)}');
 
     // Navigator.pop(context);
   }
@@ -476,41 +506,12 @@ class _EditProfile extends State<EditProfile> implements ApiInterface {
     setState(() {
       imageFile = pickedFile!;
     });
-    // Navigator.pop(context);
+
+    print('imageFromCamera--------------${File(imageFile!.path)}');
+    
   }
 
-  // Future<void>_showChoiceDialog(BuildContext context)
-  // {
-  //   return showDialog(context: context,builder: (BuildContext context){
-
-  //     return AlertDialog(
-  //       title: Text("Choose option",style: TextStyle(color: Colors.blue),),
-  //       content: SingleChildScrollView(
-  //       child: ListBody(
-  //         children: [
-  //           Divider(height: 1,color: Colors.blue,),
-  //           ListTile(
-  //             onTap: (){
-  //               _openGallery(context);
-  //             },
-  //           title: Text("Gallery"),
-  //             leading: Icon(Icons.account_box,color: Colors.blue,),
-  //       ),
-
-  //           Divider(height: 1,color: Colors.blue,),
-  //           ListTile(
-  //             onTap: (){
-  //               _openCamera(context);
-  //             },
-  //             title: Text("Camera"),
-  //             leading: Icon(Icons.camera,color: Colors.blue,),
-  //           ),
-  //         ],
-  //       ),
-  //     ),);
-  //   });
-  // }
-
+  
   void _showPicker(context) {
     showModalBottomSheet(
         context: context,

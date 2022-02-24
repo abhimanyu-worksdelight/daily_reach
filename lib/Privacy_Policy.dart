@@ -37,6 +37,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
           child: Row(
             children: [
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: (){
                   Navigator.pop(context);
                 },

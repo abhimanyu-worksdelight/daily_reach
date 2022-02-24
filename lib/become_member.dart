@@ -407,6 +407,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               setState(() {
                                 isClick = !isClick;
@@ -534,6 +535,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: InkWell(
+                              highlightColor: Colors.transparent,
                               onTap: (){
                                 Navigator.push(
                                   context,
@@ -606,7 +608,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
 
       Constants.token = data['token'];
       
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Login_screen()));
     } else {
       print('error while login');

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Edit_Profile.dart';
 import 'package:dailyreach/network_api/Toast.dart';
@@ -7,6 +9,7 @@ import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'Notification.dart';
 import 'main.dart';
 
@@ -21,11 +24,13 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
 
 
 NetworkUtil _networkUtil = new NetworkUtil();
+PickedFile? imageFile = null;
 
 
 @override void initState() {
+  super.initState();
     getToken();
-    super.initState();
+    
   }
 
   getToken(){
@@ -56,14 +61,16 @@ NetworkUtil _networkUtil = new NetworkUtil();
     Future<String> phone = SharedPreference.getStringValuesSF(Constants.phoneNumber);
     phone.then(
         (value) => {
-               Constants.phoneStr = value
+               Constants.phoneStr = value,
+               setState(() {
+    
+  })
             }, onError:(err) {
       print("Error occured :: $err");
+
     });
 
-  setState(() {
-    
-  });
+  
 
   }
 
@@ -76,33 +83,67 @@ NetworkUtil _networkUtil = new NetworkUtil();
         Stack(
           children: [
             
-            Padding(
-              padding: const EdgeInsets.only(top: 141, left: 120),
-              child: Image.asset(
-                'assets/images/ellispe5.png',
-                height: 120,
-                width: 120,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 177, left: 159),
-              child: Image.asset(
-                'assets/images/camera.png',
-                height: 40,
-                width: 40,
-              ),
-            ),
-             Padding(
-              padding: EdgeInsets.only(top: 222, left: 145),
-              child: Text(
-                'Upload photo',
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: "segoe",
+            Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top:130),
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    onTap: (){
+                      _showPicker(context);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      
+                      height: 160,
+                      width: 160,
+                      decoration: BoxDecoration(
+                        shape:BoxShape.circle 
+                        ,color: AppColors.ImageBackColor) ,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(90),
+                        child: Column(
+                          children: [
+                            (imageFile == null) ? Padding(
+                              padding: const EdgeInsets.only(top: 40),
+                              child: Image.asset(
+                                 'assets/images/camera.png',
+                                 width:60,
+                                 height: 60,
+                                 color: AppColors.CameraIconColor,
+                               ),
+                            ):ClipRRect(
+                        borderRadius: BorderRadius.circular(80),
+                               child: Image.file(
+                                                        File(imageFile!.path),
+                                                        height: 160,
+                                                        width: 160,
+                                                        fit: BoxFit.fill,
+                                                    ),
+                             ),
+                        Center(
+                                          child:(imageFile == null) ? Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          'Upload photo',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "segoe",
+                            color: AppColors.CameraIconColor
+                          ),
+                        ),
+                                          ):Container(height: 1,),
+                                  ),
+                          ],
+                          
+                        ),
+                      ) 
+                      
+                      
+                    ),
+                  ),
                 ),
               ),
-            ),
             Row(
               children: [
                 Padding(
@@ -191,12 +232,12 @@ NetworkUtil _networkUtil = new NetworkUtil();
                    Padding(
                       padding: EdgeInsets.only(top: 10,left: 8),
                       child: Text(
-                        '87896 5668',
+                        Constants.phoneStr,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
-                          color: Color.fromARGB(153, 179, 195, 210),
+                          color: AppColors.phoneTextColor,
 
                         ),
                       )),
@@ -208,8 +249,18 @@ NetworkUtil _networkUtil = new NetworkUtil();
         Padding(
           padding: const EdgeInsets.only(top: 25),
           child: InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfile(name: Constants.nameStr,email:Constants.emailStr,phone: Constants.phoneStr)));
+            highlightColor: Colors.transparent,
+            onTap: () async{
+             var result =  await Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfile(name: Constants.nameStr,email:Constants.emailStr,phone: Constants.phoneStr)));
+           if(result !=null){
+             Constants.nameStr  = result['name'];
+             Constants.emailStr  = result['email'];
+             Constants.phoneStr = result['phone'];
+             setState(() {
+               
+             });
+           }
+
             },
             child: Container(
                 width: 149,
@@ -238,6 +289,8 @@ NetworkUtil _networkUtil = new NetworkUtil();
           ),
         ),
         InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onTap: (){
             logoutApi();
           },
@@ -308,4 +361,61 @@ NetworkUtil _networkUtil = new NetworkUtil();
     EasyLoader.hideLoader();
     ToastManager.errorToast('token expired');
   }
+
+
+  void _openGallery(BuildContext context) async {
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+    setState(() {
+      imageFile = pickedFile!;
+    });
+    print('imageGallery--------------${File(imageFile!.path)}');
+
+    // Navigator.pop(context);
+  }
+
+  void _openCamera(BuildContext context) async {
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+    setState(() {
+      imageFile = pickedFile!;
+    });
+    print('imageFromCamera--------------${File(imageFile!.path)}');
+  }
+
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _openGallery(context);
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _openCamera(context);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+
+
 }
