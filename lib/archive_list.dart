@@ -26,14 +26,20 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
   List<ArchievData> archieveList = [];
   var _isfromSearch = false;
   List<ArchievData> selectedArchiveList = [];
+  List<ArchievData> searchArchiveArr = [];
 
   List<Banners> bannerList = [];
   List<CategoriesData>categoryList = [];
   NetworkUtil networkUtil = new NetworkUtil();
   int _index = 0;
   var htmlStr = "";
+  var nextTimehit = false;
 
   var selectedString = "";
+  
+  TextEditingController searchTextController = new TextEditingController();
+
+  
 
   @override
   void initState() {
@@ -98,7 +104,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const TextField(
+                  child:  TextField(
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Search by name',
@@ -111,6 +117,26 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                         ),
                         
                         ),
+                        onChanged: (value) {
+                      
+                      if (value != "") {
+                        onSearchTextChanged(
+                        searchTextController.text.toString());
+                      } else {
+                        nextTimehit = true;
+                        _isfromSearch = false;
+                        searchArchiveArr.clear();
+                        Future.delayed( Duration(seconds: 1), () {
+                          showArchiveListApi();
+                        });
+                        
+                      }
+                    },
+
+                    onSubmitted: (value){
+                      
+                      FocusScope.of(context).unfocus();
+                    },
                   ),
                 ),
               ),
@@ -187,9 +213,9 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 0, left: 7, right: 19,),
+                                      Container(
+                                        padding: EdgeInsets.fromLTRB(20, 7, 24, 0),
+                                        width: MediaQuery.of(context).size.width,
                                         child: Text(
                                          Constants.parseHtmlString(archieveList[index].body!),
                                          maxLines: 2,
@@ -201,60 +227,71 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                               fontWeight: FontWeight.w400),
                                         ),
                                       ),
-                                      Container(
-                                        // color: Colors.red,
-                                        height:50,
-                                        padding: EdgeInsets.fromLTRB(21, 0,26, 7),
-                                        width: MediaQuery.of(context).size.width,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: archieveList[index].categoriesData!.length ,
-                                              itemBuilder: (context, c_index){ 
-                                              return InkWell(
-                                                highlightColor: Colors.transparent,
-                                              onTap: (){
-                                                print('clicked');
-                                              },
-                                              child: Container(
-                                              margin: EdgeInsets.all(2),
-                                              width: 70,
-                                              height: 20,
-                                              child: Center(
-                                                child: FittedBox(
-                                                  fit: BoxFit.fitWidth,
-                                                  child: Text(
-                                                    archieveList[index].categoriesData![c_index].name!
-                                                  ),
-                                                ),
-                                              ),
-                                              decoration: BoxDecoration(
-                                            color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
-                                            BorderRadius.circular(34),
-                                            )),
-                                            
-                                              );
-                                              }),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                          ],
-                                          
-                                        ),
-                                         
+                          Container(
+                          height:30,
+                          padding: EdgeInsets.fromLTRB(21, 5, 26, 7),
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: archieveList[index].categories!.length ,
+                                itemBuilder: (context, c_index){ 
+                                return InkWell(
+                                  highlightColor: Colors.transparent,
+                                onTap: (){
+                                   
+                                },
+                                child: Container(
+                                  padding:EdgeInsets.fromLTRB(10, 2, 10, 2) ,
+                                  
+                                  width: 50,
+                                  height: 17,
+                                  child: Center(
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: Text(
+                                        archieveList[index].categoriesData![c_index].name!,
+                                        style: TextStyle(fontSize: 10,fontFamily:"segoe",fontWeight: FontWeight.w600,color: Colors.black),
                                       ),
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                            color: AppColors.CatBackColor.withOpacity(0.38),                                                    borderRadius:
+                                            BorderRadius.circular(34),
+                                            )
+                                ),
+                                
+                                );
+                                }),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              
+                            ],
+                          ),
+                        ),
                                       InkWell(
                                         highlightColor: Colors.transparent,
                                         onTap: (){
-
+                                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ArchiveDetail(
+                                
+                                bodyStr: archieveList[index].body!, 
+                                titleStr: archieveList[index].title!,
+                                dateStr: archieveList[index].date!,
+                                bannerImageArr: archieveList[index].banners!,
+                              )));
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: 0, left: 7, right: 0),
+                                              top: 0, left: 21, right: 0),
                                           child: Text(
                                             'Read More',
                                             style: TextStyle(
@@ -358,20 +395,21 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
 
   onSearchTextChanged(String text) async {
     _isfromSearch = true;
-    selectedArchiveList.clear();
+    searchArchiveArr.clear();
     if (text.isEmpty) {
       _isfromSearch = false;
-      selectedArchiveList.clear();
+      searchArchiveArr.clear();
       setState(() {});
       return;
     }
 
-    selectedArchiveList.forEach((userDetail) {
+    searchArchiveArr.forEach((userDetail) {
       if (text == "") {
+
         print("empty");
       } else {
-        if (userDetail.title!.toLowerCase().contains(text.toLowerCase())) selectedArchiveList.add(userDetail);
-        print(selectedArchiveList);
+        if (userDetail.title!.toLowerCase().contains(text.toLowerCase())) searchArchiveArr.add(userDetail);
+        print(searchArchiveArr);
       }
     });
 

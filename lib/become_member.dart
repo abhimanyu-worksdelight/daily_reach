@@ -53,7 +53,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                     height: 100,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 30, left: 182),
+                    padding:  EdgeInsets.only(top: 30, left: 182),
                     child: Image.asset(
                       'assets/images/vector.png',
                       height: 54,
@@ -68,7 +68,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 60, left: 30),
+                        padding:  EdgeInsets.only(top: 60, left: 30),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -81,7 +81,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 60, left: 30),
+                        padding:  EdgeInsets.only(top: 60, left: 30),
                         child: Image.asset(
                           'assets/images/daily_reach_logo.png',
                           height: 42,
@@ -95,10 +95,10 @@ class _Become_member extends State<Become_member> implements ApiInterface {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30, right: 25, top: 27),
+            padding:  EdgeInsets.only(left: 30, right: 25, top: 27),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text(
+               Text(
                 'Become a Member',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
@@ -107,14 +107,14 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 7),
+                padding:  EdgeInsets.only(top: 7),
                 child: Text(
                   'We need some personal information to register with us.',
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontFamily: "segoe",
                     fontSize: 14,
-                    color: const Color(0xff4C4949).withOpacity(0.8),
+                    color:  Color(0xff4C4949).withOpacity(0.8),
                   ),
                 ),
               ),
@@ -124,7 +124,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                     TextFormField(
                       controller: nameController,
                       keyboardType: TextInputType.name,
-                      decoration: const InputDecoration(
+                      decoration:  InputDecoration(
                         labelText: 'Full Name',
                         contentPadding: EdgeInsets.only(left:0,top: 12,bottom: 12),
                         labelStyle: TextStyle(
@@ -135,23 +135,23 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         border: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         errorBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.red, width: 0.0),
+                               BorderSide(color: Colors.red, width: 0.0),
                         ),
                         disabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         
                       ),
@@ -169,7 +169,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                     TextFormField(
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
+                      decoration:  InputDecoration(
                         labelText: 'Email Address',
                         contentPadding: EdgeInsets.only(left:0,top:12,bottom: 12),
                         labelStyle: TextStyle(
@@ -180,23 +180,23 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         border: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         errorBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.red, width: 0.0),
+                               BorderSide(color: Colors.red, width: 0.0),
                         ),
                         disabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                       ),
                       validator: (value) {
@@ -211,7 +211,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                     Row(
                       children: [
                         Container(
-                          margin: const EdgeInsets.only(top: 12,bottom: 12,left: 0),
+                          margin:  EdgeInsets.only(top: 12,bottom: 12,left: 0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -220,9 +220,9 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                   CountryCodePicker(
                                     onChanged: print,
                                     initialSelection: 'US',
-                                    favorite: const ['+1', 'US'],
+                                    favorite:  ['+1', 'US'],
                                     flagWidth: 25,
-                                    textStyle: const TextStyle(
+                                    textStyle:  TextStyle(
                                       fontSize: 13,
                                       color: Colors.grey
                                     ),
@@ -233,7 +233,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                 ],
                               ),
                               Container(
-                                margin: const EdgeInsets.only(top: 0,left: 0),
+                                margin:  EdgeInsets.only(top: 0,left: 0),
                                 height: 1.1,
                                 width: 80,
                                 color: Color.fromARGB(174, 146, 142, 142),
@@ -246,7 +246,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           child: TextFormField(
                             controller: phoneController,
                             
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                               contentPadding: EdgeInsets.only(left:0,top:0,bottom: 12),
                               labelText: 'Phone Number',
                               labelStyle: TextStyle(
@@ -257,23 +257,23 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                               ),
                               enabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         border: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         errorBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.red, width: 0.0),
+                               BorderSide(color: Colors.red, width: 0.0),
                         ),
                         disabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                             ),
                             validator: (value) {
@@ -284,7 +284,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                               }
                               return null;
                             },
-                            inputFormatters: [LengthLimitingTextInputFormatter(15)],
+                            inputFormatters: [LengthLimitingTextInputFormatter(10)],
                           ),
                         ),
                       ],
@@ -295,7 +295,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(top: 12,bottom: 12,left: 0),
                         labelText: 'Create Password',
-                        labelStyle: const TextStyle(
+                        labelStyle:  TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
@@ -315,23 +315,23 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                             BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         border: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         errorBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.red, width: 0.0),
+                               BorderSide(color: Colors.red, width: 0.0),
                         ),
                         disabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                       ),
                       validator: (value) {
@@ -350,7 +350,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(top: 12,bottom: 12,left: 0),
                         labelText: 'Confirm Password',
-                        labelStyle: const TextStyle(
+                        labelStyle:  TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           fontFamily: "segoe",
@@ -371,23 +371,23 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         // enabledBorder: InputBorder.none,
                         enabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         border: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                         errorBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.red, width: 0.0),
+                               BorderSide(color: Colors.red, width: 0.0),
                         ),
                         disabledBorder: UnderlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                               BorderSide(color: Colors.grey, width: 0.0),
                         ),
                       ),
                       validator: (value) {
@@ -440,7 +440,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                           //   },
                           // ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 10),
+                            padding:  EdgeInsets.only(left: 10),
                             child: RichText(
                               text:  TextSpan(
                                   text: 'I agree with',
@@ -500,11 +500,11 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         _submit();
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 46),
+                        padding:  EdgeInsets.only(top: 46),
                         child: Container(
                             width: 325,
                             height: 50,
-                            child: const Padding(
+                            child:  Padding(
                               padding: EdgeInsets.only(top: 14, bottom: 15),
                               child: Text(
                                 'Become a Member',
@@ -517,9 +517,9 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                               ),
                             ),
                             decoration: BoxDecoration(
-                                color: const Color.fromARGB(228, 189, 20, 20),
+                                color:  Color.fromARGB(228, 189, 20, 20),
                                 borderRadius: BorderRadius.circular(50),
-                                boxShadow: const [
+                                boxShadow:  [
                                   BoxShadow(
                                       color: Colors.white,
                                       blurRadius: 3.0,
@@ -528,22 +528,22 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 23),
+                      padding:  EdgeInsets.only(top: 23),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 4),
+                            padding:  EdgeInsets.only(top: 4),
                             child: InkWell(
                               highlightColor: Colors.transparent,
                               onTap: (){
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Login_screen()));
+                                      builder: (context) => Login_screen(isfromSignup: false,)));
                               },
                               child: Text(
-                                'Already have an account ?  ',
+                                'Already have an account? ',
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -558,9 +558,9 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Login_screen()));
+                                      builder: (context) => Login_screen(isfromSignup: false,)));
                             },
-                            child: const Text(
+                            child:  Text(
                               'Login',
                               style: TextStyle(
                                   fontSize: 12,
@@ -609,7 +609,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
       Constants.token = data['token'];
       
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Login_screen()));
+          context, MaterialPageRoute(builder: (context) => Login_screen(isfromSignup: true,)));
     } else {
       print('error while login');
       ToastManager.errorToast('error fail');

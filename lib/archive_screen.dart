@@ -56,10 +56,10 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
     return Scaffold(
         backgroundColor: Colors.grey,
         body: Container(
-          margin: const EdgeInsets.only(top: 50),
+          margin:  EdgeInsets.only(top: 50),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
+          decoration:  BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(32),
@@ -68,7 +68,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
           ),
           child: Column(
             children: [
-              const Padding(
+               Padding(
                 padding: EdgeInsets.only(top: 25),
                 child: Text(
                   'Choose a category for search post ',
@@ -104,7 +104,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                       idStr = selectedIntList.join(', ');
                       showFilterredList();
                     },
-                    child: const Padding(
+                    child:  Padding(
                       padding: EdgeInsets.only(top: 20, left: 20),
                       child: Text(
                         'Done ',
@@ -118,7 +118,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                       ),
                     ),
                   ),
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.only(top: 20, left: 80),
                     child: Text(
                       'Category ',
@@ -155,7 +155,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 18, left: 10),
+                padding:  EdgeInsets.only(top: 18, left: 10),
                 child: Container(
                   height: 40,
                   width: 320,
@@ -192,7 +192,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                         nextTimehit = true;
                         _isfromSearch = false;
                         searchItemArr.clear();
-                        Future.delayed(const Duration(seconds: 1), () {
+                        Future.delayed( Duration(seconds: 1), () {
                           ShowCategoryList();
                         });
                         
@@ -215,7 +215,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                       child: ListView.separated(
                           separatorBuilder: (context, index1) {
                             return Padding(
-                              padding: const EdgeInsets.only(
+                              padding:  EdgeInsets.only(
                                   top: 5, left: 17, right: 5),
                               child: Container(
                                 height: 1,

@@ -234,7 +234,7 @@ class _Reset_password extends State<Reset_password> implements ApiInterface{
         Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Login_screen()));
+                                      builder: (context) => Login_screen(isfromSignup: false,)));
      }
     
   }

@@ -389,7 +389,7 @@ TextEditingController   nameController =   TextEditingController();
                           _submit();
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 190),
+                          padding: const EdgeInsets.only(top: 150),
                           child: Container(
                               width: 325,
                               height: 50,

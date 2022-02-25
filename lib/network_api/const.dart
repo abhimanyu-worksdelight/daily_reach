@@ -81,6 +81,9 @@ static String convertDateFormate(String dateString){
   static Color BackgroundColor = Color(0XFFF5F5F5);
   static Color ImageBackColor = Color(0XFFDFE2EF);
   static Color CameraIconColor = Color(0XFF8D95B2);
+  static Color WelcomeTextColor = Color(0XFF4C4949);
+  // static Color LineColor = Color(0XFFB9BFD6);
+  static Color CatBackColor = Color(0XFFD6D4D4);
 
 
   }

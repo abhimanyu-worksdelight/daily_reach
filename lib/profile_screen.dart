@@ -5,6 +5,12 @@ import 'archive_list.dart';
 import 'Home_Screen.dart';
 
 class Profile_screen extends StatefulWidget {
+//  var isfromLogin = false;
+
+//   Profile_screen({
+//     required this.isfromLogin,
+//   });
+
   @override
   State<Profile_screen> createState() {
     return _Profile_screen();

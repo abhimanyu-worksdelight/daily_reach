@@ -34,11 +34,13 @@ class _Feed extends State<Feed> implements ApiInterface {
   NetworkUtil networkUtil = new NetworkUtil();
   int _index = 0;
   var htmlStr = "";
+  var scrollcontroller = ScrollController();
 
   @override
   void initState() {
     super.initState();
     getFeeds();
+    // scrollcontroller.addListener(pagination);
   }
 
   @override
@@ -66,7 +68,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                      builder: (context) => Login_screen()));
+                                      builder: (context) => Login_screen(isfromSignup: false,)));
                         },
                         child: Text("Login",
                             style: TextStyle(
@@ -213,7 +215,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                   shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemCount: feedList[index].categories!.length ,
-                                itemBuilder: (context, index){ 
+                                itemBuilder: (context, c_index){ 
                                 return InkWell(
                                   highlightColor: Colors.transparent,
                                 onTap: (){
@@ -231,18 +233,19 @@ class _Feed extends State<Feed> implements ApiInterface {
                                   // margin: EdgeInsets.all(2),
                                   
                                   width: 70,
-                                  height: 20,
+                                  height: 17,
                                   child: Center(
                                     child: FittedBox(
                                       fit: BoxFit.contain,
                                       child: Text(
-                                        feedList[index].categoriesData![index].name!
+                                        feedList[index].categoriesData![c_index].name!,
+                                        style: TextStyle(fontSize: 10,fontFamily:"segoe",fontWeight: FontWeight.w600,color: Colors.black),
 
                                       ),
                                     ),
                                   ),
                                   decoration: BoxDecoration(
-                                            color: Color.fromARGB(100, 214, 212, 212),                                                    borderRadius:
+                                            color: AppColors.CatBackColor.withOpacity(0.38),                                                    borderRadius:
                                             BorderRadius.circular(34),
                                             )
                                 ),
@@ -340,9 +343,18 @@ class _Feed extends State<Feed> implements ApiInterface {
     ToastManager.errorToast('token expired');
     // TODO: implement onTokenExpire
     EasyLoader.hideLoader();
-    if (this.mounted) {
-      setState(() {});
-    }
-   
+    
   }
+
+  // void pagination() {
+  //     if ((scrollcontroller.position.pixels ==
+  //         scrollcontroller.position.maxScrollExtent) && (feedList.length < total)) {
+  //       setState(() {
+  //         isLoading = true;
+  //         page += 1;
+  //         //add api for load the more data according to new page
+  //       });
+  //     }
+
+
 }

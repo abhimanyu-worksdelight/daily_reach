@@ -204,7 +204,7 @@ bool isInit= true;
                 children: [
                   RichText(
                     text: const TextSpan(
-                      text: 'Already a member ? ',
+                      text: 'Already a member? ',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: "segoe",
@@ -218,7 +218,7 @@ bool isInit= true;
                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Login_screen()));
+                              builder: (context) => Login_screen(isfromSignup: false,)));
                     },
                     child: const Text(
                       ' Login',

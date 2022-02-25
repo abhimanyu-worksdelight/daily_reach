@@ -13,6 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class Login_screen extends StatefulWidget {
+  bool isfromSignup = false;
+
+  Login_screen({
+    required this.isfromSignup,
+  });
   @override
   State<Login_screen> createState() {
      EasyLoading.init();
@@ -65,11 +70,11 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: Image.asset(
+                              child: (widget.isfromSignup == false) ? Image.asset(
                                 'assets/images/arrow.png',
                                 height: 32,
                                 width: 32,
-                              ),
+                              ): Container(),
                             ),
                           ),
                           Padding(
@@ -94,12 +99,13 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  const Text(
+                   Text(
                   'Login Your Account',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontFamily: "segoe",
                     fontSize: 22,
+                    color: AppColors.WelcomeTextColor
                   ),
                 ),
                 Padding(
