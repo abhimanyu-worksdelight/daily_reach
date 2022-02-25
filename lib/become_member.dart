@@ -7,7 +7,7 @@ import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
-import 'package:dailyreach/profile_screen.dart';
+import 'package:dailyreach/Profile_Screen.dart';
 import 'package:dailyreach/utils/commonmethod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -410,6 +410,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                             highlightColor: Colors.transparent,
                             onTap: () {
                               setState(() {
+                              
                                 isClick = !isClick;
                               });
                             },
@@ -424,7 +425,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                       width: 1.5),
                                   borderRadius: BorderRadius.circular(2),
                                 ),
-                                child: isClick
+                                child: (isClick == true)
                                     ? Icon(Icons.check,
                                         size: 18,
                                         color: Color.fromARGB(228, 189, 20, 20))
@@ -497,7 +498,9 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                     ),
                     GestureDetector(
                       onTap: () {
-                        _submit();
+                        
+                           _submit();
+                        
                       },
                       child: Padding(
                         padding:  EdgeInsets.only(top: 46),
@@ -584,10 +587,12 @@ class _Become_member extends State<Become_member> implements ApiInterface {
     if (isValid == false) {
       ToastManager.errorToast('Please check your data');
       return;
-    } else {
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => Profile_screen()));
-
+    } 
+    else if(isClick == false){
+      ToastManager.errorToast('Please select terms and conditions');
+      return;
+    }
+    else {
       registerApi();
     }
     _formKey.currentState?.save();
@@ -603,16 +608,20 @@ class _Become_member extends State<Become_member> implements ApiInterface {
   void onSuccess(data, code) {
     EasyLoader.hideLoader();
     var dataVal = data['data'];
+    var message = data['message'];
     if (data['status'] == 1) {
       print('successfully registered');
 
       Constants.token = data['token'];
       
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Login_screen(isfromSignup: true,)));
+      Navigator.pushAndRemoveUntil<void>(
+        context,
+        MaterialPageRoute<void>(builder: (BuildContext context) => Login_screen(isfromSignup: true,)),
+        ModalRoute.withName('/'),
+      );
     } else {
       print('error while login');
-      ToastManager.errorToast('error fail');
+      ToastManager.errorToast('$message');
     }
   }
 

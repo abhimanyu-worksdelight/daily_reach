@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:dailyreach/Models/Edit_ProfileModel.dart';
 import 'package:dailyreach/Privacy_Policy.dart';
 import 'package:dailyreach/Terms_and_Condition.dart';
 import 'package:dailyreach/network_api/Toast.dart';
@@ -10,26 +12,28 @@ import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
-import 'package:dailyreach/profile_screen.dart';
+import 'package:dailyreach/Profile_Screen.dart';
 import 'package:dailyreach/utils/commonmethod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'login_screen.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 class EditProfile extends StatefulWidget {
   String name;
   String email;
   String phone;
 
-  EditProfile({required this.name, required this.email, required this.phone});
+  EditProfile({required this.name, required this.email, required this.phone,});
 
   @override
   State<EditProfile> createState() => _EditProfile();
 }
-
 
 
 class _EditProfile extends State<EditProfile> implements ApiInterface {
@@ -86,7 +90,7 @@ TextEditingController   nameController =   TextEditingController();
                     height: 100,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 30, left: 182),
+                    padding:  EdgeInsets.only(top: 30, left: 182),
                     child: Image.asset(
                       'assets/images/vector.png',
                       height: 54,
@@ -101,7 +105,7 @@ TextEditingController   nameController =   TextEditingController();
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 60, left: 30),
+                        padding:  EdgeInsets.only(top: 60, left: 30),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -114,7 +118,7 @@ TextEditingController   nameController =   TextEditingController();
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 60, left: 30),
+                        padding:  EdgeInsets.only(top: 60, left: 30),
                         child: Image.asset(
                           'assets/images/daily_reach_logo.png',
                           height: 42,
@@ -128,20 +132,21 @@ TextEditingController   nameController =   TextEditingController();
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30, right: 25, top: 27),
+            padding:  EdgeInsets.only(left: 30, right: 25, top: 27),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text(
+               Text(
                 'Update your profile',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontFamily: "segoe",
                   fontSize: 22,
+                  color: Colors.black
                 ),
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top:30),
+                  padding:  EdgeInsets.only(top:30),
                   child: InkWell(
                     highlightColor: Colors.transparent,
                     onTap: (){
@@ -160,7 +165,7 @@ TextEditingController   nameController =   TextEditingController();
                         child: Column(
                           children: [
                             (imageFile == null) ? Padding(
-                              padding: const EdgeInsets.only(top: 40),
+                              padding:  EdgeInsets.only(top: 40),
                               child: Image.asset(
                                  'assets/images/camera.png',
                                  width:60,
@@ -202,14 +207,14 @@ TextEditingController   nameController =   TextEditingController();
               ),
               
               Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding:  EdgeInsets.only(top: 20),
                 child: Form(
                     key: _formKey,
                     child: Column(children: [
                       TextFormField(
                           controller: nameController,
                           keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(
+                          decoration:  InputDecoration(
                             labelText: 'Full Name',
                             contentPadding:
                                 EdgeInsets.only(left: 0, top: 12, bottom: 12),
@@ -219,23 +224,23 @@ TextEditingController   nameController =   TextEditingController();
                               fontFamily: "segoe",
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
                             border: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
                             errorBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.red, width: 0.0),
                             ),
                             disabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
                           ),
@@ -251,11 +256,11 @@ TextEditingController   nameController =   TextEditingController();
                                 RegExp("[a-zA-Z]")),
                           ]),
                       Padding(
-                        padding: const EdgeInsets.only(top: 15),
+                        padding:  EdgeInsets.only(top: 15),
                         child: TextFormField(
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
+                          decoration:  InputDecoration(
                             labelText: 'Email Address',
                             contentPadding:
                                 EdgeInsets.only(left: 0, top: 12, bottom: 12),
@@ -265,23 +270,23 @@ TextEditingController   nameController =   TextEditingController();
                               fontFamily: "segoe",
                             ),
                             enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
                             border: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
                             errorBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.red, width: 0.0),
                             ),
                             disabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                   color: Colors.grey, width: 0.0),
                             ),
                           ),
@@ -298,9 +303,9 @@ TextEditingController   nameController =   TextEditingController();
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 15),
+                            padding:  EdgeInsets.only(top: 15),
                             child: Container(
-                              margin: const EdgeInsets.only(
+                              margin:  EdgeInsets.only(
                                   top: 12, bottom: 12, left: 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -310,10 +315,11 @@ TextEditingController   nameController =   TextEditingController();
                                       CountryCodePicker(
                                         onChanged: print,
                                         initialSelection: 'US',
-                                        favorite: const ['+1', 'US'],
+                                        favorite:  ['+1', 'US'],
                                         flagWidth: 25,
-                                        textStyle: const TextStyle(
+                                        textStyle:  TextStyle(
                                           fontSize: 13,
+                                          color: Colors.black
                                         ),
                                         showCountryOnly: false,
                                         showOnlyCountryWhenClosed: false,
@@ -323,7 +329,7 @@ TextEditingController   nameController =   TextEditingController();
                                   ),
                                   Container(
                                     margin:
-                                        const EdgeInsets.only(top: 0, left: 0),
+                                         EdgeInsets.only(top: 0, left: 0),
                                     height: 1.1,
                                     width: 80,
                                     color: Color.fromARGB(174, 146, 142, 142),
@@ -335,10 +341,10 @@ TextEditingController   nameController =   TextEditingController();
                           Expanded(
                             flex: 1,
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 15),
+                              padding:  EdgeInsets.only(top: 15),
                               child: TextFormField(
                                 controller: phoneController,
-                                decoration: const InputDecoration(
+                                decoration:  InputDecoration(
                                   contentPadding: EdgeInsets.only(
                                       left: 0, top: 0, bottom: 12),
                                   labelText: 'Phone Number',
@@ -348,23 +354,23 @@ TextEditingController   nameController =   TextEditingController();
                                     fontFamily: "segoe",
                                   ),
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide:  BorderSide(
                                         color: Colors.grey, width: 0.0),
                                   ),
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide:  BorderSide(
                                         color: Colors.grey, width: 0.0),
                                   ),
                                   border: UnderlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide:  BorderSide(
                                         color: Colors.grey, width: 0.0),
                                   ),
                                   errorBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide:  BorderSide(
                                         color: Colors.red, width: 0.0),
                                   ),
                                   disabledBorder: UnderlineInputBorder(
-                                    borderSide: const BorderSide(
+                                    borderSide:  BorderSide(
                                         color: Colors.grey, width: 0.0),
                                   ),
                                 ),
@@ -389,11 +395,11 @@ TextEditingController   nameController =   TextEditingController();
                           _submit();
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 150),
+                          padding:  EdgeInsets.only(top: 150),
                           child: Container(
                               width: 325,
                               height: 50,
-                              child: const Padding(
+                              child:  Padding(
                                 padding: EdgeInsets.only(top: 14, bottom: 15),
                                 child: Text(
                                   'Update',
@@ -406,9 +412,9 @@ TextEditingController   nameController =   TextEditingController();
                                 ),
                               ),
                               decoration: BoxDecoration(
-                                  color: const Color.fromARGB(228, 189, 20, 20),
+                                  color: AppColors.editBackColor,
                                   borderRadius: BorderRadius.circular(50),
-                                  boxShadow: const [
+                                  boxShadow:  [
                                     BoxShadow(
                                         color: Colors.white,
                                         blurRadius: 3.0,
@@ -429,7 +435,8 @@ TextEditingController   nameController =   TextEditingController();
       ToastManager.errorToast('Please check your data');
       return;
     } else {
-      editProfileApi();
+      // editProfileApi();
+      testCompressFile(imageFile!);
       // Navigator.push(
       //     context, MaterialPageRoute(builder: (context) => Profile_screen()));
 
@@ -468,13 +475,22 @@ TextEditingController   nameController =   TextEditingController();
   @override
   void onSuccess(data, code) {
     EasyLoader.hideLoader();
+
+    EditProfileModel editProfileModel = new EditProfileModel.fromJson(data);
+
+    var message = data['message'];
     // ToastManager.successToast('success');
     if (data['status'] == 1) {
       print('successfully edited profile');
-      Navigator.pop(context,{"name":nameController.text.toString(),"email":emailController.text.toString(),"phone":phoneController.text.toString()});
+      Constants.emailStr = editProfileModel.data!.email!;
+      Constants.nameStr = editProfileModel.data!.name!;
+      Constants.phoneStr = editProfileModel.data!.phone!;
+      var photo = editProfileModel.data!.photo;
+
+      Navigator.pop(context,{"name":editProfileModel.data!.name!,"email":editProfileModel.data!.email!,"phone":phoneController.text.toString(),"photo":'$photo'});
     } else {
       print('error while login');
-      ToastManager.errorToast('error fail');
+      ToastManager.errorToast('$message');
     }
   }
 
@@ -540,5 +556,32 @@ TextEditingController   nameController =   TextEditingController();
             ),
           );
         });
+  }
+
+
+  Future<Uint8List?> testCompressFile(PickedFile file) async {
+    final result = await FlutterImageCompress.compressWithFile(
+      file.path,
+      minWidth: 320,
+      minHeight: 290,
+      quality: 20,
+    );
+    uintToFileCompress(result);
+
+    return result;
+  }
+
+  Future<void> uintToFileCompress(var inUnit8List) async {
+    final now = DateTime.now().millisecond;
+    Uint8List imageInUnit8List = inUnit8List; // store unit8List image here ;
+    final tempDir = await getTemporaryDirectory();
+    File file = await File('${tempDir.path}/$now.png').create();
+    file.writeAsBytesSync(imageInUnit8List);
+   
+    
+    editProfileApi();
+    print('file ${file.path}');
+    
+    setState(() {});
   }
 }

@@ -7,7 +7,7 @@ import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
-import 'package:dailyreach/profile_screen.dart';
+import 'package:dailyreach/Profile_Screen.dart';
 import 'package:dailyreach/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -322,7 +322,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
         'password': passwordController.text,
         'app_version': '1.2',
         'device_info': 'jknbkjn',
-        'one_signal_id': 'lkjlknjljn'
+        'one_signal_id': Constants.OneSignalId
       });
     }
   }
@@ -338,7 +338,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
   void onSuccess(data, code) {
     EasyLoader.hideLoader();
     // TODO: implement onSuccess
-    
+    var message = data['message'];
 
       if (data['status'] == 1) {
       var dataVal = data['data'];
@@ -354,10 +354,10 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
       SharedPreference.saveStringValue(Constants.phoneNumber,phone);
       print('successfully login');
       Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Profile_screen()));
+          builder: (context) => Profile_screen(isfromLogin: true,)));
     } else {
       print('error while login');
-      ToastManager.errorToast('error fail');
+      ToastManager.errorToast('$message');
     }
   }
 

@@ -58,7 +58,7 @@ class NetworkUtil {
     print('url--------$uri');
     return http.get(uri, headers: {
       // 'Accept': 'application/json',
-      'Authorization': 'Token $token',
+      'Authorization': 'Bearer $token',
       'Accept':'application/json'
     },).then((response) {
       final String res = response.body;
@@ -93,7 +93,7 @@ class NetworkUtil {
 //      'Content-Type': 'application/json',
       'Accept': 'application/json',
       // 'X-Requested-With': 'XMLHttpRequest',
-      'Authorization': 'Token $token'
+      'Authorization': 'Bearer $token'
     }).then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
@@ -161,7 +161,7 @@ class NetworkUtil {
     http.MultipartRequest request = new http.MultipartRequest('POST', uri);
 
     if (authKey.isNotEmpty) {
-      request.headers['Authorization'] = 'Token $authKey';
+      request.headers['Authorization'] = 'Bearer $authKey';
     }
 
     request.fields['name'] = firstName;

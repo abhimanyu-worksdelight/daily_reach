@@ -37,7 +37,7 @@ class Constants{
   static String registerType = "registerType";
   static String businessName = "businessName";
   static String device = "device";
-  static String oneSignalId = "oneSignalId";
+  // static String oneSignalId = "oneSignalId";
   static String videoStr = 'videoStr';
   static String privacyPolicyStr = 'privacyPolicyStr';
   static String termsconditionStr = 'termsconditionStr';
@@ -53,6 +53,7 @@ class Constants{
    static String nameStr = "";
    static String emailStr = "";
    static String phoneStr = "";
+   static String OneSignalId = "ab6953fd-aee4-4a8f-b73a-cabbf25db26c";
 
 
 
@@ -67,6 +68,12 @@ static String convertDateFormate(String dateString){
   var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
   var timeNowDateTime = format.parse("$dateString");
   var date = intl.DateFormat('EEE, dd MMM, yyyy').format(timeNowDateTime);
+  return date;
+}
+static String convertDateFormateFeed(String dateString){
+  var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
+  var timeNowDateTime = format.parse("$dateString");
+  var date = intl.DateFormat('EEEE, dd MMM, yyyy').format(timeNowDateTime);
   return date;
 }
 }
@@ -84,6 +91,8 @@ static String convertDateFormate(String dateString){
   static Color WelcomeTextColor = Color(0XFF4C4949);
   // static Color LineColor = Color(0XFFB9BFD6);
   static Color CatBackColor = Color(0XFFD6D4D4);
+  static Color editBackColor = Color(0XFFB80000);
+  static Color backListcolor = Color(0XFFE5E5E5);
 
 
   }

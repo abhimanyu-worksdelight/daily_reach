@@ -74,8 +74,8 @@ bool isInit= true;
 
   @override
   void dispose() {
-    _videoPlayerController1?.dispose();
-    _chewieController?.dispose();
+    // _videoPlayerController1?.dispose();
+    // _chewieController?.dispose();
     super.dispose();
   }
 
@@ -92,13 +92,14 @@ bool isInit= true;
                   height: 414,
                   width: MediaQuery.of(context).size.width,
                   
-                  child:AspectRatio(
+                  child: (_videoPlayerController1 != null)?
+                  AspectRatio(
                     aspectRatio: _videoPlayerController1!.value.aspectRatio,
                     child: Chewie(
                       controller: _chewieController!,
 
                     ),
-                  ),
+                  ):Container(),
                 ),
                 Center(
                   child: InkWell(
@@ -112,12 +113,14 @@ bool isInit= true;
                       ),
                     ),
                     onTap: () {
+                       if (_videoPlayerController1 != null){
                       setState(() {
                        isInit =!isInit;
-                         _videoPlayerController1!.value.isPlaying
+                        _videoPlayerController1!.value.isPlaying
                             ? _videoPlayerController1!.pause() 
                             : _videoPlayerController1!.play();
                       });
+                       }
                     },
                   ),
                 ),
@@ -169,8 +172,8 @@ bool isInit= true;
             ),
             GestureDetector(
               onTap: () {
-                _videoPlayerController1 = null;
-                _chewieController =null;
+                // _videoPlayerController1 = null;
+                // _chewieController =null;
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Become_member()));
               },

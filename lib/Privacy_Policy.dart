@@ -33,7 +33,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       body: Column(children: [
 
         Padding(
-          padding: const EdgeInsets.only(top: 50),
+          padding:  EdgeInsets.only(top: 50),
           child: Row(
             children: [
               InkWell(
@@ -48,7 +48,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 40),
+                  padding:  EdgeInsets.only(left: 40),
                   child: Text('Privacy Policy',style: TextStyle(color: Colors.black,fontFamily: "segoe" ,fontSize: 40,fontWeight: FontWeight.w400)
                   ),
                 ),

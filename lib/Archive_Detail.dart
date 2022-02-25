@@ -3,9 +3,7 @@ import 'package:dailyreach/Models/ArchiveModel.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:flutter/material.dart';
 
-
 class ArchiveDetail extends StatefulWidget {
-
   String? bodyStr;
   String? archiveBody;
   String? titleStr;
@@ -55,11 +53,11 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                                           widget.bannerImageArr[i].banner!,
                                       height: 200,
                                       width: MediaQuery.of(context).size.width,
-                                      
                                       placeholder: (context, url) => SizedBox(
                                           height: 2.0,
                                           width: 2.0,
-                                          child: CircularProgressIndicator()),
+                                          child: Image.asset('assets/images/daily_reach_logo.png')
+                                          ),
                                       errorWidget: (context, url, error) =>
                                           Icon(Icons.error),
                                       fit: BoxFit.fill,
@@ -74,26 +72,25 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                         })),
               ),
               Padding(
-              padding: EdgeInsets.only(top: 50, left: 10),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset(
-                    "assets/images/arrowvector.png",
-                    color: Colors.black,
-                    width: 24,
-                    height: 24,
-                  ),
-                ),
-                // ),
-              ])),
+                  padding: EdgeInsets.only(top: 50, left: 10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Image.asset(
+                            "assets/images/arrowvector.png",
+                            color: Colors.black,
+                            width: 24,
+                            height: 24,
+                          ),
+                        ),
+                        // ),
+                      ])),
             ],
-            
-            
           ),
-          
           Expanded(
             child: ListView.builder(
               itemCount: 1,
@@ -130,7 +127,7 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                         Container(
                           padding: EdgeInsets.fromLTRB(23, 8, 16, 0),
                           width: MediaQuery.of(context).size.width,
-                          child:  Text(
+                          child: Text(
                             Constants.parseHtmlString(widget.bodyStr!),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -141,11 +138,8 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                                 height: 1.4),
                           ),
                         ),
-                        
-                        
                       ],
-                    )
-                    );
+                    ));
               },
             ),
           ),

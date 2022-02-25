@@ -1,3 +1,4 @@
+import 'package:dailyreach/network_api/const.dart';
 import 'package:flutter/material.dart';
 
 import 'main_Feed.dart';
@@ -5,11 +6,11 @@ import 'archive_list.dart';
 import 'Home_Screen.dart';
 
 class Profile_screen extends StatefulWidget {
-//  var isfromLogin = false;
+ var isfromLogin = false;
 
-//   Profile_screen({
-//     required this.isfromLogin,
-//   });
+  Profile_screen({
+    required this.isfromLogin,
+  });
 
   @override
   State<Profile_screen> createState() {
@@ -27,7 +28,7 @@ class _Profile_screen extends State<Profile_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: tabClick == 0
-          ? Feed()
+          ? Feed(isfromLogin: widget.isfromLogin,)
           : tabClick == 1
               ? Archive_list()
               : Home_screen(),
@@ -36,7 +37,7 @@ class _Profile_screen extends State<Profile_screen> {
         currentIndex: tabClick,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        selectedItemColor: Colors.red,
+        selectedItemColor: AppColors.editBackColor,
         unselectedItemColor: Colors.grey,
         selectedFontSize: 14,
         unselectedFontSize: 12,
@@ -65,7 +66,7 @@ class _Profile_screen extends State<Profile_screen> {
             icon: Padding(
               padding: EdgeInsets.only(top:16.0,bottom: 8),
               // child: Icon(Icons.now_widgets_outlined),
-              child: Image.asset("assets/images/grid.png",height: 24,width: 24,color: (selectedFeed == true) ? Colors.red:Colors.grey,),
+              child: Image.asset("assets/images/grid.png",height: 24,width: 24,color: (selectedFeed == true) ? AppColors.editBackColor:Colors.grey,),
             ),
           ),
           BottomNavigationBarItem(
@@ -73,7 +74,7 @@ class _Profile_screen extends State<Profile_screen> {
             icon: Padding(
               padding: EdgeInsets.only(top:16.0,bottom: 8),
               // child: Icon(Icons.archive_outlined),
-              child: Image.asset("assets/images/archive.png",height: 24,width: 24,color: (selectedArchieve == true) ? Colors.red:Colors.grey,),
+              child: Image.asset("assets/images/archive.png",height: 24,width: 24,color: (selectedArchieve == true) ? AppColors.editBackColor:Colors.grey,),
             ),
           ),
           BottomNavigationBarItem(
@@ -83,7 +84,7 @@ class _Profile_screen extends State<Profile_screen> {
               // child: Icon(
               //   Icons.person_outlined,
               // ),
-              child: Image.asset("assets/images/user.png",height: 24,width: 24,color: (selectedUser == true) ? Colors.red:Colors.grey,),
+              child: Image.asset("assets/images/user.png",height: 24,width: 24,color: (selectedUser == true) ? AppColors.editBackColor:Colors.grey,),
             ),
           ),
         ],

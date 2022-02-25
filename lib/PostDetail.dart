@@ -59,7 +59,8 @@ class _PostDetail extends State<PostDetail> {
                                       placeholder: (context, url) => Container(
                                           height: 2.0,
                                           width: 2.0,
-                                          child: CircularProgressIndicator()),
+                                          child: Image.asset('assets/images/daily_reach_logo.png')
+                                          ),
                                       errorWidget: (context, url, error) =>
                                           Icon(Icons.error),
                                       fit: BoxFit.fitWidth,
@@ -74,26 +75,25 @@ class _PostDetail extends State<PostDetail> {
                         })),
               ),
               Padding(
-              padding: EdgeInsets.only(top: 50, left: 10),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset(
-                    "assets/images/arrowvector.png",
-                    color: Colors.black,
-                    width: 24,
-                    height: 24,
-                  ),
-                ),
-                // ),
-              ])),
+                  padding: EdgeInsets.only(top: 50, left: 10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Image.asset(
+                            "assets/images/arrowvector.png",
+                            color: Colors.black,
+                            width: 24,
+                            height: 24,
+                          ),
+                        ),
+                        // ),
+                      ])),
             ],
-            
-            
           ),
-          
           Expanded(
             child: ListView.builder(
               itemCount: 1,
@@ -130,7 +130,7 @@ class _PostDetail extends State<PostDetail> {
                         Container(
                           padding: EdgeInsets.fromLTRB(23, 8, 16, 0),
                           width: MediaQuery.of(context).size.width,
-                          child:  Text(
+                          child: Text(
                             Constants.parseHtmlString(widget.bodyStr),
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -141,11 +141,8 @@ class _PostDetail extends State<PostDetail> {
                                 height: 1.4),
                           ),
                         ),
-                        
-                        
                       ],
-                    )
-                    );
+                    ));
               },
             ),
           ),

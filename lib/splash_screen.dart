@@ -6,7 +6,7 @@ import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
-import 'package:dailyreach/profile_screen.dart';
+import 'package:dailyreach/Profile_Screen.dart';
 
 import 'package:flutter/material.dart';
 import 'main.dart';
@@ -52,7 +52,7 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
 
   void goToprofilePage() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Profile_screen()));
+        context, MaterialPageRoute(builder: (context) => Profile_screen(isfromLogin: true,)));
   }
 
   void goTologin(String videoStr) {
@@ -119,6 +119,8 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
   @override
   void onSuccess(data, code) {
     EasyLoader.hideLoader();
+    var message = data['message'];
+
     if (data['status'] == 1) {
       var dataVal = data['data'];
       var videoStr = dataVal['intro_video'];
@@ -133,7 +135,7 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
       getLoginStatus(videoStr);
     } else {
       print('error while login');
-      ToastManager.errorToast('error fail');
+      ToastManager.errorToast('$message');
     }
   }
 

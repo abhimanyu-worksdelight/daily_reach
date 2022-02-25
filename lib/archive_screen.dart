@@ -155,7 +155,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                 ],
               ),
               Padding(
-                padding:  EdgeInsets.only(top: 18, left: 10),
+                padding:  EdgeInsets.only(top: 18, left: 10,right: 10),
                 child: Container(
                   height: 40,
                   width: 320,
@@ -346,27 +346,36 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
     EasyLoader.hideLoader();
     switch (apiType){
       case rqgetCategoryList:{
-        // ToastManager.successToast('success');
-
     CategoryModel catModel = new CategoryModel.fromJson(data);
+    var message = catModel.message;
+
     if (catModel.status == 1) {
       selectedItemArr.addAll(catModel.data!);
       print(catModel.data);
 
     }
+    else{
+        ToastManager.errorToast('$message');
+      }
     setState(() {});
 
       }
+      
       break;
 
       case rqFilterList:{
         
       ArchievModel archievModel = new ArchievModel.fromJson(data);
+      var message = archievModel.message;
+      
       if (archievModel.status == 1) {
         archieveList.addAll(archievModel.data!.data!);
         print(archievModel.data!.data!);
         Navigator.pop(context,archieveList);
+      }else{
+        ToastManager.errorToast('$message');
       }
+
         
       }
 

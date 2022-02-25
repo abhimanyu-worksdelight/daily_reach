@@ -21,7 +21,7 @@ class _Feed_screen extends State<Feed_screen> {
                 height: 40,
                 width: 180,
               ),
-              const Text(
+               Text(
                 'Login',
                 style: TextStyle(
                   fontSize: 14,

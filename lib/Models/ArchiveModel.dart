@@ -29,10 +29,10 @@ class Data {
   int? from;
   int? lastPage;
   String? lastPageUrl;
-  Null? nextPageUrl;
+  var nextPageUrl;
   String? path;
   int? perPage;
-  Null? prevPageUrl;
+  var prevPageUrl;
   int? to;
   int? total;
 

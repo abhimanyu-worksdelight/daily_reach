@@ -5,30 +5,29 @@ import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
-import 'package:dailyreach/profile_screen.dart';
+import 'package:dailyreach/Profile_Screen.dart';
 import 'package:flutter/material.dart';
 
 import 'Home_Screen.dart';
 
-class Reset_password extends StatefulWidget{
+class Reset_password extends StatefulWidget {
   @override
   State<Reset_password> createState() {
     return _Reset_password();
   }
-
 }
 
-class _Reset_password extends State<Reset_password> implements ApiInterface{
+class _Reset_password extends State<Reset_password> implements ApiInterface {
   final _formKey = GlobalKey<FormState>();
   NetworkUtil _networkUtil = new NetworkUtil();
-
+  final emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(children: [
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+            child: Column(children: [
           Stack(
             children: [
               Row(
@@ -81,123 +80,117 @@ class _Reset_password extends State<Reset_password> implements ApiInterface{
               )
             ],
           ),
-
           Padding(
-            padding: EdgeInsets.only(left: 25, right: 25,top: 27),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Reset Your Password ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontFamily: "segoe",
-                      fontSize: 22,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 7),
-                    child: Text(
-                      'Please enter your email address to reset your password',
+              padding: EdgeInsets.only(left: 25, right: 25, top: 27),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Reset Your Password ',
                       style: TextStyle(
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w600,
                         fontFamily: "segoe",
-                        fontSize: 14,
-                        color: Color(0xff4C4949).withOpacity(0.8),
+                        fontSize: 22,
                       ),
                     ),
-                  ),
-                  Form(
-                      key: _formKey,
-                      child: Column(
-                          children: [
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: 'Email Address',
-                                contentPadding: EdgeInsets.only(top: 12,bottom: 12,left: 0),
-                                labelStyle: TextStyle(
+                    Padding(
+                      padding:  EdgeInsets.only(top: 7),
+                      child: Text(
+                        'Please enter your email address to reset your password',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "segoe",
+                          fontSize: 14,
+                          color: Color(0xff4C4949).withOpacity(0.8),
+                        ),
+                      ),
+                    ),
+                    Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          TextFormField(
+                            controller: emailController,
+                            decoration:  InputDecoration(
+                              labelText: 'Email Address',
+                              contentPadding:
+                                  EdgeInsets.only(top: 12, bottom: 12, left: 0),
+                              labelStyle: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: "segoe",
-                                  color: Colors.grey
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
-                        ),
-                        border: UnderlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
-                        ),
-                        errorBorder: UnderlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.red, width: 0.0),
-                        ),
-                        disabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
-                        ),
+                                  color: Colors.grey),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
                               ),
-                              validator: (value) {
-                                if (value!.isEmpty ||
-                                    !RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(value)) {
-                                  return 'Enter a valid email!';
-                                }
-                                return null;
-                              },
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
+                              errorBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 0.0),
+                              ),
+                              disabledBorder: UnderlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 0.0),
+                              ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                _submit();
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 35),
-                                child: Container(
-                                    width: 325,
-                                    height: 50,
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(top: 14, bottom: 15),
-                                      child: Text(
-                                        'Send Link',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.white,
-                                            fontFamily: "segoe",
-                                            fontWeight: FontWeight.w600),
-                                      ),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(value)) {
+                                return 'Enter a valid email!';
+                              }
+                              return null;
+                            },
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _submit();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 35),
+                              child: Container(
+                                  width: 325,
+                                  height: 50,
+                                  child: const Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 14, bottom: 15),
+                                    child: Text(
+                                      'Send Link',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontFamily: "segoe",
+                                          fontWeight: FontWeight.w600),
                                     ),
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromARGB(228, 189, 20, 20),                                        borderRadius: BorderRadius.circular(50),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                              color: Colors.white,
-                                              blurRadius: 3.0,
-                                              spreadRadius: 1.0)
-                                        ])),
-                              ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color:  Color.fromARGB(
+                                          228, 189, 20, 20),
+                                      borderRadius: BorderRadius.circular(50),
+                                      boxShadow:  [
+                                        BoxShadow(
+                                            color: Colors.white,
+                                            blurRadius: 3.0,
+                                            spreadRadius: 1.0)
+                                      ])),
                             ),
-
-
-                ]
-        )
-      )
-        ]
-    )
-      )
-    ])
-      )
-    );
+                          ),
+                        ]))
+                  ]))
+        ])));
   }
+
   void _submit() {
     final isValid = _formKey.currentState?.validate();
-    if (isValid==false) {
+    if (isValid == false) {
       return;
     } else {
       forgotPasswordApi();
@@ -205,8 +198,7 @@ class _Reset_password extends State<Reset_password> implements ApiInterface{
     _formKey.currentState?.save();
   }
 
-
-  void forgotPasswordApi() async{
+  void forgotPasswordApi() async {
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
       // FlashHelper.singleFlash(context, 'Check your internet');
@@ -214,33 +206,39 @@ class _Reset_password extends State<Reset_password> implements ApiInterface{
     } else {
       EasyLoader.showLoader();
       _networkUtil.post(Constants.forgetPasswordUrl, this, body: {
-        'email': 'davi.kaur003@gmail.com',
+        'email': emailController.text ,
       });
     }
   }
 
-
-
   @override
   void onFailure(message, code) {
+    EasyLoader.hideLoader();
     ToastManager.errorToast('failuer error');
   }
 
   @override
   void onSuccess(data, code) {
-     if (data['status'] == 1) {
-       
-       ToastManager.successToast('Link Sent to email Successfully');
-        Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Login_screen(isfromSignup: false,)));
-     }
-    
+    EasyLoader.hideLoader();
+    var message = data['message'];
+
+    if (data['status'] == 1) {
+      ToastManager.successToast('Link Sent to email Successfully');
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Login_screen(
+                    isfromSignup: false,
+                  )));
+    }
+    else{
+      ToastManager.errorToast('$message');
+    }
   }
 
   @override
   void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
     ToastManager.errorToast('token expired');
   }
 }

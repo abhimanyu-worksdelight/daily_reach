@@ -36,6 +36,9 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
   var nextTimehit = false;
 
   var selectedString = "";
+  var scrollcontroller = ScrollController();
+  var total = 0;
+  var currentPage = 1;
   
   TextEditingController searchTextController = new TextEditingController();
 
@@ -45,6 +48,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
   void initState() {
     super.initState();
     showArchiveListApi();
+    scrollcontroller.addListener(pagination);
   }
 
   @override
@@ -105,6 +109,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child:  TextField(
+                    controller: searchTextController,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Search by name',
@@ -145,6 +150,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
               child: Padding(
                 padding: const EdgeInsets.only(top: 0,right: 0,left: 0),
                 child: ListView.separated(separatorBuilder: (Context, Index){
+                  
                   return Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Container(
@@ -152,8 +158,8 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                       color: Color.fromARGB(100, 214, 212, 212),                    ),
                   );
                 },
-
-                    itemCount: archieveList.length,
+                    controller: scrollcontroller,
+                    itemCount: (_isfromSearch == true)?searchArchiveArr.length:archieveList.length,
                     itemBuilder: (BuildContext, index) {
                       return GestureDetector(
                         onTap: (){
@@ -162,10 +168,10 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                           MaterialPageRoute(
                               builder: (context) => ArchiveDetail(
                                 
-                                bodyStr: archieveList[index].body!, 
-                                titleStr: archieveList[index].title!,
-                                dateStr: archieveList[index].date!,
-                                bannerImageArr: archieveList[index].banners!,
+                                bodyStr: (_isfromSearch == true)?searchArchiveArr[index].body!:archieveList[index].body!, 
+                                titleStr: (_isfromSearch == true)?searchArchiveArr[index].title!:archieveList[index].title!,
+                                dateStr: (_isfromSearch == true)?searchArchiveArr[index].date!:archieveList[index].date!,
+                                bannerImageArr: (_isfromSearch == true)?searchArchiveArr[index].banners!:archieveList[index].banners!,
                               )));
                         },
                         child: Column(
@@ -184,11 +190,14 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                 placeholder: (context, url) => SizedBox(
                                     height: 2.0,
                                     width: 2.0,
-                                    child: CircularProgressIndicator()),
+                                    child: Container(
+                                      height:20,
+                                      child: Image.asset('assets/images/daily_reach_logo.png')
+                                      )
+                                      ),
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
                                     fit: BoxFit.fitWidth,
-                        
                             
                               ) :Image.asset(
                                 "assets/images/photoo.png",
@@ -213,11 +222,24 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ),
+
+                                      Container(
+                            padding: EdgeInsets.fromLTRB(18, 7, 24, 7),
+                            width: MediaQuery.of(context).size.width,
+                            child: Text(
+                              archieveList[index].title!,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 19,
+                                  fontFamily: "assets/fonts/segui.TTf",
+                                  color: Colors.black),
+                            )),
+
                                       Container(
                                         padding: EdgeInsets.fromLTRB(20, 7, 24, 0),
                                         width: MediaQuery.of(context).size.width,
                                         child: Text(
-                                         Constants.parseHtmlString(archieveList[index].body!),
+                                         (_isfromSearch == true)?Constants.parseHtmlString(searchArchiveArr[index].body!):Constants.parseHtmlString(archieveList[index].body!),
                                          maxLines: 2,
                                           style: TextStyle(
                                             letterSpacing: -0.6,
@@ -238,7 +260,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                 child: ListView.builder(
                                   shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemCount: archieveList[index].categories!.length ,
+                                itemCount: (_isfromSearch == true)?archieveList[index].categories!.length:archieveList[index].categories!.length ,
                                 itemBuilder: (context, c_index){ 
                                 return InkWell(
                                   highlightColor: Colors.transparent,
@@ -254,7 +276,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                     child: FittedBox(
                                       fit: BoxFit.contain,
                                       child: Text(
-                                        archieveList[index].categoriesData![c_index].name!,
+                                       (_isfromSearch == true)?searchArchiveArr[index].categoriesData![c_index].name!: archieveList[index].categoriesData![c_index].name!,
                                         style: TextStyle(fontSize: 10,fontFamily:"segoe",fontWeight: FontWeight.w600,color: Colors.black),
                                       ),
                                     ),
@@ -283,10 +305,10 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                           MaterialPageRoute(
                               builder: (context) => ArchiveDetail(
                                 
-                                bodyStr: archieveList[index].body!, 
-                                titleStr: archieveList[index].title!,
-                                dateStr: archieveList[index].date!,
-                                bannerImageArr: archieveList[index].banners!,
+                                bodyStr: (_isfromSearch == true)?searchArchiveArr[index].body!:archieveList[index].body!, 
+                                titleStr: (_isfromSearch == true)?searchArchiveArr[index].title!:archieveList[index].title!,
+                                dateStr: (_isfromSearch == true)?searchArchiveArr[index].date!:archieveList[index].date!,
+                                bannerImageArr: (_isfromSearch == true)?searchArchiveArr[index].banners!:archieveList[index].banners!,
                               )));
                                         },
                                         child: Padding(
@@ -339,8 +361,8 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
       // FlashHelper.singleFlash(context, 'Check internet connection');
       ToastManager.errorToast('Check internet connection');
     } else {
-      EasyLoader.showLoader();
-      await networkUtil.getAuth(Constants.archiveUrl, token, this);
+      (nextTimehit == false)?EasyLoader.showLoader():EasyLoader.hideLoader();
+      await networkUtil.getAuth(Constants.archiveUrl+'?page=$currentPage', token, this);
     }
   }
 
@@ -357,7 +379,10 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
     EasyLoader.hideLoader();
     
     ArchievModel archievModel = new ArchievModel.fromJson(data);
+    var message = archievModel.message;
+
     if (archievModel.status == 1) {
+      print('success archieve');
       archieveList.addAll(archievModel.data!.data!);
       print(archievModel.data!.data!);
 
@@ -368,8 +393,14 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
 
       print('categoryListLength------------${categoryList.length}');
 
+
+      total = archievModel.data!.total!;
+      currentPage = archievModel.data!.currentPage!;
       
 
+    }
+    else{
+      ToastManager.errorToast('$message');
     }
     setState(() {});
 
@@ -403,16 +434,28 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
       return;
     }
 
-    searchArchiveArr.forEach((userDetail) {
+    archieveList.forEach((userDetail) {
       if (text == "") {
 
         print("empty");
       } else {
         if (userDetail.title!.toLowerCase().contains(text.toLowerCase())) searchArchiveArr.add(userDetail);
-        print(searchArchiveArr);
+        print('search---------------${searchArchiveArr.length}');
       }
     });
 
     setState(() {});
+  }
+
+  void pagination() {
+      if ((scrollcontroller.position.pixels ==
+          scrollcontroller.position.maxScrollExtent) && (archieveList.length == total)) {
+        setState(() {
+          
+          currentPage += 1;
+          //add api for load the more data according to new page
+          showArchiveListApi();
+        });
+      }
   }
 }

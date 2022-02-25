@@ -330,7 +330,7 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
         'password': passwordController.text,
         'app_version': '1.2',
         'device_info': 'jknbkjn',
-        'one_signal_id': 'lkjlknjljn'
+        'one_signal_id': Constants.OneSignalId
       });
     }
   }
@@ -348,6 +348,8 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
   void onSuccess(data, code) async {
     // TODO: implement onSuccess
      EasyLoader.hideLoader();
+     var message = data['message'];
+
     if (data['status'] == 1) {
      var dataVal = data['data'];
       var token = data['token'];
@@ -367,7 +369,7 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
       );
     } else {
       print('error while login');
-      ToastManager.errorToast('error fail');
+      ToastManager.errorToast('$message');
     }
   }
 
