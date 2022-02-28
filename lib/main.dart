@@ -185,9 +185,7 @@ bool isInit= true;
                   decoration: BoxDecoration(
                       color: AppColors.buttonBackColor,
                       borderRadius:const BorderRadius.all(Radius.circular(8))),
-                  child: const Padding(
-                    padding: EdgeInsets.only(
-                        left: 24, right: 24, top: 14, bottom: 0),
+                  child: Center(
                     child: Text(
                       'Become a Member',
                       textAlign: TextAlign.center,

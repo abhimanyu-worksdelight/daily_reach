@@ -507,8 +507,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         child: Container(
                             width: 325,
                             height: 50,
-                            child:  Padding(
-                              padding: EdgeInsets.only(top: 14, bottom: 15),
+                            child:  Center(
                               child: Text(
                                 'Become a Member',
                                 textAlign: TextAlign.center,

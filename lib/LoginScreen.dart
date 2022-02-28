@@ -88,14 +88,11 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
                         ),
                       ),
                     ]),
-                    Padding(
-                      padding: EdgeInsets.only(left: 30,right: 30,top: 60),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/daily.png',
-                          height: 42,
-                          width: 190,
-                        ),
+                    Center(
+                      child: Image.asset(
+                        'assets/images/daily.png',
+                        height: 42,
+                        width: 190,
                       ),
                     )
                   ],

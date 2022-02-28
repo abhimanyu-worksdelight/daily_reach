@@ -99,7 +99,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
           Padding(
                 padding: const EdgeInsets.only(top: 18, left: 10),
                 child: Container(
-                  height: 40,
+                  // height: 40,
                   width: 320,
                   decoration: BoxDecoration(
                     border: Border.all(

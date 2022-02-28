@@ -63,6 +63,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 60, left: 30),
@@ -78,13 +79,11 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 60, left: 30,right: 30),
-                            child: Center(
-                              child: Image.asset(
-                                'assets/images/daily_reach_logo.png',
-                                height: 42,
-                                width: 190,
-                              ),
+                            padding: (widget.isfromSignup == true) ? EdgeInsets.only(top: 60,left: 70,right:70) : EdgeInsets.only(top: 60,left: 30),
+                            child: Image.asset(
+                              'assets/images/daily_reach_logo.png',
+                              height: 42,
+                              width: 190,
                             ),
                           ),
                         ],
@@ -239,8 +238,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                       child: Container(
                           width: 380,
                           height: 50,
-                          child: const Padding(
-                            padding: EdgeInsets.only(top: 14, bottom: 15),
+                          child: Center(
                             child: Text(
                               'Login',
                               textAlign: TextAlign.center,

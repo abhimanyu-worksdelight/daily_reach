@@ -80,29 +80,27 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppColors.ImageBackColor),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(90),
-                        child: (filePath == "")
-                            ? Padding(
-                                padding: EdgeInsets.only(top: 40),
-                                child: Image.asset(
-                                  'assets/images/camera.png',
-                                  width: 60,
-                                  height: 60,
-                                  color: AppColors.CameraIconColor,
-                                ),
-                              )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(80),
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      filePath,
-                                  height: 160,
-                                  width: 160,
-                                  fit: BoxFit.cover,
-                                ),
+                      child: (filePath == "")
+                          ? Padding(
+                              padding: EdgeInsets.only(top: 0),
+                              child: Image.asset(
+                                'assets/images/camera.png',
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                                color: AppColors.CameraIconColor,
                               ),
-                      )),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(80),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    filePath,
+                                height: 160,
+                                width: 160,
+                                fit: BoxFit.cover,
+                              ),
+                            )),
                 ),
               ),
             ),
@@ -170,7 +168,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 10, left: 85),
+                    padding: EdgeInsets.only(top: 10, left: 95),
                     child: Image.asset(
                       'assets/images/flag.png',
                       height: 19,
@@ -229,8 +227,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
             child: Container(
                 width: 149,
                 height: 50,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 14, bottom: 10),
+                child: Center(
                   child: Text(
                     'Edit Profile',
                     textAlign: TextAlign.center,

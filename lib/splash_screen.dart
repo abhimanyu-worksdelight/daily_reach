@@ -214,24 +214,24 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
         return;
 
     var playerId = deviceState.userId!;
-    print('playerId $playerId');
+    print('playerId--------------- $playerId');
    
 
-    var notification = OSCreateNotification(
-        playerIds: [playerId],
-        content: "this is a test from OneSignal's Flutter SDK",
-        heading: "Test Notification",
+    // var notification = OSCreateNotification(
+    //     playerIds: [playerId],
+    //     content: "this is a test from OneSignal's Flutter SDK",
+    //     heading: "Test Notification",
        
-        buttons: [
-          OSActionButton(text: "test1", id: "id1"),
-          OSActionButton(text: "test2", id: "id2")
-        ]);
+    //     buttons: [
+    //       OSActionButton(text: "test1", id: "id1"),
+    //       OSActionButton(text: "test2", id: "id2")
+    //     ]);
 
-    var response = await OneSignal.shared.postNotification(notification);
+    // var response = await OneSignal.shared.postNotification(notification);
 
-    this.setState(() {
-      print("Sent notification with response: $response");
-      // _debugLabelString = "Sent notification with response: $response";
-    });
+    // this.setState(() {
+    //   print("Sent notification with response: $response");
+    //   // _debugLabelString = "Sent notification with response: $response";
+    // });
   }
 }

@@ -223,7 +223,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                     height: 1.5),
                               )),
                           Container(
-                            height: 50,
+                            height: 60,
                             padding: EdgeInsets.fromLTRB(21, 0, 26, 7),
                             width: MediaQuery.of(context).size.width,
                             child: Row(
