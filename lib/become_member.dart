@@ -529,6 +529,7 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                                 ])),
                       ),
                     ),
+                    
                     Padding(
                       padding:  EdgeInsets.only(top: 23),
                       child: Row(

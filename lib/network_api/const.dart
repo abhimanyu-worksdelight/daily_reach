@@ -41,6 +41,7 @@ class Constants{
   static String videoStr = 'videoStr';
   static String privacyPolicyStr = 'privacyPolicyStr';
   static String termsconditionStr = 'termsconditionStr';
+  static String deviceId = 'deviceId';
 
 
 
@@ -54,6 +55,7 @@ class Constants{
    static String emailStr = "";
    static String phoneStr = "";
    static String OneSignalId = "ab6953fd-aee4-4a8f-b73a-cabbf25db26c";
+   static String deviceIdStr = "";
 
 
 
@@ -74,6 +76,13 @@ static String convertDateFormateFeed(String dateString){
   var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
   var timeNowDateTime = format.parse("$dateString");
   var date = intl.DateFormat('EEEE, dd MMM, yyyy').format(timeNowDateTime);
+  return date;
+}
+
+static String convertDateToTime(String dateTime){
+  var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
+  var timeNowDateTime = format.parse("$dateTime");
+  var date = intl.DateFormat('HH:mm a').format(timeNowDateTime);
   return date;
 }
 }

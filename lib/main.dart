@@ -1,7 +1,9 @@
+import 'package:dailyreach/Profile_Screen.dart';
 import 'package:dailyreach/main_Feed.dart';
 import 'package:dailyreach/Notification.dart';
 import 'package:dailyreach/PostDetail.dart';
 import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
@@ -198,8 +200,40 @@ bool isInit= true;
                 ),
               ),
             ),
+            GestureDetector(
+              onTap: (){
+                Constants.isLoggedIn = false;
+                SharedPreference.saveBooleanValue(Constants.loginStatus, false);
+                // Navigator.push(context, MaterialPageRoute(
+                // builder: (context) => Profile_screen(isfromLogin: false,)));
+
+                Navigator.pushAndRemoveUntil<void>(
+                  context,
+                  MaterialPageRoute<void>(builder: (BuildContext context) => Profile_screen(isfromLogin: false,)),
+                  ModalRoute.withName('/'),
+                );
+              }  ,
+
+              child: Padding(padding: const EdgeInsets.only(top: 22, right: 24, left: 24),
+                child: Container(
+                  height: 30,
+                  width: 350,
+                  
+                  child: Center(
+                    child: Text(
+                      'Skip',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          fontFamily: "segoe",color: AppColors.editBackColor),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: 40, right: 0, left: 0),
+              padding: const EdgeInsets.only(top: 30, right: 0, left: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -221,13 +255,13 @@ bool isInit= true;
                           MaterialPageRoute(
                               builder: (context) => Login_screen(isfromSignup: false,)));
                     },
-                    child: const Text(
+                    child:  Text(
                       ' Login',
                       style: TextStyle(
                         fontSize: 13,
                           fontFamily: "segoe",
                           fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(198, 219, 11, 11),
+                          color: AppColors.editBackColor,
                           decoration: TextDecoration.underline),
                     ),
                   ),

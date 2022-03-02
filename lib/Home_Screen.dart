@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Edit_Profile.dart';
+import 'package:dailyreach/login_screen.dart';
 import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
@@ -25,11 +27,27 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
   NetworkUtil _networkUtil = new NetworkUtil();
   PickedFile? imageFile = null;
   var filePath = "";
+  bool isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
     getToken();
+    getLoginStatus();
+  }
+
+  void getLoginStatus() {
+    print("getLoginStatus :: ");
+    Future<bool> status =
+        SharedPreference.getLoginStatus(Constants.loginStatus);
+    status.then(
+        (value) => {
+              isLoggedIn = value,
+              print("Splash value ::: $value"),
+              Constants.isLoggedIn = value,
+            }, onError: (err) {
+      print("Error occured :: $err");
+    });
   }
 
   getToken() {
@@ -60,6 +78,10 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
 
   @override
   Widget build(BuildContext context) {
+    return showProfileUI(context);
+  }
+
+  showProfileUI(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(children: [
@@ -73,34 +95,35 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                   onTap: () {
                     // _showPicker(context);
                   },
-                  child: Container(
-                      alignment: Alignment.center,
-                      height: 160,
-                      width: 160,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.ImageBackColor),
-                      child: (filePath == "")
-                          ? Padding(
-                              padding: EdgeInsets.only(top: 0),
-                              child: Image.asset(
-                                'assets/images/camera.png',
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
-                                color: AppColors.CameraIconColor,
-                              ),
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(80),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    filePath,
-                                height: 160,
-                                width: 160,
-                                fit: BoxFit.cover,
-                              ),
-                            )),
+                  child: (isLoggedIn == true)
+                      ? Container(
+                          alignment: Alignment.center,
+                          height: 160,
+                          width: 160,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.ImageBackColor),
+                          child: (filePath == "")
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 0),
+                                  child: Image.asset(
+                                    'assets/images/camera.png',
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                    color: AppColors.CameraIconColor,
+                                  ),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(80),
+                                  child: CachedNetworkImage(
+                                    imageUrl: filePath,
+                                    height: 160,
+                                    width: 160,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ))
+                      : Container(),
                 ),
               ),
             ),
@@ -117,22 +140,28 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                     ),
                   ),
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: (context) => Notefication()));
-                //   },
-                //   child: Padding(
-                //     padding: EdgeInsets.only(top: 64, left: 230, right: 23),
-                //     child: Image.asset(
-                //       'assets/images/bell.png',
-                //       width: 18,
-                //       height: 18,
-                //     ),
-                //   ),
-                // )
+                GestureDetector(
+                  onTap: () {
+                    if (isLoggedIn == true){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Notefication()));
+
+                    }
+                    else{
+                      _getSupportPopUI();
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 64, left: 230, right: 23),
+                    child: Image.asset(
+                      'assets/images/bell.png',
+                      width: 18,
+                      height: 18,
+                    ),
+                  ),
+                )
               ],
             ),
           ],
@@ -171,14 +200,14 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                     padding: EdgeInsets.only(top: 10, left: 95),
                     child: Image.asset(
                       'assets/images/flag.png',
-                      height: 19,
-                      width: 19,
+                      height: (isLoggedIn == true) ? 19 : 0,
+                      width: (isLoggedIn == true) ? 19 : 0,
                     ),
                   ),
                   Padding(
                       padding: EdgeInsets.only(top: 10, left: 3),
                       child: Text(
-                        '+1',
+                        (isLoggedIn == true) ? '+1' : '',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -205,23 +234,28 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
         Padding(
           padding: EdgeInsets.only(top: 25),
           child: InkWell(
-            highlightColor: Colors.transparent,
+            highlightColor: Color.fromRGBO(0, 0, 0, 0),
             onTap: () async {
-              var result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EditProfile(
-                          name: Constants.nameStr,
-                          email: Constants.emailStr,
-                          phone: Constants.phoneStr,)));
-              if (result != null) {
-                Constants.nameStr = result['name'];
-                Constants.emailStr = result['email'];
-                Constants.phoneStr = result['phone'];
-                filePath = result['photo'];
-                
-                // imageFile = result['photo'];
-                setState(() {});
+              if (isLoggedIn == false) {
+                _getSupportPopUI();
+              } else {
+                var result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditProfile(
+                              name: Constants.nameStr,
+                              email: Constants.emailStr,
+                              phone: Constants.phoneStr,
+                            )));
+                if (result != null) {
+                  Constants.nameStr = result['name'];
+                  Constants.emailStr = result['email'];
+                  Constants.phoneStr = result['phone'];
+                  filePath = result['photo'];
+
+                  // imageFile = result['photo'];
+                  setState(() {});
+                }
               }
             },
             child: Container(
@@ -249,14 +283,17 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                     ])),
           ),
         ),
-        InkWell(
+       (isLoggedIn == true) ? InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () {
-            logoutApi();
+           
+              logoutApi();
+            
           },
           child: Padding(
-            padding: EdgeInsets.only(top: 200, bottom: 20),
+            padding: EdgeInsets.only(
+                top: (isLoggedIn == true) ? 200 : 300, bottom: 20),
             child: Text(
               'Logout',
               style: TextStyle(
@@ -266,8 +303,83 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                   fontWeight: FontWeight.w600),
             ),
           ),
-        ),
+        ): Container()
       ]),
+    );
+  }
+
+  _getSupportPopUI() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetPadding: EdgeInsets.all(20),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // SizedBox(height: 30),
+                // Image.asset('assets/images/daily_reach_logo.png',
+                //     height: 45, width: 45),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "You have to login first!!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 145,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Login_screen(
+                                      isfromSignup: true,
+                                    )),
+                            ModalRoute.withName('/'),
+                          );
+                        },
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.blue, fontSize: 14,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 145,
+                    child: Center(
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.red,fontSize: 14,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

@@ -213,13 +213,24 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                       Padding(
                                         padding: EdgeInsets.only(
                                             top: 20, left: 7, right: 0),
-                                        child: Text(
-                                          Constants.convertDateFormate(archieveList[index].date!),
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontFamily: "segoe",
-                                              fontWeight: FontWeight.w600),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              (_isfromSearch == true)?Constants.convertDateFormate(searchArchiveArr[index].date!):Constants.convertDateFormate(archieveList[index].date!),
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontFamily: "segoe",
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                  
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                              top: 0,right: 10),
+                                    child: Text(Constants.convertDateToTime(archieveList[index].date!),style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'segoe' ),),
+                                  )
+                                          ],
                                         ),
                                       ),
 
@@ -227,7 +238,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                             padding: EdgeInsets.fromLTRB(18, 7, 24, 7),
                             width: MediaQuery.of(context).size.width,
                             child: Text(
-                              archieveList[index].title!,
+                              (_isfromSearch == true)?searchArchiveArr[index].title!:archieveList[index].title!,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 19,
@@ -249,54 +260,77 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                               fontWeight: FontWeight.w400),
                                         ),
                                       ),
-                          Container(
-                          height:30,
-                          padding: EdgeInsets.fromLTRB(21, 5, 26, 7),
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: (_isfromSearch == true)?archieveList[index].categories!.length:archieveList[index].categories!.length ,
-                                itemBuilder: (context, c_index){ 
-                                return InkWell(
-                                  highlightColor: Colors.transparent,
-                                onTap: (){
-                                   
-                                },
-                                child: Container(
-                                  padding:EdgeInsets.fromLTRB(10, 2, 10, 2) ,
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ArchiveDetail(
+                                
+                                bodyStr: (_isfromSearch == true)?searchArchiveArr[index].body!:archieveList[index].body!, 
+                                titleStr: (_isfromSearch == true)?searchArchiveArr[index].title!:archieveList[index].title!,
+                                dateStr: (_isfromSearch == true)?searchArchiveArr[index].date!:archieveList[index].date!,
+                                bannerImageArr: (_isfromSearch == true)?searchArchiveArr[index].banners!:archieveList[index].banners!,
+                              )));
+                            },
+                            child: Container(
+                            height:30,
+                            padding: EdgeInsets.fromLTRB(21, 5, 26, 7),
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: (_isfromSearch == true)?searchArchiveArr[index].categories!.length:archieveList[index].categories!.length ,
+                                  itemBuilder: (context, c_index){ 
+                                  return InkWell(
+                                    highlightColor: Colors.transparent,
+                                  onTap: (){
+                                     Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ArchiveDetail(
                                   
-                                  width: 50,
-                                  height: 17,
-                                  child: Center(
-                                    child: FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: Text(
-                                       (_isfromSearch == true)?searchArchiveArr[index].categoriesData![c_index].name!: archieveList[index].categoriesData![c_index].name!,
-                                        style: TextStyle(fontSize: 10,fontFamily:"segoe",fontWeight: FontWeight.w600,color: Colors.black),
+                                  bodyStr: (_isfromSearch == true)?searchArchiveArr[index].body!:archieveList[index].body!, 
+                                  titleStr: (_isfromSearch == true)?searchArchiveArr[index].title!:archieveList[index].title!,
+                                  dateStr: (_isfromSearch == true)?searchArchiveArr[index].date!:archieveList[index].date!,
+                                  bannerImageArr: (_isfromSearch == true)?searchArchiveArr[index].banners!:archieveList[index].banners!,
+                                )));
+                                  },
+                                  child: Container(
+                                    padding:EdgeInsets.fromLTRB(10, 2, 10, 2) ,
+                                    
+                                    width: 50,
+                                    height: 17,
+                                    child: Center(
+                                      child: FittedBox(
+                                        fit: BoxFit.contain,
+                                        child: Text(
+                                         (_isfromSearch == true)?searchArchiveArr[index].categoriesData![c_index].name!: archieveList[index].categoriesData![c_index].name!,
+                                          style: TextStyle(fontSize: 10,fontFamily:"segoe",fontWeight: FontWeight.w600,color: Colors.black),
+                                        ),
                                       ),
                                     ),
+                                    decoration: BoxDecoration(
+                                              color: AppColors.CatBackColor.withOpacity(0.38),                                                    borderRadius:
+                                              BorderRadius.circular(34),
+                                              )
                                   ),
-                                  decoration: BoxDecoration(
-                                            color: AppColors.CatBackColor.withOpacity(0.38),                                                    borderRadius:
-                                            BorderRadius.circular(34),
-                                            )
+                                  
+                                  );
+                                  }),
+                                ),
+                                SizedBox(
+                                  width: 20,
                                 ),
                                 
-                                );
-                                }),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              
-                            ],
+                              ],
+                            ),
+                                                  ),
                           ),
-                        ),
                                       InkWell(
                                         highlightColor: Colors.transparent,
                                         onTap: (){
@@ -317,7 +351,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                           child: Text(
                                             'Read More',
                                             style: TextStyle(
-                                                color: Color.fromARGB(228, 189, 20, 20),
+                                                color: AppColors.editBackColor,
                                                 fontSize: 12,
                                                 fontFamily: "segoe",
                                                 fontWeight: FontWeight.w400),

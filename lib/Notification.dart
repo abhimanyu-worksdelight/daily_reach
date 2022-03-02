@@ -26,10 +26,7 @@ class _Notefication extends State<StatefulWidget> {
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SplashScreen()));
+                     Navigator.pop(context);
                   },
                   // child:  GestureDetector(
                   //   onTap: () {

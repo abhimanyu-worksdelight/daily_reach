@@ -79,13 +79,13 @@ class _Feed extends State<Feed> implements ApiInterface {
                               MaterialPageRoute(
                                   builder: (context) => Login_screen(
                                         isfromSignup: false,
-                                      )));
+                                      )),);
                         },
                         child: (widget.isfromLogin == false)
                             ? Text("Login",
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Color.fromARGB(233, 182, 3, 3),
+                                  color: AppColors.editBackColor,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: "assets/fonts/segui.TTf",
                                 ))
@@ -94,19 +94,26 @@ class _Feed extends State<Feed> implements ApiInterface {
                       SizedBox(
                         width: 21.5,
                       ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) => Notefication()));
-                      //   },
-                      //   // child: Image.asset(
-                      //   //   "assets/images/bell.png",
-                      //   //   width: 20,
-                      //   //   height: 20,
-                      //   // ),
-                      // )
+                      GestureDetector(
+                        onTap: () {
+                          if (widget.isfromLogin == true){
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Notefication()));
+
+                          }
+                          else{
+                            _getSupportPopUI();
+                          }
+                        },
+                        child: Image.asset(
+                          "assets/images/bell.png",
+                          width: 20,
+                          height: 20,
+                        ),
+                      )
                     ],
                   ),
                 ],
@@ -138,17 +145,30 @@ class _Feed extends State<Feed> implements ApiInterface {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
+                              height: 50,
                               padding: EdgeInsets.fromLTRB(18, 19, 24, 7),
                               width: MediaQuery.of(context).size.width,
-                              child: Text(
-                                Constants.convertDateFormateFeed(
-                                    feedList[index].date!),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15,
-                                    fontFamily: "assets/fonts/segui.TTf",
-                                    color: Colors.black),
-                              )),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    Constants.convertDateFormateFeed(
+                                        feedList[index].date!),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
+                                        fontFamily: "assets/fonts/segui.TTf",
+                                        color: Colors.black),
+                                  ),
+                                 
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                              top: 0,right: 5),
+                                    child: Text(Constants.convertDateToTime(feedList[index].date!),style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'segoe' ),),
+                                  )
+                                ],
+                              )
+                              ),
                           Container(
                               padding: EdgeInsets.fromLTRB(18, 7, 24, 7),
                               width: MediaQuery.of(context).size.width,
@@ -222,90 +242,103 @@ class _Feed extends State<Feed> implements ApiInterface {
                                     letterSpacing: 0.1,
                                     height: 1.5),
                               )),
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.fromLTRB(21, 0, 26, 7),
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount:
-                                        feedList[index].categories!.length,
-                                    itemBuilder: (context, c_index) {
-                                      return Container(
-
-                                        child: InkWell(
-                                          highlightColor: Colors.transparent,
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        PostDetail(
-                                                          bodyStr:
-                                                              feedList[index]
-                                                                  .body!,
-                                                          titleStr:
-                                                              feedList[index]
-                                                                  .title!,
-                                                          dateStr:
-                                                              feedList[index]
-                                                                  .date!,
-                                                          bannerImageArr:
-                                                              feedList[index]
-                                                                  .banners!,
-                                                        )));
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                height: 17,
-                                                width: 50,
-                                                padding:EdgeInsets.fromLTRB(5, 2, 5, 2) ,
-                                                child: Center(
-                                                  child: Text(
-                                                    feedList[index]
-                                                        .categoriesData![c_index]
-                                                        .name!,
-                                                    style: TextStyle(
-                                                        fontSize: 9,
-                                                        fontFamily: "segoe",
-                                                        fontWeight: FontWeight.w600,
-                                                        color: Colors.black),
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PostDetail(
+                                      bodyStr: feedList[index].body!,
+                                      titleStr: feedList[index].title!,
+                                      dateStr: feedList[index].date!,
+                                      bannerImageArr: feedList[index].banners!,
+                                    )));
+                            },
+                            child: Container(
+                              height: 60,
+                              padding: EdgeInsets.fromLTRB(21, 0, 26, 7),
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount:
+                                          feedList[index].categories!.length,
+                                      itemBuilder: (context, c_index) {
+                                        return Container(
+                          
+                                          child: InkWell(
+                                            highlightColor: Colors.transparent,
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          PostDetail(
+                                                            bodyStr:
+                                                                feedList[index]
+                                                                    .body!,
+                                                            titleStr:
+                                                                feedList[index]
+                                                                    .title!,
+                                                            dateStr:
+                                                                feedList[index]
+                                                                    .date!,
+                                                            bannerImageArr:
+                                                                feedList[index]
+                                                                    .banners!,
+                                                          )));
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: 17,
+                                                  width: 50,
+                                                  padding:EdgeInsets.fromLTRB(5, 2, 5, 2) ,
+                                                  child: Center(
+                                                    child: Text(
+                                                      feedList[index]
+                                                          .categoriesData![c_index]
+                                                          .name!,
+                                                      style: TextStyle(
+                                                          fontSize: 9,
+                                                          fontFamily: "segoe",
+                                                          fontWeight: FontWeight.w600,
+                                                          color: Colors.black),
+                                                    ),
                                                   ),
+                                                  decoration: BoxDecoration(
+                                              color: AppColors.CatBackColor.withOpacity(0.38),                                                    borderRadius:
+                                              BorderRadius.circular(34),
+                                              )
                                                 ),
-                                                decoration: BoxDecoration(
-                                            color: AppColors.CatBackColor.withOpacity(0.38),                                                    borderRadius:
-                                            BorderRadius.circular(34),
-                                            )
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text("Read More",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color:
-                                                Color.fromARGB(233, 182, 3, 3),
-                                            fontWeight: FontWeight.w600,
-                                          )),
-                                    ],
+                                        );
+                                      }),
+                                  SizedBox(
+                                    width: 20,
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text("Read More",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  Color.fromARGB(233, 182, 3, 3),
+                                              fontWeight: FontWeight.w600,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                         ],
@@ -394,5 +427,80 @@ class _Feed extends State<Feed> implements ApiInterface {
         }
       });
     }
+  }
+
+  _getSupportPopUI() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetPadding: EdgeInsets.all(20),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // SizedBox(height: 30),
+                // Image.asset('assets/images/daily_reach_logo.png',
+                //     height: 45, width: 45),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "You have to login first!!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 145,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Login_screen(
+                                      isfromSignup: true,
+                                    )),
+                            ModalRoute.withName('/'),
+                          );
+                        },
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.blue, fontSize: 14,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 145,
+                    child: Center(
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.red,fontSize: 14,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

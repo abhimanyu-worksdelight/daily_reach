@@ -26,13 +26,14 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
   @override
   void initState() {
     super.initState();
+    initPlatformState();
+    _handlePromptForPushPermission();
     Future.delayed(const Duration(milliseconds: 3000), () {
       getGeneralSettingsApi();
     });
 
-     initPlatformState();
-    _handlePromptForPushPermission();
-    _handleSendNotification();
+     
+    // _handleSendNotification();
   }
 
   void getLoginStatus(String video) {
@@ -195,15 +196,16 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
 
     OneSignal.shared.disablePush(false);
 
-    bool userProvidedPrivacyConsent =
-        await OneSignal.shared.userProvidedPrivacyConsent();
-    print("USER PROVIDED PRIVACY CONSENT: $userProvidedPrivacyConsent");
+    // bool userProvidedPrivacyConsent =
+    //     await OneSignal.shared.userProvidedPrivacyConsent();
+    // print("USER PROVIDED PRIVACY CONSENT: $userProvidedPrivacyConsent");
   }
 
   void _handlePromptForPushPermission() {
     print("Prompting for Permission");
     OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
       print("Accepted permission: $accepted");
+      _handleSendNotification();
     });
   }
 
@@ -215,23 +217,25 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
 
     var playerId = deviceState.userId!;
     print('playerId--------------- $playerId');
+    SharedPreference.saveStringValue(Constants.deviceId, playerId);
    
-
-    // var notification = OSCreateNotification(
-    //     playerIds: [playerId],
-    //     content: "this is a test from OneSignal's Flutter SDK",
-    //     heading: "Test Notification",
+    var notification = OSCreateNotification(
+        playerIds: [playerId],
+        content: "this is a test from OneSignal's Flutter SDK",
+        heading: "Test Notification",
+        bigPicture: 'assets/images/daily_reach_logo.png',
        
-    //     buttons: [
-    //       OSActionButton(text: "test1", id: "id1"),
-    //       OSActionButton(text: "test2", id: "id2")
-    //     ]);
+        buttons: [
+          OSActionButton(text: "test1", id: "id1"),
+          OSActionButton(text: "test2", id: "id2")
+        ]);
 
-    // var response = await OneSignal.shared.postNotification(notification);
-
-    // this.setState(() {
-    //   print("Sent notification with response: $response");
-    //   // _debugLabelString = "Sent notification with response: $response";
-    // });
+    var response = await OneSignal.shared.postNotification(notification);
+    if(this.mounted){
+      this.setState(() {
+        print("Sent notification with response: $response");
+        // _debugLabelString = "Sent notification with response: $response";
+      });
+    }
   }
 }

@@ -84,7 +84,7 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                             child: Image.asset(
                               "assets/images/arrowvector.png",
                               color: Colors.black,
-                              width: 24,
+                              width: 44,
                               height: 24,
                             ),
                           ),

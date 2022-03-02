@@ -34,6 +34,26 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
   final passwordController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getdeviceId();
+  }
+
+  void getdeviceId() {
+    print("getdeviceId :: ");
+    Future<String> status =
+        SharedPreference.getStringValuesSF(Constants.deviceId);
+    status.then(
+        (value) => {
+              print("deviceId: $value"),
+              Constants.deviceIdStr = value,
+            }, onError: (err) {
+      print("Error occured :: $err");
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
@@ -320,7 +340,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
         'password': passwordController.text,
         'app_version': '1.2',
         'device_info': 'jknbkjn',
-        'one_signal_id': Constants.OneSignalId
+        'one_signal_id': Constants.deviceIdStr
       });
     }
   }
