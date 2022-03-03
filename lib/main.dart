@@ -208,6 +208,9 @@ class _HomePage extends State<HomePage> {
                 // Navigator.push(context, MaterialPageRoute(
                 // builder: (context) => Profile_screen(isfromLogin: false,)));
 
+                _videoPlayerController1 = null;
+                _chewieController =null;
+
                 Navigator.pushAndRemoveUntil<void>(
                   context,
                   MaterialPageRoute<void>(builder: (BuildContext context) => Profile_screen(isfromLogin: false,)),

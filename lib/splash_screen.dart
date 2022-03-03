@@ -1,5 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Notification.dart';
+import 'package:dailyreach/PostDetail.dart';
 import 'package:dailyreach/become_member.dart';
 import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
@@ -163,10 +164,10 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
 
     OneSignal.shared
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-      print('NOTIFICATION OPENED HANDLER CALLED WITH: ${result}');
+      print('NOTIFICATION OPENED HANDLER CALLED WITH: ${result.notification.rawPayload}');
 
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Notefication()));
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => PostDetail(titleStr: titleStr, bodyStr: bodyStr, dateStr: dateStr, bannerImageArr: bannerImageArr)));
     });
 
     OneSignal.shared.setNotificationWillShowInForegroundHandler(

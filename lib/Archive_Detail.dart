@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dailyreach/Models/ArchiveModel.dart';
 import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/video_widget.dart';
 import 'package:flutter/material.dart';
 
 class ArchiveDetail extends StatefulWidget {
@@ -48,7 +49,17 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                               scale: i == _index ? 1 : 1,
                               child: Card(
                                   child: Center(
-                                child: (widget.bannerImageArr.length > 0)
+                                child: (widget.bannerImageArr[i].type == "jpg" ||
+                                                      widget.bannerImageArr[i].type ==
+                                                          "png" ||
+                                                      widget.bannerImageArr[i].type ==
+                                                          "jpeg" ||
+                                                      widget.bannerImageArr[i].type ==
+                                                          "gif") ?
+                                
+                                
+                                
+                                (widget.bannerImageArr.length > 0)
                                     ? CachedNetworkImage(
                                         imageUrl:
                                             widget.bannerImageArr[i].banner!,
@@ -67,7 +78,7 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                                         "assets/images/feed.png",
                                         height: 169,
                                         fit: BoxFit.fill,
-                                      ),
+                                      ): VideoItem(widget.bannerImageArr[i].banner!)
                               )),
                             );
                           })),

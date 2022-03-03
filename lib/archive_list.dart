@@ -9,6 +9,7 @@ import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
+import 'package:dailyreach/video_archieve.dart';
 import 'package:flutter/material.dart';
 import 'archive_screen.dart';
 
@@ -182,7 +183,16 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                 Padding(
                                   padding:
                                    EdgeInsets.only(top: 27, left: 21,bottom: 6),
-                                  child: (archieveList[index].banners!.length > 0)
+                                  child: (archieveList[index].banners![0].type == "jpg" ||
+                                                      archieveList[index].banners![0].type ==
+                                                          "png" ||
+                                                      archieveList[index].banners![0].type ==
+                                                          "jpeg" ||
+                                                      archieveList[index].banners![0].type ==
+                                                          "gif") ?
+                                  
+                                  
+                                   (archieveList[index].banners!.length > 0)
                             ? CachedNetworkImage(
                                 imageUrl: archieveList[index].banners![0].banner!,
                                 width: 116,
@@ -203,7 +213,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                 "assets/images/photoo.png",
                                 height: 169,
                                 fit: BoxFit.fill,
-                              ), 
+                              ):  videoArchive(archieveList[index].banners![0].banner!)
                                 ),
                                 Flexible(
                                   child: Column(
