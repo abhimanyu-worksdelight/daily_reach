@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dailyreach/Models/FeedModel.dart';
 import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/video_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'main_Feed.dart';
 import 'FirstPage.dart';
@@ -11,6 +13,7 @@ class PostDetail extends StatefulWidget {
   String bodyStr;
   String titleStr;
   String dateStr;
+  
   List<Banners> bannerImageArr;
 
   PostDetail({
@@ -18,6 +21,7 @@ class PostDetail extends StatefulWidget {
     required this.bodyStr,
     required this.dateStr,
     required this.bannerImageArr,
+   
   });
 
   @override
@@ -51,7 +55,19 @@ class _PostDetail extends State<PostDetail> {
                               scale: i == _index ? 1 : 1,
                               child: Card(
                                   child: Center(
-                                child: (widget.bannerImageArr.length > 0)
+                                  
+                                child:
+                                (widget.bannerImageArr[i].type == "jpg" ||
+                                                      widget.bannerImageArr[i].type ==
+                                                          "png" ||
+                                                      widget.bannerImageArr[i].type ==
+                                                          "jpeg" ||
+                                                      widget.bannerImageArr[i].type ==
+                                                          "gif") ?
+                                
+                                
+                                
+                                 (widget.bannerImageArr.length > 0)
                                     ? CachedNetworkImage(
                                         imageUrl:
                                             widget.bannerImageArr[i].banner!,
@@ -70,8 +86,9 @@ class _PostDetail extends State<PostDetail> {
                                         "assets/images/feed.png",
                                         height: 169,
                                         fit: BoxFit.fill,
-                                      ),
-                              )),
+                                      ):VideoItem(widget.bannerImageArr[i].banner!)
+                              )
+                              ),
                             );
                           })),
                 ),

@@ -49,7 +49,7 @@ class _HomePage extends State<HomePage> {
   TargetPlatform? _platform;
   VideoPlayerController? _videoPlayerController1;
   ChewieController? _chewieController;
-bool isInit= true;
+  bool isInit= true;
   @override
   void initState() {
     _videoPlayerController1 = VideoPlayerController.network(
@@ -87,7 +87,8 @@ bool isInit= true;
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start, children: [
             Stack(
               children: [
                 Container(

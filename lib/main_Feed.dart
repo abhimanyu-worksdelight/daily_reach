@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/FirstPage.dart';
 import 'package:dailyreach/Models/FeedModel.dart';
+import 'package:dailyreach/archive_list.dart';
 import 'package:dailyreach/login_screen.dart';
 import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
@@ -10,11 +12,13 @@ import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/utils/session_expired.dart';
+import 'package:dailyreach/video_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:html/parser.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:video_player/video_player.dart';
 
 import 'Notification.dart';
 import 'PostDetail.dart';
@@ -44,13 +48,16 @@ class _Feed extends State<Feed> implements ApiInterface {
   var total = 0;
   var currentPage = 1;
   var isLoading = false;
+  
 
   @override
   void initState() {
     super.initState();
     getFeeds();
     scrollcontroller.addListener(pagination);
+    
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +82,12 @@ class _Feed extends State<Feed> implements ApiInterface {
                         highlightColor: Colors.transparent,
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Login_screen(
-                                        isfromSignup: false,
-                                      )),);
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Login_screen(
+                                      isfromSignup: false,
+                                    )),
+                          );
                         },
                         child: (widget.isfromLogin == false)
                             ? Text("Login",
@@ -96,15 +104,12 @@ class _Feed extends State<Feed> implements ApiInterface {
                       ),
                       GestureDetector(
                         onTap: () {
-                          if (widget.isfromLogin == true){
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Notefication()));
-
-                          }
-                          else{
+                          if (widget.isfromLogin == true) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Notefication()));
+                          } else {
                             _getSupportPopUI();
                           }
                         },
@@ -119,7 +124,10 @@ class _Feed extends State<Feed> implements ApiInterface {
                 ],
               ),
             ),
-            Container(height: 0.2,color: Colors.grey,),
+            Container(
+              height: 0.2,
+              color: Colors.grey,
+            ),
             Expanded(
               flex: 1,
               child: ListView.separated(
@@ -139,6 +147,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                       titleStr: feedList[index].title!,
                                       dateStr: feedList[index].date!,
                                       bannerImageArr: feedList[index].banners!,
+                                      
                                     )));
                       },
                       child: Column(
@@ -149,7 +158,8 @@ class _Feed extends State<Feed> implements ApiInterface {
                               padding: EdgeInsets.fromLTRB(18, 19, 24, 7),
                               width: MediaQuery.of(context).size.width,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     Constants.convertDateFormateFeed(
@@ -160,15 +170,19 @@ class _Feed extends State<Feed> implements ApiInterface {
                                         fontFamily: "assets/fonts/segui.TTf",
                                         color: Colors.black),
                                   ),
-                                 
                                   Padding(
-                                    padding: EdgeInsets.only(
-                                              top: 0,right: 5),
-                                    child: Text(Constants.convertDateToTime(feedList[index].date!),style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'segoe' ),),
+                                    padding: EdgeInsets.only(top: 0, right: 5),
+                                    child: Text(
+                                      Constants.convertDateToTime(
+                                          feedList[index].date!),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          fontFamily: 'segoe'),
+                                    ),
                                   )
                                 ],
-                              )
-                              ),
+                              )),
                           Container(
                               padding: EdgeInsets.fromLTRB(18, 7, 24, 7),
                               width: MediaQuery.of(context).size.width,
@@ -194,35 +208,53 @@ class _Feed extends State<Feed> implements ApiInterface {
                                     onPageChanged: (int index) =>
                                         setState(() => _index = index),
                                     itemBuilder: (_, i) {
+                                      
+                                      // Constants.bannerType =
+                                      //     feedList[index].banners![i].type!;
+                                      
                                       return Transform.scale(
                                         scale: i == _index ? 1 : 1,
                                         child: Card(
+                                            color: Colors.white,
                                             child: Center(
-                                          child: (feedList[index]
-                                                      .banners!
-                                                      .length >
-                                                  0)
-                                              ? CachedNetworkImage(
-                                                  imageUrl: feedList[index]
-                                                      .banners![i]
-                                                      .banner!,
-                                                  placeholder: (context, url) =>
-                                                      SizedBox(
-                                                          height: 2.0,
-                                                          width: 2.0,
-                                                          child: Image.asset('assets/images/daily_reach_logo.png')
-                                                              ),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(Icons.error),
-                                                  fit: BoxFit.fitWidth,
-                                                )
-                                              : Image.asset(
-                                                  "assets/images/feed.png",
-                                                  height: 169,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                        )),
+                                          child:
+                                              (feedList[index].banners![i].type == "jpg" ||
+                                                      feedList[index].banners![i].type ==
+                                                          "png" ||
+                                                      feedList[index].banners![i].type ==
+                                                          "jpeg" ||
+                                                      feedList[index].banners![i].type ==
+                                                          "gif")
+                                                  ? (feedList[index]
+                                                              .banners!
+                                                              .length >
+                                                          0)
+                                                      ? CachedNetworkImage(
+                                                          imageUrl:
+                                                              feedList[index]
+                                                                  .banners![i]
+                                                                  .banner!,
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              SizedBox(
+                                                                  height: 2.0,
+                                                                  width: 2.0,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/images/daily_reach_logo.png')),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(Icons.error),
+                                                          fit: BoxFit.fitWidth,
+                                                        )
+                                                      : Image.asset(
+                                                          "assets/images/feed.png",
+                                                          height: 169,
+                                                          fit: BoxFit.fill,
+                                                        )
+                                                  : VideoItem(feedList[index].banners![i].banner!)
+                                        )
+                                        ),
                                       );
                                     })),
                           ),
@@ -243,23 +275,25 @@ class _Feed extends State<Feed> implements ApiInterface {
                                     height: 1.5),
                               )),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PostDetail(
-                                      bodyStr: feedList[index].body!,
-                                      titleStr: feedList[index].title!,
-                                      dateStr: feedList[index].date!,
-                                      bannerImageArr: feedList[index].banners!,
-                                    )));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PostDetail(
+                                            bodyStr: feedList[index].body!,
+                                            titleStr: feedList[index].title!,
+                                            dateStr: feedList[index].date!,
+                                            bannerImageArr:
+                                                feedList[index].banners!,
+                                          )));
                             },
                             child: Container(
                               height: 60,
                               padding: EdgeInsets.fromLTRB(21, 0, 26, 7),
                               width: MediaQuery.of(context).size.width,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   ListView.builder(
                                       shrinkWrap: true,
@@ -268,7 +302,6 @@ class _Feed extends State<Feed> implements ApiInterface {
                                           feedList[index].categories!.length,
                                       itemBuilder: (context, c_index) {
                                         return Container(
-                          
                                           child: InkWell(
                                             highlightColor: Colors.transparent,
                                             onTap: () {
@@ -294,26 +327,34 @@ class _Feed extends State<Feed> implements ApiInterface {
                                             child: Row(
                                               children: [
                                                 Container(
-                                                  height: 17,
-                                                  width: 50,
-                                                  padding:EdgeInsets.fromLTRB(5, 2, 5, 2) ,
-                                                  child: Center(
-                                                    child: Text(
-                                                      feedList[index]
-                                                          .categoriesData![c_index]
-                                                          .name!,
-                                                      style: TextStyle(
-                                                          fontSize: 9,
-                                                          fontFamily: "segoe",
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black),
+                                                    height: 17,
+                                                    width: 50,
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            5, 2, 5, 2),
+                                                    child: Center(
+                                                      child: Text(
+                                                        feedList[index]
+                                                            .categoriesData![
+                                                                c_index]
+                                                            .name!,
+                                                        style: TextStyle(
+                                                            fontSize: 9,
+                                                            fontFamily: "segoe",
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                              color: AppColors.CatBackColor.withOpacity(0.38),                                                    borderRadius:
-                                              BorderRadius.circular(34),
-                                              )
-                                                ),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors
+                                                              .CatBackColor
+                                                          .withOpacity(0.38),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              34),
+                                                    )),
                                               ],
                                             ),
                                           ),
@@ -330,8 +371,8 @@ class _Feed extends State<Feed> implements ApiInterface {
                                         Text("Read More",
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color:
-                                                  Color.fromARGB(233, 182, 3, 3),
+                                              color: Color.fromARGB(
+                                                  233, 182, 3, 3),
                                               fontWeight: FontWeight.w600,
                                             )),
                                       ],
@@ -394,6 +435,7 @@ class _Feed extends State<Feed> implements ApiInterface {
     EasyLoader.hideLoader();
     FeedModel feedModel = new FeedModel.fromJson(data);
     var message = feedModel.message;
+    var bannerUrl = "";
 
     if (feedModel.status == 1) {
       print('success feed');
@@ -449,7 +491,11 @@ class _Feed extends State<Feed> implements ApiInterface {
                   child: Text(
                     "You have to login first!!",
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'segoe'),
                   ),
                 ),
                 SizedBox(height: 15),
@@ -471,7 +517,11 @@ class _Feed extends State<Feed> implements ApiInterface {
                         },
                         child: Text(
                           "OK",
-                          style: TextStyle(color: Colors.blue, fontSize: 14,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'segoe'),
                         ),
                       ),
                     ),
@@ -484,12 +534,16 @@ class _Feed extends State<Feed> implements ApiInterface {
                     width: 145,
                     child: Center(
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pop(context);
                         },
                         child: Text(
                           "Cancel",
-                          style: TextStyle(color: Colors.red,fontSize: 14,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'segoe'),
                         ),
                       ),
                     ),

@@ -176,7 +176,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
               Padding(
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
-                    Constants.nameStr,
+                   (isLoggedIn == true)? Constants.nameStr: '',
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -186,7 +186,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
               Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Text(
-                    Constants.emailStr,
+                    (isLoggedIn == true)?Constants.emailStr:'',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -218,7 +218,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                   Padding(
                       padding: EdgeInsets.only(top: 10, left: 8),
                       child: Text(
-                        Constants.phoneStr,
+                        (isLoggedIn == true)?Constants.phoneStr:'',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -283,6 +283,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                     ])),
           ),
         ),
+        Spacer(),
        (isLoggedIn == true) ? InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -291,9 +292,9 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
               logoutApi();
             
           },
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: (isLoggedIn == true) ? 200 : 300, bottom: 20),
+          
+          child: (isLoggedIn == true)? Padding(
+            padding: const EdgeInsets.only(bottom: 20),
             child: Text(
               'Logout',
               style: TextStyle(
@@ -302,7 +303,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                   fontFamily: "segoe",
                   fontWeight: FontWeight.w600),
             ),
-          ),
+          ):Container()
         ): Container()
       ]),
     );
@@ -413,12 +414,13 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
           SharedPreference.getStringValuesSF(Constants.videoStr);
       status.then(
           (value) => {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
                         builder: (context) => HomePage(
                               intro_video: value,
-                            )))
+                            )), ModalRoute.withName('/')
+                            )
               }, onError: (err) {
         print("Error occured :: $err");
       });

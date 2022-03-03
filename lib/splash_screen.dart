@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/Notification.dart';
 import 'package:dailyreach/become_member.dart';
 import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
@@ -11,6 +12,7 @@ import 'package:dailyreach/Profile_Screen.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'dart:io' show Platform;
 
 class Splash_screen extends StatefulWidget {
   @override
@@ -28,11 +30,13 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
     super.initState();
     initPlatformState();
     _handlePromptForPushPermission();
+    if (Platform.isAndroid) {
+      _handleSendNotification();
+    }
     Future.delayed(const Duration(milliseconds: 3000), () {
       getGeneralSettingsApi();
     });
 
-     
     // _handleSendNotification();
   }
 
@@ -53,7 +57,11 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
 
   void goToprofilePage() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Profile_screen(isfromLogin: true,)));
+        context,
+        MaterialPageRoute(
+            builder: (context) => Profile_screen(
+                  isfromLogin: true,
+                )));
   }
 
   void goTologin(String videoStr) {
@@ -156,10 +164,9 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
     OneSignal.shared
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       print('NOTIFICATION OPENED HANDLER CALLED WITH: ${result}');
-      this.setState(() {
-        // _debugLabelString =
-        //     "Opened notification: \n${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}";
-      });
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Notefication()));
     });
 
     OneSignal.shared.setNotificationWillShowInForegroundHandler(
@@ -168,7 +175,6 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
 
       /// Display Notification, send null to not display
       event.complete(null);
-
     });
 
     OneSignal.shared
@@ -187,7 +193,6 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
     OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {
       print("PERMISSION STATE CHANGED: ${changes.jsonRepresentation()}");
     });
-
 
     // NOTE: Replace with your own app ID from https://www.onesignal.com
     await OneSignal.shared.setAppId("ab6953fd-aee4-4a8f-b73a-cabbf25db26c");
@@ -212,30 +217,38 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
   void _handleSendNotification() async {
     var deviceState = await OneSignal.shared.getDeviceState();
 
-    if (deviceState == null || deviceState.userId == null)
-        return;
+    // if (deviceState != null && deviceState.userId != null) {
+    //   print('playerId--device------------- ${deviceState!.userId}');
+    //   return;
+    // }
 
-    var playerId = deviceState.userId!;
-    print('playerId--------------- $playerId');
-    SharedPreference.saveStringValue(Constants.deviceId, playerId);
-   
-    var notification = OSCreateNotification(
-        playerIds: [playerId],
-        content: "this is a test from OneSignal's Flutter SDK",
-        heading: "Test Notification",
-        bigPicture: 'assets/images/daily_reach_logo.png',
-       
-        buttons: [
-          OSActionButton(text: "test1", id: "id1"),
-          OSActionButton(text: "test2", id: "id2")
-        ]);
-
-    var response = await OneSignal.shared.postNotification(notification);
-    if(this.mounted){
-      this.setState(() {
-        print("Sent notification with response: $response");
-        // _debugLabelString = "Sent notification with response: $response";
-      });
+    var playerId = '';
+    if (deviceState != null && deviceState.userId != null) {
+      playerId = deviceState.userId!;
+      print('playerId--------------- $playerId');
+      SharedPreference.saveStringValue(Constants.deviceId, playerId);
+    } else {
+      print('playerId--------------- $playerId');
+      SharedPreference.saveStringValue(Constants.deviceId, playerId);
     }
+    // ToastManager.successToast('playerId $playerId');
+
+    // var notification = OSCreateNotification(
+    //     playerIds: [playerId],
+    //     content: "this is a test from OneSignal's Flutter SDK",
+    //     heading: "Test Notification",
+    //     bigPicture: 'assets/images/daily_reach_logo.png',
+    //     buttons: [
+    //       OSActionButton(text: "test1", id: "id1"),
+    //       OSActionButton(text: "test2", id: "id2")
+    //     ]);
+
+    // var response = await OneSignal.shared.postNotification(notification);
+    // if (this.mounted) {
+    //   this.setState(() {
+    //     print("Sent notification with response: $response");
+    //     // _debugLabelString = "Sent notification with response: $response";
+    //   });
+    // }
   }
 }

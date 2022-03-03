@@ -132,6 +132,7 @@ class FeedData {
     if (json['banners'] != null) {
       banners = <Banners>[];
       json['banners'].forEach((v) {
+        var banner = Banners.fromJson(v);
         banners!.add(new Banners.fromJson(v));
       });
     }

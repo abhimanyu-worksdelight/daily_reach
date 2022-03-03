@@ -56,6 +56,8 @@ class Constants{
    static String phoneStr = "";
    static String OneSignalId = "ab6953fd-aee4-4a8f-b73a-cabbf25db26c";
    static String deviceIdStr = "";
+   static String bannerType = "";
+   static String videoUrl = "";
 
 
 

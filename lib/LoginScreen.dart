@@ -32,10 +32,31 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
   String version = "";
   PackageInfo? packageInfo;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getVersion();
+    getdeviceId();
+  }
+
   getVersion() async {
     packageInfo = await PackageInfo.fromPlatform();
     version = packageInfo!.version;
     
+  }
+
+  void getdeviceId() {
+    print("getdeviceId :: ");
+    Future<String> status =
+        SharedPreference.getStringValuesSF(Constants.deviceId);
+    status.then(
+        (value) => {
+              print("deviceId: $value"),
+              Constants.deviceIdStr = value,
+            }, onError: (err) {
+      print("Error occured :: $err");
+    });
   }
 
   @override
@@ -327,7 +348,7 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
         'password': passwordController.text,
         'app_version': '1.2',
         'device_info': 'jknbkjn',
-        'one_signal_id': Constants.OneSignalId
+        'one_signal_id': Constants.deviceIdStr
       });
     }
   }
@@ -359,6 +380,8 @@ class _LoginScreen extends State<StatefulWidget> implements ApiInterface {
       SharedPreference.saveStringValue(Constants.firstName,name);
       SharedPreference.saveStringValue(Constants.email,email);
       SharedPreference.saveStringValue(Constants.phoneNumber,phone);
+      //comment this before sending build
+      // ToastManager.successToast('onesignal2 ${Constants.deviceIdStr}');
       print('successfully login');
       Navigator.push(
         context,

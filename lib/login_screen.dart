@@ -339,7 +339,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
         'email': emailController.text,
         'password': passwordController.text,
         'app_version': '1.2',
-        'device_info': 'jknbkjn',
+        'device_info': '',
         'one_signal_id': Constants.deviceIdStr
       });
     }
@@ -370,6 +370,8 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
       SharedPreference.saveStringValue(Constants.firstName,name);
       SharedPreference.saveStringValue(Constants.email,email);
       SharedPreference.saveStringValue(Constants.phoneNumber,phone);
+      //comment this before sending build
+      // ToastManager.successToast('onesignal1 ${Constants.deviceIdStr}');
       print('successfully login');
       Navigator.push(context, MaterialPageRoute(
           builder: (context) => Profile_screen(isfromLogin: true,)));
