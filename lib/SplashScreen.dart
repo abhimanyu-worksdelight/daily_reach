@@ -44,18 +44,18 @@ class _SplashScreen extends State<SplashScreen> implements ApiInterface {
         body: Column(
 
             children: [
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Container(
-          margin: const EdgeInsets.only(right:16.0),
-          child: SizedBox(
-            height: 100,
-            child: Image.asset(
-              "assets/images/Ellipse.png",
-            ),
-          ),
-        ),
-        Image.asset("assets/images/Vector.png", width: 90, height: 54),
-      ]),
+      // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      //   Container(
+      //     margin: const EdgeInsets.only(right:16.0),
+      //     child: SizedBox(
+      //       height: 100,
+      //       child: Image.asset(
+      //         "assets/images/Ellipse.png",
+      //       ),
+      //     ),
+      //   ),
+      //   Image.asset("assets/images/Vector.png", width: 90, height: 54),
+      // ]),
       Expanded(
         child: Image.asset(
           'assets/images/daily.png',

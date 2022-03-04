@@ -19,6 +19,10 @@ class Constants{
   static String categoryUrl = "categories";
   static String editProfileUrl = "edit-profile";
   static String forgetPasswordUrl = "forget-password";
+  static String postDetailUrl = "postDetail";
+  static String notificationUrl = "notificationList";
+  static String notificationCountUrl = "notificationCount";
+  static String notificationReadUrl = "notificationRead";
 
 
   // sharedPref values

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Edit_Profile.dart';
+import 'package:dailyreach/Models/Notification_Count_Model.dart';
 import 'package:dailyreach/login_screen.dart';
 import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
@@ -28,12 +29,15 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
   PickedFile? imageFile = null;
   var filePath = "";
   bool isLoggedIn = false;
+  var notificationCount = 0;
+  int apiType = rqCount;
 
   @override
   void initState() {
     super.initState();
     getToken();
     getLoginStatus();
+    getNotificationCount();
   }
 
   void getLoginStatus() {
@@ -153,13 +157,34 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                       _getSupportPopUI();
                     }
                   },
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 64, left: 230, right: 23),
-                    child: Image.asset(
-                      'assets/images/bell.png',
-                      width: 18,
-                      height: 18,
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 64, left: 230, right: 23),
+                        child: Image.asset(
+                          'assets/images/bell.png',
+                          width: 22,
+                          height: 22,
+                        ),
+                      ),
+                      Padding(
+                              padding: const EdgeInsets.only(right: 0,left: 248,top: 64),
+                              child: Container(
+                                width: 15,
+                                height: 15,
+                                // color: Colors.red,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                    border: Border.all(
+                      color: Colors.red,
+                      width: 1,
                     ),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Center(child: Text('$notificationCount',style: TextStyle(color: Colors.white,fontSize:9,)),),
+                              ),
+                            )
+                    ],
                   ),
                 )
               ],
@@ -385,12 +410,33 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
   }
 
   void logoutApi() async {
+    apiType = rqLogout;
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
       ToastManager.errorToast('Check internet connection');
     } else {
       EasyLoader.showLoader();
       await _networkUtil.getAuth(Constants.logoutUrl, Constants.tokenStr, this);
+    }
+  }
+
+  Future<void> getNotificationCount() async{
+    apiType = rqCount;
+    var token = "";
+    Future<String> loginToken =
+        SharedPreference.getStringValuesSF(Constants.token);
+    loginToken.then((value) => {token = value}, onError: (err) {
+      print("Error occured :: $err");
+    });
+
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      // FlashHelper.singleFlash(context, 'Check internet connection');
+      ToastManager.errorToast('Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await _networkUtil.getAuth(
+          Constants.notificationCountUrl, token, this);
     }
   }
 
@@ -404,6 +450,8 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
   void onSuccess(data, code) {
     // ToastManager.successToast('success');
     EasyLoader.hideLoader();
+    switch (apiType){
+      case rqLogout:{
     var message = data['message'];
     if (data['status'] == 1) {
       print('successfully logout');
@@ -427,6 +475,20 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
     } else {
       ToastManager.errorToast('$message');
     }
+      }
+      break;
+      case rqCount:{
+         NotificationCount notificationCountm = new NotificationCount.fromJson(data);
+    var message = notificationCountm.message;
+    if (notificationCountm.status == 1) {
+      notificationCount = notificationCountm.data!;
+    } else {
+      ToastManager.errorToast('$message');
+    }
+    setState(() {});
+      }
+    }
+
   }
 
   @override
@@ -487,3 +549,6 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
         });
   }
 }
+
+const int rqLogout = 0;
+const int rqCount = 1;

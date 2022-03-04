@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Notification.dart';
 import 'package:dailyreach/PostDetail.dart';
@@ -14,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'dart:io' show Platform;
+
 
 class Splash_screen extends StatefulWidget {
   @override
@@ -80,24 +83,24 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
         backgroundColor: Colors.white,
         body: Stack(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  'assets/images/subtract.png',
-                  width: 105,
-                  height: 168,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 60, left: 139),
-                  child: Image.asset(
-                    'assets/images/vector.png',
-                    height: 56,
-                  ),
-                )
-              ],
-            ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     Image.asset(
+            //       'assets/images/subtract.png',
+            //       width: 105,
+            //       height: 168,
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.only(top: 60, left: 139),
+            //       child: Image.asset(
+            //         'assets/images/vector.png',
+            //         height: 56,
+            //       ),
+            //     )
+            //   ],
+            // ),
             Center(
               child: Image.asset(
                 'assets/images/daily_reach_logo.png',
@@ -166,9 +169,27 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       print('NOTIFICATION OPENED HANDLER CALLED WITH: ${result.notification.rawPayload}');
 
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => PostDetail(titleStr: titleStr, bodyStr: bodyStr, dateStr: dateStr, bannerImageArr: bannerImageArr)));
+      var postId = 0;
+      var type = "";
+
+      Map<String, dynamic> data =
+        json.decode(result.notification.rawPayload!['additional_data']);
+      print('notificationData----------$data');
+      postId = data['post_id'];
+      type = data['type'];
+      
+      
+    if (type == "Post"){
+     Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PostDetail(
+                                  id: postId,
+                                    )));
+    }
+
     });
+        
 
     OneSignal.shared.setNotificationWillShowInForegroundHandler(
         (OSNotificationReceivedEvent event) {

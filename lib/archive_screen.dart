@@ -34,7 +34,7 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
   var selectedText = '';
   var isclicked = false;
   var idStr = "";
-  var apiType = rqgetCategoryList;
+  int apiType = rqgetCategoryList;
   var nextTimehit = false;
   
   List<CategoryData> selectedItemArr = [];

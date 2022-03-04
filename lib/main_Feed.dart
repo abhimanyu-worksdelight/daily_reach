@@ -1,8 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/FirstPage.dart';
 import 'package:dailyreach/Models/FeedModel.dart';
+import 'package:dailyreach/Models/Notification_Count_Model.dart';
 import 'package:dailyreach/archive_list.dart';
 import 'package:dailyreach/login_screen.dart';
 import 'package:dailyreach/network_api/Toast.dart';
@@ -26,6 +29,7 @@ import 'main.dart';
 
 class Feed extends StatefulWidget {
   var isfromLogin = false;
+  
 
   Feed({
     required this.isfromLogin,
@@ -37,7 +41,7 @@ class Feed extends StatefulWidget {
   }
 }
 
-class _Feed extends State<Feed> implements ApiInterface {
+class _Feed extends State<Feed> implements ApiInterface{
   // FeedData? feedData;
   List<FeedData> feedList = [];
   List<Banners> bannerList = [];
@@ -48,16 +52,21 @@ class _Feed extends State<Feed> implements ApiInterface {
   var total = 0;
   var currentPage = 1;
   var isLoading = false;
+  Uint8List? imageBytes;
+  int apiType = rqfeed;
+  var notificationCount = 0;
   
 
   @override
   void initState() {
     super.initState();
+    
     getFeeds();
     scrollcontroller.addListener(pagination);
+   
     
   }
-
+  
 
   @override
   Widget build(BuildContext context) {
@@ -113,10 +122,32 @@ class _Feed extends State<Feed> implements ApiInterface {
                             _getSupportPopUI();
                           }
                         },
-                        child: Image.asset(
-                          "assets/images/bell.png",
-                          width: 20,
-                          height: 20,
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              "assets/images/bell.png",
+                              width: 20,
+                              height: 20,
+                              
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 0,left: 16,top: 0),
+                              child: Container(
+                                width: 15,
+                                height: 15,
+                                // color: Colors.red,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                    border: Border.all(
+                      color: Colors.red,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Center(child: Text('$notificationCount',style: TextStyle(color: Colors.white,fontSize:9,)),),
+                              ),
+                            )
+                          ],
                         ),
                       )
                     ],
@@ -143,11 +174,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PostDetail(
-                                      bodyStr: feedList[index].body!,
-                                      titleStr: feedList[index].title!,
-                                      dateStr: feedList[index].date!,
-                                      bannerImageArr: feedList[index].banners!,
-                                      
+                                  id: feedList[index].id!,
                                     )));
                       },
                       child: Column(
@@ -280,11 +307,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => PostDetail(
-                                            bodyStr: feedList[index].body!,
-                                            titleStr: feedList[index].title!,
-                                            dateStr: feedList[index].date!,
-                                            bannerImageArr:
-                                                feedList[index].banners!,
+                                           id: feedList[index].id!
                                           )));
                             },
                             child: Container(
@@ -310,18 +333,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           PostDetail(
-                                                            bodyStr:
-                                                                feedList[index]
-                                                                    .body!,
-                                                            titleStr:
-                                                                feedList[index]
-                                                                    .title!,
-                                                            dateStr:
-                                                                feedList[index]
-                                                                    .date!,
-                                                            bannerImageArr:
-                                                                feedList[index]
-                                                                    .banners!,
+                                                            id: feedList[index].id!
                                                           )));
                                             },
                                             child: Row(
@@ -331,7 +343,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                                     width: 50,
                                                     padding:
                                                         EdgeInsets.fromLTRB(
-                                                            5, 2, 5, 2),
+                                                            2, 0, 2, 0),
                                                     child: Center(
                                                       child: Text(
                                                         feedList[index]
@@ -339,7 +351,7 @@ class _Feed extends State<Feed> implements ApiInterface {
                                                                 c_index]
                                                             .name!,
                                                         style: TextStyle(
-                                                            fontSize: 9,
+                                                            fontSize: 10,
                                                             fontFamily: "segoe",
                                                             fontWeight:
                                                                 FontWeight.w600,
@@ -400,6 +412,7 @@ class _Feed extends State<Feed> implements ApiInterface {
   }
 
   Future<void> getFeeds() async {
+    apiType = rqfeed;
     var token = "";
     Future<String> loginToken =
         SharedPreference.getStringValuesSF(Constants.token);
@@ -418,6 +431,26 @@ class _Feed extends State<Feed> implements ApiInterface {
     }
   }
 
+  Future<void> getNotificationCount() async{
+    apiType = rqCount;
+    var token = "";
+    Future<String> loginToken =
+        SharedPreference.getStringValuesSF(Constants.token);
+    loginToken.then((value) => {token = value}, onError: (err) {
+      print("Error occured :: $err");
+    });
+
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      // FlashHelper.singleFlash(context, 'Check internet connection');
+      ToastManager.errorToast('Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await networkUtil.getAuth(
+          Constants.notificationCountUrl, token, this);
+    }
+  }
+
   @override
   void onFailure(message, code) {
     // TODO: implement onFailure
@@ -433,6 +466,8 @@ class _Feed extends State<Feed> implements ApiInterface {
   void onSuccess(data, code) {
     // TODO: implement onSuccess
     EasyLoader.hideLoader();
+    switch (apiType){
+    case rqfeed:{
     FeedModel feedModel = new FeedModel.fromJson(data);
     var message = feedModel.message;
     var bannerUrl = "";
@@ -443,10 +478,26 @@ class _Feed extends State<Feed> implements ApiInterface {
       print(feedModel.data!.data!);
       total = feedModel.data!.total!;
       currentPage = feedModel.data!.currentPage!;
+       getNotificationCount();
+    } else {
+      ToastManager.errorToast('$message');
+    }
+      setState(() {});
+      }
+
+    break;
+
+    case rqCount:{
+    NotificationCount notificationCountm = new NotificationCount.fromJson(data);
+    var message = notificationCountm.message;
+    if (notificationCountm.status == 1) {
+      notificationCount = notificationCountm.data!;
     } else {
       ToastManager.errorToast('$message');
     }
     setState(() {});
+    }
+  }
   }
 
   @override
@@ -557,4 +608,9 @@ class _Feed extends State<Feed> implements ApiInterface {
       },
     );
   }
+
+  
 }
+
+const int rqfeed = 0;
+const int rqCount = 1;

@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class videoArchive extends StatefulWidget {
 var url = "";
@@ -16,6 +19,7 @@ class _videoArchiveState extends State<videoArchive> {
   VideoPlayerController? _controller;
   ChewieController? _chewieController;
   bool isInit = true;
+  Uint8List? imageBytes;
 
   @override
   void initState() {
@@ -92,5 +96,18 @@ class _videoArchiveState extends State<videoArchive> {
               ],
             );
   }
+
+//   void getThumbNail() async{
+//   imageBytes = await VideoThumbnail.thumbnailData(
+//   video: widget.url,
+//   imageFormat: ImageFormat.JPEG,
+//   maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+//   quality: 25,
+// );
+// setState(() {
+  
+// });
+
+// }
 
 }

@@ -62,7 +62,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 64, left: 93),
+                padding: EdgeInsets.fromLTRB(18, 47, 24, 17),
                 child: Image.asset(
                   'assets/images/daily_reach_logo.png',
                   width: 190,
@@ -70,7 +70,8 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 65, right: 23, left: 29),
+                // EdgeInsets.fromLTRB(18, 47, 24, 17)
+                padding:  EdgeInsets.fromLTRB(78, 47, 2, 17),
                 child: GestureDetector(
                   onTap: (){
                     _awaitReturnValueFromSecondScreen(context);
@@ -149,11 +150,11 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
           Expanded(
               flex: 1,
               child: Padding(
-                padding: const EdgeInsets.only(top: 0,right: 0,left: 0),
+                padding:  EdgeInsets.only(top: 0,right: 0,left: 0),
                 child: ListView.separated(separatorBuilder: (Context, Index){
                   
                   return Padding(
-                    padding: const EdgeInsets.only(top: 8),
+                    padding:  EdgeInsets.only(top: 8),
                     child: Container(
                       height: 1.6,
                       color: Color.fromARGB(100, 214, 212, 212),                    ),
@@ -311,7 +312,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                 )));
                                   },
                                   child: Container(
-                                    padding:EdgeInsets.fromLTRB(10, 2, 10, 2) ,
+                                    padding:EdgeInsets.fromLTRB(2, 0, 2, 0) ,
                                     
                                     width: 50,
                                     height: 17,

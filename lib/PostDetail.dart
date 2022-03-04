@@ -1,6 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dailyreach/Models/FeedModel.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:dailyreach/Models/Post_Detail_Model.dart';
+import 'package:dailyreach/network_api/Toast.dart';
+import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
+import 'package:dailyreach/network_api/loader.dart';
+import 'package:dailyreach/network_api/network_util.dart';
+import 'package:dailyreach/network_api/shared_preference.dart';
 import 'package:dailyreach/video_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,32 +16,34 @@ import 'FirstPage.dart';
 import 'SplashScreen.dart';
 
 class PostDetail extends StatefulWidget {
-  String bodyStr;
-  String titleStr;
-  String dateStr;
   
-  List<Banners> bannerImageArr;
+  int id = 0;
 
-  PostDetail({
-    required this.titleStr,
-    required this.bodyStr,
-    required this.dateStr,
-    required this.bannerImageArr,
-   
-  });
+  PostDetail({required this.id});
 
   @override
   _PostDetail createState() => _PostDetail();
 }
 
-class _PostDetail extends State<PostDetail> {
+class _PostDetail extends State<PostDetail> implements ApiInterface {
   int _index = 0;
+
+  PostDetailData? postDetail;
+  NetworkUtil networkUtil = new NetworkUtil();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPostDetail();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
+        child: (postDetail != null)? Column(
+          
           children: [
             Stack(
               children: [
@@ -46,7 +54,7 @@ class _PostDetail extends State<PostDetail> {
                   child: SizedBox(
                       height: 200, // card height
                       child: PageView.builder(
-                          itemCount: widget.bannerImageArr.length,
+                          itemCount: postDetail!.banners!.length,
                           controller: PageController(viewportFraction: 1),
                           onPageChanged: (int index) =>
                               setState(() => _index = index),
@@ -57,20 +65,20 @@ class _PostDetail extends State<PostDetail> {
                                   child: Center(
                                   
                                 child:
-                                (widget.bannerImageArr[i].type == "jpg" ||
-                                                      widget.bannerImageArr[i].type ==
+                                (postDetail!.banners![i].type == "jpg" ||
+                                                      postDetail!.banners![i].type ==
                                                           "png" ||
-                                                      widget.bannerImageArr[i].type ==
+                                                      postDetail!.banners![i].type ==
                                                           "jpeg" ||
-                                                      widget.bannerImageArr[i].type ==
+                                                      postDetail!.banners![i].type ==
                                                           "gif") ?
                                 
                                 
                                 
-                                 (widget.bannerImageArr.length > 0)
+                                 (postDetail!.banners!.length > 0)
                                     ? CachedNetworkImage(
                                         imageUrl:
-                                            widget.bannerImageArr[i].banner!,
+                                            postDetail!.banners![i].banner!,
                                         height: 200,
                                         // width: MediaQuery.of(context).size.width,
                                         placeholder: (context, url) => Container(
@@ -86,7 +94,7 @@ class _PostDetail extends State<PostDetail> {
                                         "assets/images/feed.png",
                                         height: 169,
                                         fit: BoxFit.fill,
-                                      ):VideoItem(widget.bannerImageArr[i].banner!)
+                                      ):VideoItem(postDetail!.banners![i].banner!)
                               )
                               ),
                             );
@@ -116,7 +124,7 @@ class _PostDetail extends State<PostDetail> {
                 padding: EdgeInsets.fromLTRB(21, 27, 16, 0),
                 width: MediaQuery.of(context).size.width,
                 child: Text(
-                  Constants.convertDateFormate(widget.dateStr),
+                  Constants.convertDateFormate(postDetail!.date!),
                   // "Monday, Jan 10, 2022",
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
@@ -128,7 +136,7 @@ class _PostDetail extends State<PostDetail> {
                 padding: EdgeInsets.fromLTRB(21, 8, 16, 0),
                 width: MediaQuery.of(context).size.width,
                 child: Text(
-                  widget.titleStr,
+                  postDetail!.title!,
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 22,
@@ -139,7 +147,7 @@ class _PostDetail extends State<PostDetail> {
               padding: EdgeInsets.fromLTRB(23, 8, 16, 0),
               width: MediaQuery.of(context).size.width,
               child: Text(
-                Constants.parseHtmlString(widget.bodyStr),
+                Constants.parseHtmlString(postDetail!.body!),
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 13,
@@ -150,8 +158,58 @@ class _PostDetail extends State<PostDetail> {
               ),
             ),
           ],
-        ),
+        ): Center(child: CircularProgressIndicator(strokeWidth: 2,color: AppColors.WelcomeTextColor,) ,)
       ),
     );
   }
+
+
+  Future<void> getPostDetail() async {
+    var token = "";
+    Future<String> loginToken =
+        SharedPreference.getStringValuesSF(Constants.token);
+    loginToken.then((value) => {token = value}, onError: (err) {
+      print("Error occured :: $err");
+    });
+
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      // FlashHelper.singleFlash(context, 'Check internet connection');
+      ToastManager.errorToast('Check internet connection');
+    } else {
+      EasyLoader.showLoader();
+      await networkUtil.getAuth(
+          Constants.postDetailUrl + '/${widget.id}', token, this);
+    }
+  }
+
+  @override
+  void onFailure(message, code) {
+    ToastManager.errorToast('error');
+  }
+
+  @override
+  void onSuccess(data, code) {
+    EasyLoader.hideLoader();
+    PostDetailModel postModel = new PostDetailModel.fromJson(data);
+    var message = postModel.message;
+    
+
+    if (postModel.status == 1) {
+      print('success feed');
+      postDetail = postModel.data!;
+    } else {
+      ToastManager.errorToast('$message');
+    }
+    setState(() {});
+  }
+
+  @override
+  void onTokenExpire(message, code) {
+    ToastManager.errorToast('token expired');
+  }
+
+
+
+
 }
