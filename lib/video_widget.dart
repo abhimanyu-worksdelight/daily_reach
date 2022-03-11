@@ -9,9 +9,10 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 
 class VideoItem extends StatefulWidget {
   var url = "";
+  var isfromArchive = false;
   
 
-  VideoItem(this.url);
+  VideoItem(this.url,this.isfromArchive);
   @override
   State<VideoItem> createState() {
     return _VideoItemState();
@@ -62,27 +63,36 @@ class _VideoItemState extends State<VideoItem> {
     return Stack(
               children: [
                 Container(
-                  height: 414,
-                  width: MediaQuery.of(context).size.width,
+                  height: (widget.isfromArchive == false)? 414:104,
+                  width: (widget.isfromArchive == false)? MediaQuery.of(context).size.width:116,
                   
                   child: (_controller != null)?
                   AspectRatio(
                     aspectRatio: _controller!.value.aspectRatio,
                     child: (imageBytes != null)
                               ? Container(
-                                  height: 350,
-                                  width: MediaQuery.of(context).size.width,
+                                
+                                  height: (widget.isfromArchive == false)? 350:104,
+                                  width: (widget.isfromArchive == false)?MediaQuery.of(context).size.width:116,
                                   child: Image.memory(
                                     imageBytes!,
-                                    height: 414,
+                                    height:(widget.isfromArchive == false)? 414:169,
                                     width: MediaQuery.of(context).size.width,
                                   ),
                               )
-                     :Chewie(
-                      controller: _chewieController!,
-                      
-
-                    ),
+                     :FittedBox(
+                       fit: BoxFit.cover,
+                       child: SizedBox(
+                         width:MediaQuery.of(context).size.width,
+                         child: Chewie(
+                           
+                          controller: _chewieController!,
+                          
+                          
+                                            
+                          ),
+                       ),
+                     ),
                   ):Container(),
                 ),
                 Center(
@@ -90,9 +100,9 @@ class _VideoItemState extends State<VideoItem> {
                     
                     highlightColor: Colors.transparent,
                     child: Padding(
-                      padding:  EdgeInsets.only(top: 0 ),
+                      padding: (widget.isfromArchive == false)?  EdgeInsets.only(top: 0 ):EdgeInsets.only(top: 15,left: 27 ) ,
                       child: Icon(
-                        isInit ?Icons.pause: Icons.play_arrow  ,
+                        isInit ?Icons.pause: Icons.play_arrow,
                         color: Colors.grey,
                         size: 60,
                       ),
@@ -100,7 +110,7 @@ class _VideoItemState extends State<VideoItem> {
                     onTap: () {
                       
                        if (_controller != null){
-                        //  imageBytes = null;            
+                         imageBytes = null;            
                       setState(() {
                        isInit =!isInit;
                         _controller!.value.isPlaying
@@ -111,21 +121,21 @@ class _VideoItemState extends State<VideoItem> {
                     },
                   ),
                 ),
-                
               ],
             );
   }
   
-//   void getThumbNail() async{
-//   imageBytes = await VideoThumbnail.thumbnailData(
-//   video: widget.url,
-//   imageFormat: ImageFormat.JPEG,
-//   maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
-//   quality: 25,
-// );
-// setState(() {
+  void getThumbNail() async{
+    isInit = true;
+  imageBytes = await VideoThumbnail.thumbnailData(
+  video: widget.url,
+  imageFormat: ImageFormat.JPEG,
+  maxWidth: 340, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+  quality: 25,
+);
+setState(() {
   
-// });
-// }
+});
+}
   
 }

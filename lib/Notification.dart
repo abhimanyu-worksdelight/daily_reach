@@ -1,7 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Models/Notification_Model.dart';
 import 'package:dailyreach/PostDetail.dart';
-import 'package:dailyreach/SplashScreen.dart';
 import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
@@ -130,7 +129,7 @@ class _Notefication extends State<StatefulWidget> implements ApiInterface {
                                         //  letterSpacing: 0.1,
                                        //   height:1.5),
                                     )),
-                                      Text("2 days",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 11,
+                                      Text('${(Constants.convertStringToDate(notificationList[index].createdAt!).toString())} days',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 11,
                                           fontFamily: "assets/fonts/segui.TTf",
                                         color: Color.fromARGB(
                                             100, 185, 191, 214),
@@ -227,9 +226,8 @@ class _Notefication extends State<StatefulWidget> implements ApiInterface {
     NotificationModel notificationModel = new NotificationModel.fromJson(data);
     var message = notificationModel.message;
     
-
     if (notificationModel.status == 1) {
-      print('success feed');
+      print('success');
       notificationList.addAll(notificationModel.data!);
     } else {
       ToastManager.errorToast('$message');

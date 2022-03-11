@@ -110,7 +110,7 @@ class _HomePage extends State<HomePage> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 180 ),
                       child: Icon(
-                        isInit ?Icons.pause: Icons.play_arrow  ,
+                        isInit ?Icons.pause: Icons.play_arrow,
                         color: Colors.grey,
                         size: 60,
                       ),

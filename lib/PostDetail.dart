@@ -13,7 +13,6 @@ import 'package:flutter/rendering.dart';
 
 import 'main_Feed.dart';
 import 'FirstPage.dart';
-import 'SplashScreen.dart';
 
 class PostDetail extends StatefulWidget {
   
@@ -94,7 +93,7 @@ class _PostDetail extends State<PostDetail> implements ApiInterface {
                                         "assets/images/feed.png",
                                         height: 169,
                                         fit: BoxFit.fill,
-                                      ):VideoItem(postDetail!.banners![i].banner!)
+                                      ):VideoItem(postDetail!.banners![i].banner!,false)
                               )
                               ),
                             );

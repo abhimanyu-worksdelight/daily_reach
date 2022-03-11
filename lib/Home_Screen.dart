@@ -37,7 +37,6 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
     super.initState();
     getToken();
     getLoginStatus();
-    getNotificationCount();
   }
 
   void getLoginStatus() {
@@ -49,11 +48,11 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
               isLoggedIn = value,
               print("Splash value ::: $value"),
               Constants.isLoggedIn = value,
+              getNotificationCount()
             }, onError: (err) {
       print("Error occured :: $err");
     });
   }
-
   getToken() {
     Future<String> loginToken =
         SharedPreference.getStringValuesSF(Constants.token);
@@ -421,6 +420,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
   }
 
   Future<void> getNotificationCount() async{
+    if(isLoggedIn == true){
     apiType = rqCount;
     var token = "";
     Future<String> loginToken =
@@ -437,6 +437,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
       EasyLoader.showLoader();
       await _networkUtil.getAuth(
           Constants.notificationCountUrl, token, this);
+    }
     }
   }
 

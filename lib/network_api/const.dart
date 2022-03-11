@@ -1,14 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:intl/intl.dart' as intl;
 
-
-class Constants{
-
-  
-  static String baseUrl = "http://daily-reach-2022.us-east-2.elasticbeanstalk.com/api/";
+class Constants {
+  static String baseUrl =
+      "http://daily-reach-2022.us-east-2.elasticbeanstalk.com/api/";
   static String feedUrl = "posts";
   static String loginUrl = "login";
   static String registerUrl = "register";
@@ -23,7 +21,6 @@ class Constants{
   static String notificationUrl = "notificationList";
   static String notificationCountUrl = "notificationCount";
   static String notificationReadUrl = "notificationRead";
-
 
   // sharedPref values
   static String loginStatus = "loginStatus";
@@ -47,55 +44,70 @@ class Constants{
   static String termsconditionStr = 'termsconditionStr';
   static String deviceId = 'deviceId';
 
-
-
   //Global keys
 
-   static bool isLoggedIn = false;
-   static String policyStr = "";
-   static String termsStr = "";
-   static String tokenStr = "";
-   static String nameStr = "";
-   static String emailStr = "";
-   static String phoneStr = "";
-   static String OneSignalId = "ab6953fd-aee4-4a8f-b73a-cabbf25db26c";
-   static String deviceIdStr = "";
-   static String bannerType = "";
-   static String videoUrl = "";
+  static bool isLoggedIn = false;
+  static String policyStr = "";
+  static String termsStr = "";
+  static String tokenStr = "";
+  static String nameStr = "";
+  static String emailStr = "";
+  static String phoneStr = "";
+  static String OneSignalId = "ab6953fd-aee4-4a8f-b73a-cabbf25db26c";
+  static String deviceIdStr = "";
+  static String bannerType = "";
+  static String videoUrl = "";
 
-
-
-static String parseHtmlString(String htmlString) {
+  static String parseHtmlString(String htmlString) {
     final document = parse(htmlString);
     final String parsedString =
         parse(document.body?.text).documentElement?.text ?? "";
     return (parsedString == "null") ? "" : parsedString;
   }
 
-static String convertDateFormate(String dateString){
-  var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
-  var timeNowDateTime = format.parse("$dateString");
-  var date = intl.DateFormat('EEE, dd MMM, yyyy').format(timeNowDateTime);
-  return date;
-}
-static String convertDateFormateFeed(String dateString){
-  var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
-  var timeNowDateTime = format.parse("$dateString");
-  var date = intl.DateFormat('EEEE, dd MMM, yyyy').format(timeNowDateTime);
-  return date;
+  static String convertDateFormate(String dateString) {
+    var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
+    var timeNowDateTime = format.parse("$dateString");
+    var date = intl.DateFormat('EEE, dd MMM, yyyy').format(timeNowDateTime);
+    return date;
+  }
+
+  static String convertDateFormateFeed(String dateString) {
+    var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
+    var timeNowDateTime = format.parse("$dateString");
+    var date = intl.DateFormat('EEEE, dd MMM, yyyy').format(timeNowDateTime);
+    return date;
+  }
+
+  static String convertDateToTime(String dateTime) {
+    var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
+    var timeNowDateTime = format.parse("$dateTime");
+    var date = intl.DateFormat('HH:mm a').format(timeNowDateTime);
+    return date;
+  }
+
+  static int convertStringToDate(String date) {
+//converting string to date
+    DateTime parseDate =
+        new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(date);
+    var inputDate = DateTime.parse(parseDate.toString());
+
+//extracting days
+    var now = DateTime.now();
+    now = DateTime(now.year, now.month, now.day);
+    inputDate = DateTime(inputDate.year, inputDate.month, inputDate.day);
+    final differenceInDays = now.difference(inputDate).inDays;
+    print('$differenceInDays');
+
+    print(inputDate);
+    return differenceInDays;
+  }
+  
 }
 
-static String convertDateToTime(String dateTime){
-  var format = intl.DateFormat("yyyy-MM-dd HH:mm:ss");
-  var timeNowDateTime = format.parse("$dateTime");
-  var date = intl.DateFormat('HH:mm a').format(timeNowDateTime);
-  return date;
-}
-}
+//Colors
 
-  //Colors
-
-  class AppColors {
+class AppColors {
   static Color buttonBackColor = Color(0XFFD6D4D4);
   static Color lineColor = Color(0XFFB9BFD6B2);
   static Color AlreadyMemberColor = Color(0XFF8D95B2);
@@ -108,6 +120,4 @@ static String convertDateToTime(String dateTime){
   static Color CatBackColor = Color(0XFFD6D4D4);
   static Color editBackColor = Color(0XFFB80000);
   static Color backListcolor = Color(0XFFE5E5E5);
-
-
-  }
+}

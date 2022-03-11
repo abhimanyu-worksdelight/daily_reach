@@ -78,7 +78,7 @@ class _ArchiveDetail extends State<ArchiveDetail> {
                                         "assets/images/feed.png",
                                         height: 169,
                                         fit: BoxFit.fill,
-                                      ): VideoItem(widget.bannerImageArr[i].banner!)
+                                      ): VideoItem(widget.bannerImageArr[i].banner!,false)
                               )),
                             );
                           })),

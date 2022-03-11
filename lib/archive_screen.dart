@@ -139,7 +139,9 @@ class _Archive_screen extends State<Archive_screen> implements ApiInterface{
                     child: Padding(
                       padding: EdgeInsets.only(top: 20, left: 70),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pop(context,'');
+                        },
                         child: Text(
                           'Cancel ',
                           textAlign: TextAlign.center,

@@ -55,17 +55,32 @@ class _Feed extends State<Feed> implements ApiInterface{
   Uint8List? imageBytes;
   int apiType = rqfeed;
   var notificationCount = 0;
-  
+  bool isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
-    
+    getLoginStatus();
     getFeeds();
     scrollcontroller.addListener(pagination);
    
     
   }
+  void getLoginStatus() {
+    print("getLoginStatus :: ");
+    Future<bool> status =
+        SharedPreference.getLoginStatus(Constants.loginStatus);
+    status.then(
+        (value) => {
+              isLoggedIn = value,
+              print("Splash value ::: $value"),
+              Constants.isLoggedIn = value,
+              
+            }, onError: (err) {
+      print("Error occured :: $err");
+    });
+  }
+
   
 
   @override
@@ -224,7 +239,7 @@ class _Feed extends State<Feed> implements ApiInterface{
 
                           //New code
                           Container(
-                            padding: EdgeInsets.fromLTRB(0, 7, 0, 6),
+                            padding: EdgeInsets.fromLTRB(18, 7, 18, 10),
                             width: MediaQuery.of(context).size.width,
                             child: SizedBox(
                                 height: 200, // card height
@@ -242,6 +257,7 @@ class _Feed extends State<Feed> implements ApiInterface{
                                       return Transform.scale(
                                         scale: i == _index ? 1 : 1,
                                         child: Card(
+                                            elevation: 0.0,
                                             color: Colors.white,
                                             child: Center(
                                           child:
@@ -261,6 +277,7 @@ class _Feed extends State<Feed> implements ApiInterface{
                                                               feedList[index]
                                                                   .banners![i]
                                                                   .banner!,
+                                                                 width: MediaQuery.of(context).size.width,
                                                           placeholder: (context,
                                                                   url) =>
                                                               SizedBox(
@@ -272,14 +289,15 @@ class _Feed extends State<Feed> implements ApiInterface{
                                                           errorWidget: (context,
                                                                   url, error) =>
                                                               Icon(Icons.error),
-                                                          fit: BoxFit.fitWidth,
+                                                          fit: BoxFit.fill,
                                                         )
                                                       : Image.asset(
                                                           "assets/images/feed.png",
                                                           height: 169,
-                                                          fit: BoxFit.fill,
+                                                          
+                                                          fit: BoxFit.contain,
                                                         )
-                                                  : VideoItem(feedList[index].banners![i].banner!)
+                                                  : VideoItem(feedList[index].banners![i].banner!,false)
                                         )
                                         ),
                                       );
@@ -478,7 +496,9 @@ class _Feed extends State<Feed> implements ApiInterface{
       print(feedModel.data!.data!);
       total = feedModel.data!.total!;
       currentPage = feedModel.data!.currentPage!;
+      if(isLoggedIn == true){
        getNotificationCount();
+      }
     } else {
       ToastManager.errorToast('$message');
     }

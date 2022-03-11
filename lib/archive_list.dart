@@ -9,7 +9,7 @@ import 'package:dailyreach/network_api/const.dart';
 import 'package:dailyreach/network_api/loader.dart';
 import 'package:dailyreach/network_api/network_util.dart';
 import 'package:dailyreach/network_api/shared_preference.dart';
-import 'package:dailyreach/video_archieve.dart';
+import 'package:dailyreach/video_widget.dart';
 import 'package:flutter/material.dart';
 import 'archive_screen.dart';
 
@@ -214,7 +214,7 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
                                 "assets/images/photoo.png",
                                 height: 169,
                                 fit: BoxFit.fill,
-                              ):  videoArchive(archieveList[index].banners![0].banner!)
+                              ):  VideoItem(archieveList[index].banners![0].banner!,true)
                                 ),
                                 Flexible(
                                   child: Column(
@@ -463,10 +463,19 @@ class _Archive_list extends State<Archive_list> implements ApiInterface {
     // start the SecondScreen and wait for it to finish with a result
     final result = await Navigator.push(context,MaterialPageRoute(builder: (context)=> Archive_screen()));
 
-    // after the SecondScreen result comes back update the Text widget with it
-    setState(() {
+    if (result == ''){
+      setState(() {
+        showArchiveListApi();
+      });
+    }
+    else{
+      setState(() {
       archieveList = result;
     });
+    }
+
+    // after the SecondScreen result comes back update the Text widget with it
+    
   }
 
   onSearchTextChanged(String text) async {
