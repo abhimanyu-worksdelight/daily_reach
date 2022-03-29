@@ -96,7 +96,13 @@ class Constants {
     var now = DateTime.now();
     now = DateTime(now.year, now.month, now.day);
     inputDate = DateTime(inputDate.year, inputDate.month, inputDate.day);
+    
     final differenceInDays = now.difference(inputDate).inDays;
+    int years = differenceInDays ~/ 365;
+  int months = (differenceInDays-years*365) ~/ 30;
+  int days = differenceInDays-years*365-months*30;
+  print("$years $months $days $differenceInDays");
+  print('months----------- $months');
     print('$differenceInDays');
 
     print(inputDate);
