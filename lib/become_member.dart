@@ -71,7 +71,9 @@ class _Become_member extends State<Become_member> implements ApiInterface {
                         padding:  EdgeInsets.only(top: 60, left: 30),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
+
+                            Navigator.pop(context,'');
                           },
                           child: Image.asset(
                             'assets/images/arrow.png',

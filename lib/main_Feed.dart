@@ -75,7 +75,6 @@ class _Feed extends State<Feed> implements ApiInterface{
               isLoggedIn = value,
               print("Splash value ::: $value"),
               Constants.isLoggedIn = value,
-              
             }, onError: (err) {
       print("Error occured :: $err");
     });
@@ -189,7 +188,9 @@ class _Feed extends State<Feed> implements ApiInterface{
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PostDetail(
+                                  
                                   id: feedList[index].id!,
+                                  isFromLogin: isLoggedIn,
                                     )));
                       },
                       child: Column(
@@ -325,6 +326,7 @@ class _Feed extends State<Feed> implements ApiInterface{
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => PostDetail(
+                                          isFromLogin: isLoggedIn,
                                            id: feedList[index].id!
                                           )));
                             },
@@ -351,6 +353,7 @@ class _Feed extends State<Feed> implements ApiInterface{
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           PostDetail(
+                                                            isFromLogin: isLoggedIn,
                                                             id: feedList[index].id!
                                                           )));
                                             },

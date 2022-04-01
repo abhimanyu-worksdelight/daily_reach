@@ -184,6 +184,7 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PostDetail(
+                                  isFromLogin: isLoggedIn,
                                   id: postId,
                                     )));
     }
@@ -210,6 +211,16 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
     OneSignal.shared
         .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
       print("SUBSCRIPTION STATE CHANGED: ${changes.jsonRepresentation()}");
+
+      print('changes to--------${changes.to.userId}');
+      print('changes From--------${changes.from.userId}');
+
+      var playerId = changes.to.userId;
+      print('changes playerId--------------- $playerId');
+
+      SharedPreference.saveStringValue(Constants.deviceId, playerId!);
+
+      
     });
 
     OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {
@@ -217,7 +228,8 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
     });
 
     // NOTE: Replace with your own app ID from https://www.onesignal.com
-    await OneSignal.shared.setAppId("ab6953fd-aee4-4a8f-b73a-cabbf25db26c");
+    // await OneSignal.shared.setAppId("ab6953fd-aee4-4a8f-b73a-cabbf25db26c");
+    await OneSignal.shared.setAppId("a5ad28c1-4b01-45f5-925b-aa3e7be64078");
 
     bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
 
@@ -237,22 +249,26 @@ class _Splash_screen extends State<Splash_screen> implements ApiInterface {
   }
 
   void _handleSendNotification() async {
+    
     var deviceState = await OneSignal.shared.getDeviceState();
+    print('device State----------------$deviceState');
 
     // if (deviceState != null && deviceState.userId != null) {
     //   print('playerId--device------------- ${deviceState!.userId}');
     //   return;
     // }
-
     var playerId = '';
+    
     if (deviceState != null && deviceState.userId != null) {
       playerId = deviceState.userId!;
       print('playerId--------------- $playerId');
       SharedPreference.saveStringValue(Constants.deviceId, playerId);
     } else {
       print('playerId--------------- $playerId');
+      print('user id null');
       SharedPreference.saveStringValue(Constants.deviceId, playerId);
     }
+
     // ToastManager.successToast('playerId $playerId');
 
     // var notification = OSCreateNotification(

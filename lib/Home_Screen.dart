@@ -282,7 +282,7 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                 }
               }
             },
-            child: Container(
+            child: (isLoggedIn == true) ? Container(
                 width: 149,
                 height: 50,
                 child: Center(
@@ -304,7 +304,54 @@ class _Home_screen extends State<Home_screen> implements ApiInterface {
                           color: Colors.white,
                           blurRadius: 3.0,
                           spreadRadius: 1.0)
-                    ])),
+                    ])
+                    ):Container(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 50,right: 50,top: 120),
+                              child: Center(child: Text('You have to login into the app to have the access',style: TextStyle(color: Colors.black,fontSize: 25),maxLines: 2,)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Container(
+                width: 149,
+                height: 50,
+                child: Center(
+                  child: InkWell(
+                    onTap: () async {
+                _getSupportPopUI();
+                 },
+                    child: Text(
+                      'Login',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontFamily: "segoe",
+                            fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: AppColors.editBackColor,
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                        BoxShadow(
+                              color: Colors.white,
+                              blurRadius: 3.0,
+                              spreadRadius: 1.0)
+                    ])
+                    ),
+                            )
+                          ],
+
+                          
+                        ),
+                      ),
+                      
+                    )
           ),
         ),
         Spacer(),

@@ -53,7 +53,8 @@ class Constants {
   static String nameStr = "";
   static String emailStr = "";
   static String phoneStr = "";
-  static String OneSignalId = "ab6953fd-aee4-4a8f-b73a-cabbf25db26c";
+  // static String OneSignalId = "ab6953fd-aee4-4a8f-b73a-cabbf25db26c";
+  static String OneSignalId = "a5ad28c1-4b01-45f5-925b-aa3e7be64078";
   static String deviceIdStr = "";
   static String bannerType = "";
   static String videoUrl = "";

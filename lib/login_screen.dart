@@ -89,7 +89,7 @@ class _Login_screen extends State<Login_screen>implements ApiInterface {
                             padding: const EdgeInsets.only(top: 60, left: 30),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.pop(context);
+                                Navigator.pop(context,'');
                               },
                               child: (widget.isfromSignup == false) ? Image.asset(
                                 'assets/images/arrow.png',

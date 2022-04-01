@@ -177,8 +177,15 @@ class _HomePage extends State<HomePage> {
               onTap: () {
                 // _videoPlayerController1 = null;
                 // _chewieController =null;
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Become_member()));
+                // isInit = false;
+                // _videoPlayerController1!.pause();
+                
+
+                
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => Become_member()));
+                _videoPlayerController1!.pause();
+                _awaitReturnValueFromSecondScreen(context);
               },
               child: Padding(
                 padding: const EdgeInsets.only(top: 22, right: 24, left: 24),
@@ -208,9 +215,10 @@ class _HomePage extends State<HomePage> {
                 // Navigator.push(context, MaterialPageRoute(
                 // builder: (context) => Profile_screen(isfromLogin: false,)));
 
-                _videoPlayerController1 = null;
-                _chewieController =null;
-
+                // _videoPlayerController1 = null;
+                // _chewieController = null;
+                _videoPlayerController1!.pause();
+                
                 Navigator.pushAndRemoveUntil<void>(
                   context,
                   MaterialPageRoute<void>(builder: (BuildContext context) => Profile_screen(isfromLogin: false,)),
@@ -254,10 +262,12 @@ class _HomePage extends State<HomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Login_screen(isfromSignup: false,)));
+                      _videoPlayerController1!.pause();
+                      //  Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Login_screen(isfromSignup: false,)));
+                      _awaitReturnValueFromLoginScreen(context);
                     },
                     child:  Text(
                       ' Login',
@@ -276,4 +286,30 @@ class _HomePage extends State<HomePage> {
           ]),
         ));
   }
+
+  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+
+    // start the SecondScreen and wait for it to finish with a result
+    final result = await Navigator.push(context,MaterialPageRoute(builder: (context)=> Become_member()));
+
+    if (result == ''){
+      setState(() {
+        _videoPlayerController1!.play();
+      });
+    }
+
+    // after the SecondScreen result comes back update the Text widget with it
+    
+  }
+
+  void _awaitReturnValueFromLoginScreen(BuildContext context) async{
+    final result = Navigator.push( context,MaterialPageRoute(builder: (context) => Login_screen(isfromSignup: false,)));
+    if (result == ''){
+      setState(() {
+        _videoPlayerController1!.play();
+      });
+    }
+  }
+
+ 
 }

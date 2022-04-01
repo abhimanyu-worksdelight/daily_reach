@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dailyreach/Models/Post_Detail_Model.dart';
+import 'package:dailyreach/login_screen.dart';
 import 'package:dailyreach/network_api/Toast.dart';
 import 'package:dailyreach/network_api/api_interface.dart';
 import 'package:dailyreach/network_api/const.dart';
@@ -17,8 +18,9 @@ import 'FirstPage.dart';
 class PostDetail extends StatefulWidget {
   
   int id = 0;
+  var isFromLogin = false;
 
-  PostDetail({required this.id});
+  PostDetail({required this.id,required this.isFromLogin});
 
   @override
   _PostDetail createState() => _PostDetail();
@@ -29,23 +31,45 @@ class _PostDetail extends State<PostDetail> implements ApiInterface {
 
   PostDetailData? postDetail;
   NetworkUtil networkUtil = new NetworkUtil();
+  bool isLoggedIn = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getPostDetail();
+    if (widget.isFromLogin == true){
+       getPostDetail();
+    }
+  }
+
+
+  void getLoginStatus() {
+    print("getLoginStatus :: ");
+    Future<bool> status =
+        SharedPreference.getLoginStatus(Constants.loginStatus);
+    status.then(
+        (value) => {
+              isLoggedIn = value,
+              print("Splash value ::: $value"),
+              Constants.isLoggedIn = value,
+              if (isLoggedIn == false){
+
+              }
+            }, onError: (err) {
+      print("Error occured :: $err");
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: (widget.isFromLogin == true)?  SingleChildScrollView(
         child: (postDetail != null)? Column(
           
           children: [
             Stack(
               children: [
+                
                 Container(
                   color: Colors.transparent,
                   padding: EdgeInsets.fromLTRB(0, 70, 0, 6),
@@ -158,7 +182,161 @@ class _PostDetail extends State<PostDetail> implements ApiInterface {
             ),
           ],
         ): Center(child: CircularProgressIndicator(strokeWidth: 2,color: AppColors.WelcomeTextColor,) ,)
-      ),
+      ):
+      Container(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 50,right: 50,top: 300),
+                              child: Center(child: Text('You have to login into the app to have the access',style: TextStyle(color: Colors.black,fontSize: 25),maxLines: 2,)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Container(
+                width: 149,
+                height: 50,
+                child: Center(
+                  child: InkWell(
+                    onTap: () async {
+                _getSupportPopUI();
+                 },
+                    child: Text(
+                      'Login',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontFamily: "segoe",
+                            fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: AppColors.editBackColor,
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                        BoxShadow(
+                              color: Colors.white,
+                              blurRadius: 3.0,
+                              spreadRadius: 1.0)
+                    ])
+                    ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Container(
+                width: 149,
+                height: 50,
+                child: Center(
+                  child: InkWell(
+                    onTap: () async {
+               Navigator.pop(context);
+                 },
+                    child: Text(
+                      'Cancel',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontFamily: "segoe",
+                            fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: AppColors.editBackColor,
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                        BoxShadow(
+                              color: Colors.white,
+                              blurRadius: 3.0,
+                              spreadRadius: 1.0)
+                    ])
+                    ),
+                            )
+                          ],
+
+                          
+                        ),
+                      ),
+      )
+
+    );
+  }
+
+  _getSupportPopUI() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetPadding: EdgeInsets.all(20),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // SizedBox(height: 30),
+                // Image.asset('assets/images/daily_reach_logo.png',
+                //     height: 45, width: 45),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "You have to login first!!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 145,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Login_screen(
+                                      isfromSignup: true,
+                                    )),
+                            ModalRoute.withName('/'),
+                          );
+                        },
+                        child: Text(
+                          "OK",
+                          style: TextStyle(color: Colors.blue, fontSize: 14,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 145,
+                    child: Center(
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.red,fontSize: 14,fontWeight: FontWeight.w600,fontFamily: 'segoe'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -205,6 +383,7 @@ class _PostDetail extends State<PostDetail> implements ApiInterface {
 
   @override
   void onTokenExpire(message, code) {
+    EasyLoader.hideLoader();
     ToastManager.errorToast('token expired');
   }
 

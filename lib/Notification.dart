@@ -93,6 +93,7 @@ class _Notefication extends State<StatefulWidget> implements ApiInterface {
                             MaterialPageRoute(
                                 builder: (context) => PostDetail(
                                   id: int.parse(notificationList[index].postId!),
+                                  isFromLogin:  true,
                                     )));
                     }
                   },
